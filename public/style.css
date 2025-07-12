@@ -1,0 +1,358 @@
+body {
+  text-align: left;
+  font-family: Arial, sans-serif;
+ }
+
+
+#getTotalButton {
+  background-color: green;
+  color: white;
+  margin-right: 10px; /* Add some margin to the right for spacing */
+}
+
+#totalResultBox {
+  border: 2px solid green; /* Bold border */
+    font-weight: bold; /* Bold text */
+ justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  color: green;
+  font-size: 16px;
+  width: 180px; /* Set a specific width */
+  height: 20px; /* Set a specific height */
+margin-left: 6px; /* Add some margin to the right for spacing */
+
+}
+
+
+/* Apply styling to both buttons */
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 14px;
+  transition: background-color 0.2s, transform 0.2s;
+  border-radius: 8%;
+}
+
+/* Style the Restart button */
+#restartButton {
+  background-color: #f00000;
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 14px;
+}
+
+/* Add a hover effect for all buttons */
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.15);
+}
+
+/* Hide the default file input buttons */
+input[type="file"] {
+  display: none;
+}
+
+/* Styling for the spinner */
+.spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.search-table td {
+  border: 1px solid #3498db; /* Blue color border */
+  padding: 8px;
+}? 
+
+/* Style the clearSearchButton */
+#clearSearchButton {
+  border-radius: 15%; /* Make it round */
+}
+
+
+/* General styles for the invoice section including labels invoices */
+.section-divider {
+  margin-bottom: 30px; /* Adjust as needed */
+}
+
+/* General styles for the invoice section after label invoices */
+div.invoice-section {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+/* Style for Invoice Number Label */
+#invoiceNumberLabel.left-align {
+  font-size: 14px; /* Adjust the font size as needed */
+  color: black; /* Text color (black) */
+  background-color: yellow; /* Background color */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style for Current Date Label */
+#currentDateLabel.left-align {
+  font-size: 14px; /* Adjust the font size as needed */
+  color: black; /* Text color (black) */
+  background-color: yellow; /* Background color */
+}
+
+/* Style for Customer Name Label */
+#customerNameLabel.left-align {
+  font-size: 14px; /* Adjust the font size as needed */
+  color: black; /* Text color (black) */
+  background-color: yellow; /* Background color */
+white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style for Invoice Number text box input */
+#invoiceNumber {
+  display: block;
+  width: 50px; /* Adjust the width as needed */
+  font-size: 14px; /* Adjust the font size as needed */
+  border: 2px solid #cccccc; /* Border color #f7f7f7 light gray  */
+  background-color: #33333333;/* Background color */
+  height: 15px; /* Adjust the height as needed */
+}
+
+/* Style for Current Date text box input */
+#currentDate {
+  display: block;
+  width: 130px; /* Adjust the width as needed */
+  font-size: 14px; /* Adjust the font size as needed */
+  border: 2px solid #cccccc; /* Border color */
+  background-color: #33333333 ; /* Background color dark gray with !important */
+  height: 15px; /* Adjust the height as needed */
+}
+
+/* Style for Customer Name text box input*/
+#customerName {
+  display: block;
+  width: 130px; /* Adjust the width as needed */
+  font-size: 14px; /* Adjust the font size as needed */
+  border: 2px solid #cccccc; /* Border color */
+  background-color: #33333333; /* Background color */
+  height: 15px; /* Adjust the height as needed */
+}
+
+
+
+#invoiceTable th {
+  text-align: center;
+  background-color: yellow;
+}
+
+#invoiceTable input.item-description {
+  font-size: 16px;
+  color: black;
+  width: 90%; /* Use a percentage width */
+  min-width: 340px; /* Set a minimum width */
+  margin-top: 5px;
+  border: 2px solid #cccccc;
+  background-color: #f7f7f7;
+  height: auto;
+  resize: horizontal;
+  overflow-x: auto; /* Enable horizontal scroll bars if the content overflows horizontally */
+  text-align: center;
+}
+
+
+
+#invoiceTable input.item-quantity {
+  font-size: 16px;
+  color: black;
+  width: 60px;
+  margin-top: 5px;
+  border: 2px solid #cccccc;
+  background-color: #f7f7f7;
+  height: auto;
+text-align: center;
+}
+
+#invoiceTable input.item-price {
+  font-size: 16px;
+  color: black;
+  width: 80px;
+  margin-top: 5px;
+  border: 2px solid #cccccc;
+  background-color: #f7f7f7;
+  height: auto;
+text-align: center;
+}
+
+#invoiceTable input.item-total {
+  font-size: 16px;
+  color: black;
+  width: 90px;
+  margin-top: 5px;
+  border: 2px solid #cccccc;
+  background-color: #f7f7f7;
+  height: auto;
+text-align: center;
+}
+
+
+
+ .grand-total-row {
+    text-align: center;
+    font-weight: bold;
+    background-color: yellow;
+  }
+
+/* reset page entirely */
+#goToIndexButton {
+  background-color: red;
+  /* Add any other styles you want for the button */
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .invoice-section, .invoice-section *, 
+  .invoice-info-section, .invoice-info-section *, /* Make this new section visible */
+  #invoiceTable, #invoiceTable * {
+    visibility: visible;
+  }
+
+  .invoice-section {
+    position: absolute;
+    left: 0;
+    top: 50px;
+  }
+
+  .invoice-info-section {
+    position: absolute;
+    left: 0;
+    top: 10px; /* Adjust this as needed */
+  }
+
+  #invoiceTable {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    position: absolute;
+    left: 0;
+    top: 100px;
+  }
+
+  #invoiceTable th:nth-child(6),
+  #invoiceTable td:nth-child(6) {
+    display: none; /* Hide the "Action" column */
+  }
+}
+
+#customModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 20px;
+    top: 70%;
+    transform: translateY(-30%);
+    width: 35%; /* Adjust the width as needed for mobile devices */
+    max-width: 400px; /* Set a max-width to ensure modal doesn't get too wide */
+    overflow-y: auto;
+    background-color: lightblue;
+    padding: 10px;
+    border: 3px solid green;
+    border-radius: 18px;
+}
+
+
+/* Default positioning for short pages */
+#customModal.short-page {
+    top: 50%;
+    transform: translateY(-70%);
+}
+
+/* Adjusted positioning for long pages */
+#customModal.long-page {
+    top: 80%;
+    transform: translateY(-30%);
+}
+
+
+
+/* Adjust the color of the modal text message to white */
+#modalMessage {
+    color: black;
+    margin-right: 25px; /* Adjust the right margin as needed */
+    font-size: 14px;
+    font-family: 'Helvetica', sans-serif;
+    line-height: 1; 
+    font-weight: bold;
+    text-align: center; /* Center-align the text */
+    margin-bottom: 0px;
+    top: -2px;
+}
+
+.modal-content {
+    position: relative; /* Adjust the position property */
+}
+
+.close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -22px; /* Adjust this value to move it more up */
+    right: 1px;
+    font-size: 30px; /* Adjust the font size */
+   color: white;  
+  padding: 1px;
+    cursor: pointer;
+    border: none;
+    background-color: green; /* Add a green background color */
+    border-radius: 50%; /* Make it circular */
+    width: 30px; /* Set the width and height for the circular button */
+    height: 30px;
+}
+
+.close:hover {
+    color: red; /* Change the color on hover to your preferred color */
+}
+
+
+#profitInput {
+    width: 20%; /* Adjust the width as needed */
+    padding: 8px; /* Adjust padding for better appearance */
+    font-size: 16px; /* Adjust font size for better visibility */
+    
+}
+#customModal button {
+    background-color: green; /* Set the background color */
+    color: white; /* Set the text color */
+    padding: 10px 20px; /* Adjust padding for better appearance */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    cursor: pointer;
+    font-size: 16px; /* Set the font size */
+    
+}
+
+#customModal button:hover {
+    background-color: darkgreen; /* Change background color on hover */
+}
+
