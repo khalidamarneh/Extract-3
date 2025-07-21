@@ -1,0 +1,4026 @@
+version 1 after success csv but need pdf adjustment :
+
+index.hbs : 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+  <style>
+    #camera-container { display: none; position: relative; width: 220px; height: 400px; border: 1px solid #ccc; overflow: hidden; margin: 10px auto; }
+    #camera { width: 100%; height: 100%; object-fit: cover; }
+    .search-container { display: flex; align-items: center; flex-wrap: wrap; }
+    #searchInput { margin-right: 10px; flex-grow: 1; }
+    #clearSearchButton, #searchButton, #startScanButton, #stopScanButton { height: 30px; }
+    #searchResults { width: 100%; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div id="camera-container">
+    <video id="camera" autoplay playsinline autofocus></video>
+  </div>
+  <div class="button-container">
+    <div class="file-container">
+      <input type="file" id="mergeFilesInput" accept=".pdf" multiple style="display: none;" />
+      <button id="mergeFilesButton">UPLOAD PDFs FOR MERGE</button>
+      <input type="file" id="onePdfInput" accept=".pdf" style="display: none;" />
+      <button id="onePdfButton">Upload Single PDF</button>
+      <div id="spinnerOnepdf" class="spinner hidden"></div>
+      <p id="messageOnepdf"></p>
+      <!-- Single CSV upload -->
+      <form id="csvUploadForm" action="/upload-csv-single" method="post" enctype="multipart/form-data" style="margin-top:8px;">
+        <input type="file" id="csvUploadInput" name="csv" accept=".csv" style="display:none;">
+        <button type="button" id="csvUploadButton">Upload CSV</button>
+      </form>
+      <!-- Multiple CSV upload -->
+      <form id="csvMergeForm" action="/upload-csv-multiple" method="post" enctype="multipart/form-data" style="margin-top:8px;">
+        <input type="file" id="csvMergeInput" name="csvs" accept=".csv" multiple style="display:none;">
+        <button type="button" id="csvMergeButton">Upload & Merge CSVs</button>
+      </form>
+    </div>
+    <div class="spinner hidden" id="spinnerMerge"></div>
+    <div id="messageMerge"></div>
+  </div>
+  <div class="button-container">
+    <div class="file-container">
+      <input type="file" id="singleFileInput" accept=".pdf" style="display: none;" />
+      <button id="extractButton">EXTRACT TABLES</button>
+    </div>
+    <div class="spinner hidden" id="spinnerSingle"></div>
+    <div id="messageSingle"></div>
+  </div>
+  <div class="button-container">
+    <div class="control-buttons">
+      <button id="downloadCsvButton" style="display:none">Download CSV</button>
+      <button id="getTotalButton">Get Total</button>
+      <div id="totalResultBox"></div>
+    </div>
+  </div>
+  <div class="button-container">
+    <div class="control-buttons">
+      <button id="restartButton">Restart</button>
+    </div>
+  </div>
+  <div class="button-container">
+    <button id="downloadMergedButton" style="display:none">Download Merged PDF</button>
+  </div>
+  <button id="goToInvoiceButton" onclick="openInvoicePage()">Go to Invoice</button>
+  <script>
+    function openInvoicePage() { window.open("/invoice.html", "_blank"); }
+  </script>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search by text or barcode" style="width: 200px; height: 40px;" />
+    <button id="clearSearchButton">X</button>
+    <button id="searchButton">Search</button>
+    <button id="startScanButton">Start Scan</button>
+    <button id="stopScanButton">Stop Scan</button>
+    <div id="searchResults"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>
+  <script src="/script.js"></script>
+  <script>
+    // Barcode scan JS (as before)
+    let videoStream;
+    let codeReader = new ZXing.BrowserMultiFormatReader();
+    function startScan() {
+      let selectedDeviceId;
+      let videoElem = document.createElement('video');
+      videoElem.id = 'camera';
+      document.getElementById('camera-container').appendChild(videoElem);
+      codeReader.listVideoInputDevices().then((videoInputDevices) => {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const constraints = isMobile
+          ? { video: { facingMode: 'environment', width: { ideal: 220 }, height: { ideal: 400 } } }
+          : { video: { deviceId: videoInputDevices[0].deviceId } };
+        selectedDeviceId = constraints;
+        codeReader.decodeFromConstraints(constraints, 'camera', (result, err) => {
+          if (result) {
+            document.getElementById('searchInput').value = result.text;
+            playBeep();
+            codeReader.reset();
+            let cameraContainer = document.getElementById('camera-container');
+            if (cameraContainer) cameraContainer.style.display = 'none';
+          }
+        });
+        document.getElementById('camera-container').style.display = 'block';
+      }).catch((err) => { console.error(err); });
+    }
+    function stopScan() {
+      codeReader.reset();
+      document.getElementById('searchInput').value = '';
+      let cameraContainer = document.getElementById('camera-container');
+      if (cameraContainer) cameraContainer.style.display = 'none';
+    }
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep() {
+      const oscillator = audioContext.createOscillator();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+      oscillator.connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
+    document.getElementById('startScanButton').addEventListener('click', startScan);
+    document.getElementById('stopScanButton').addEventListener('click', stopScan);
+  </script>
+
+  <!-- Invoice Info & Table Section -->
+  <div class="invoice-info-section">
+    <label for="invoiceNumber" class="left-align" id="invoiceNumberLabel">Invoice Number:</label>
+    <input type="text" id="invoiceNumber" />
+    <label for="currentDate" class="left-align" id="currentDateLabel">Date:</label>
+    <input type="text" id="currentDate" readonly />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentDateInput = document.getElementById("currentDate");
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        });
+        currentDateInput.value = formattedDate;
+      });
+    </script>
+    <label for="customerName" class="left-align" id="customerNameLabel">Customer Name:</label>
+    <input type="text" id="customerName" />
+  </div>
+  <table id="invoiceTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th class="column-description">Item Description</th>
+        <th class="column-quantity">Quantity</th>
+        <th class="column-price">Price</th>
+        <th class="column-total">Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div>
+    <button onclick="addItemToInvoice()">Add Item</button>
+    <button onclick="printInvoice()">Print</button>
+    <button onclick="saveInvoice()">Save Invoice</button>
+    <button onclick="loadSavedInvoiceByNumber()">Load Saved Invoice</button>
+  </div>
+  <div id="customModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modalMessage"></div>
+      <button onclick="getProfitPercentage()">OK</button>
+      <input type="number" class="form-control" id="profitInput" step="0.01">
+    </div>
+  </div>
+  <button id="goToIndexButton" onclick="goToIndexPage()">Reset Page Invoice</button>
+  <script>
+    function goToIndexPage() { window.location.href = "/"; }
+    // The invoice logic is now in script.js!
+  </script>
+</body>
+</html>
+
+
+++++++++++++++++++++++++++++++
+script.js : 
+
+document.addEventListener("DOMContentLoaded", function () {
+  // --- All variables as before ---
+  const mergeFilesInput = document.getElementById("mergeFilesInput");
+  const mergeFilesButton = document.getElementById("mergeFilesButton");
+  const spinnerMerge = document.getElementById("spinnerMerge");
+  const messageMerge = document.getElementById("messageMerge");
+  const extractButton = document.getElementById("extractButton");
+  const spinnerSingle = document.getElementById("spinnerSingle");
+  const messageSingle = document.getElementById("messageSingle");
+  const downloadCsvButton = document.getElementById("downloadCsvButton");
+  const getTotalButton = document.getElementById("getTotalButton");
+  const totalResultBox = document.getElementById("totalResultBox");
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const searchResultsContainer = document.getElementById("searchResults");
+  const clearSearchButton = document.getElementById("clearSearchButton");
+  const restartButton = document.getElementById("restartButton");
+  const downloadMergedButton = document.getElementById("downloadMergedButton");
+  const onePdfInput = document.getElementById("onePdfInput");
+  const onePdfButton = document.getElementById("onePdfButton");
+  const spinnerOnepdf = document.getElementById("spinnerOnepdf");
+  const messageOnepdf = document.getElementById("messageOnepdf");
+
+  // CSV upload (single)
+  const csvUploadInput = document.getElementById("csvUploadInput");
+  const csvUploadButton = document.getElementById("csvUploadButton");
+  if (csvUploadButton && csvUploadInput) {
+    csvUploadButton.addEventListener("click", () => csvUploadInput.click());
+    csvUploadInput.addEventListener("change", () => {
+      const file = csvUploadInput.files[0];
+      if (file) uploadCsvSingle(file);
+    });
+  }
+  function uploadCsvSingle(file) {
+    const formData = new FormData();
+    formData.append("csv", file);
+    resetPageState();
+    fetch("/upload-csv-single", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          messageSingle.textContent = "CSV uploaded and processed successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV upload failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // CSV upload (multiple/merge)
+  const csvMergeInput = document.getElementById("csvMergeInput");
+  const csvMergeButton = document.getElementById("csvMergeButton");
+  if (csvMergeButton && csvMergeInput) {
+    csvMergeButton.addEventListener("click", () => csvMergeInput.click());
+    csvMergeInput.addEventListener("change", () => {
+      const files = csvMergeInput.files;
+      if (files.length > 0) uploadCsvMultiple(files);
+    });
+  }
+  function uploadCsvMultiple(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("csvs", file);
+    resetPageState();
+    fetch("/upload-csv-multiple", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          messageSingle.textContent = "CSVs uploaded and merged successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV merge failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // Single PDF Upload Handlers
+  onePdfButton.addEventListener("click", () => onePdfInput.click());
+  onePdfInput.addEventListener("change", () => {
+    const file = onePdfInput.files[0];
+    if (file) uploadOnepdf(file);
+  });
+  function uploadOnepdf(file) {
+    const formData = new FormData();
+    formData.append("onepdf", file);
+    spinnerOnepdf.style.display = "block";
+    resetPageState();
+    fetch("/upload-onepdf", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        spinnerOnepdf.style.display = "none";
+        if (data.success) {
+          messageOnepdf.textContent = "Single PDF uploaded successfully!";
+          extractButton.dataset.pdfUrl = `/uploads/${file.name}`;
+        } else {
+          messageOnepdf.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerOnepdf.style.display = "none";
+        messageOnepdf.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // Restart
+  restartButton.addEventListener("click", () => {
+    fetch("/restart", { method: "POST" })
+      .then((response) => response.json())
+      .then(() => {
+        resetPageState();
+        searchResultsContainer.innerHTML = "";
+        downloadMergedButton.style.display = "none";
+        messageOnepdf.textContent = "";
+      })
+      .catch((error) => { console.error(error); });
+  });
+
+  // Upload Multiple Files (PDF merge)
+  mergeFilesButton.addEventListener("click", () => mergeFilesInput.click());
+  mergeFilesInput.addEventListener("change", () => {
+    const files = mergeFilesInput.files;
+    if (files.length > 0) uploadMultipleFiles(files);
+  });
+  function uploadMultipleFiles(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("files", file);
+    spinnerMerge.style.display = "block";
+    resetPageState();
+    fetch("/upload-multiple", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        spinnerMerge.style.display = "none";
+        if (data.success) {
+          messageMerge.textContent = "PDFs uploaded & successfully merged!";
+          downloadMergedButton.style.display = "block";
+        } else {
+          messageMerge.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerMerge.style.display = "none";
+        messageMerge.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // Download merged PDF
+  downloadMergedButton.addEventListener("click", () => {
+    fetch("/download-merged")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to download the combined PDF.");
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "combined.pdf";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Error during combined PDF download:", error);
+        alert("Could not download the combined PDF. Please check the server or file availability.");
+      });
+  });
+
+  // CSV Download Handler
+  downloadCsvButton.addEventListener("click", () => {
+    fetch("/download/csv")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to download the CSV file.");
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "extracted.csv";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Error during CSV download:", error);
+        alert("Could not download the CSV. Please check the server or file availability.");
+      });
+  });
+
+  // Extract Tables Handler
+  extractButton.addEventListener("click", () => {
+    const pdfUrl = extractButton.dataset.pdfUrl || "/download/combined-pdf";
+    extractTables(pdfUrl);
+  });
+  function extractTables(pdfUrl) {
+    spinnerSingle.classList.remove("hidden");
+    resetPageState();
+    fetch("/extract-tables", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pdfUrl }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        spinnerSingle.classList.add("hidden");
+        if (data.success) {
+          messageSingle.textContent = "Tables extracted successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+        } else {
+          messageSingle.textContent = "Extraction failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerSingle.classList.add("hidden");
+        messageSingle.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // CSV Search and Display
+  searchButton.addEventListener("click", performSearch);
+  clearSearchButton.addEventListener("click", clearSearch);
+  searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") performSearch();
+  });
+  function performSearch() {
+    const searchText = searchInput.value.trim();
+    fetch("/download/csv")
+      .then((response) => response.text())
+      .then((csvData) => {
+        Papa.parse(csvData, {
+          header: false,
+          skipEmptyLines: true,
+          complete: function (results) {
+            let filteredRows = results.data;
+            if (searchText) {
+              filteredRows = filteredRows.filter((row) =>
+                row.some((col) =>
+                  col
+                    .toString()
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase())
+                )
+              );
+            }
+            displaySearchResults(filteredRows);
+          },
+        });
+      })
+      .catch(() => {
+        searchResultsContainer.textContent = "Error occurred during search.";
+      });
+  }
+  function displaySearchResults(results) {
+    searchResultsContainer.innerHTML = "";
+    if (results.length > 0) {
+      const table = document.createElement("table");
+      table.classList.add("search-table");
+      results.forEach(function (row, rowIdx) {
+        const tr = document.createElement("tr");
+        tr.classList.add("search-row");
+        // Add a checkbox for each row except header
+        const checkboxCell = document.createElement(rowIdx === 0 ? "th" : "td");
+        if (rowIdx === 0) {
+          checkboxCell.textContent = "";
+        } else {
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.classList.add("row-checkbox");
+          checkboxCell.appendChild(checkbox);
+        }
+        tr.appendChild(checkboxCell);
+        for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
+          const td = document.createElement(rowIdx === 0 ? "th" : "td");
+          // Highlight "(Price)" column in red (Piece Price column index 4)
+          if (rowIdx !== 0 && columnIndex === 4) td.style.color = "red";
+          td.textContent = row[columnIndex] !== undefined ? row[columnIndex] : "";
+          tr.appendChild(td);
+        }
+        table.appendChild(tr);
+      });
+      searchResultsContainer.appendChild(table);
+    } else {
+      searchResultsContainer.textContent = "No results found.";
+    }
+  }
+  function clearSearch() {
+    searchInput.value = "";
+    searchResultsContainer.innerHTML = "";
+  }
+
+  // Total Calculation
+  getTotalButton.addEventListener("click", () => {
+    fetch("/getTotal")
+      .then((response) => response.json())
+      .then((data) => {
+        totalResultBox.textContent =
+          "Total sum: " + formatNumberWithCommas(data.total);
+        totalResultBox.style.display = "block";
+      })
+      .catch(() => {
+        alert("Error occurred while fetching total.");
+      });
+  });
+
+  // Reset Page State
+  function resetPageState() {
+    messageSingle.textContent = "";
+    messageMerge.textContent = "";
+    downloadCsvButton.style.display = "none";
+    totalResultBox.style.display = "none";
+    getTotalButton.style.display = "none";
+  }
+
+  // --------- INVOICE FUNCTIONS (GLOBAL) ---------
+  window.addItemToInvoice = function () {
+    const tableBody = $("#invoiceTable tbody");
+    const rowCount = tableBody.children("tr").length;
+    const selectedItems = $(".row-checkbox:checked").closest(".search-row");
+    if (selectedItems.length > 0) {
+      selectedItems.each(function () {
+        const description = $(this).find("td:eq(2)").text();
+        const price = parseFloat($(this).find("td:eq(5)").text().replace(/,/g, ""));
+        const message = `<p>Description: ${description}</p><p>Cost $: ${price.toFixed(2)}</p><p>Enter profit percentage %:</p>`;
+        showCustomModal(message, function (profitPercentage) {
+          if (!isNaN(profitPercentage)) {
+            const newPrice = price + (price * profitPercentage / 100);
+            const row = $("<tr></tr>");
+            row.append("<td>" + (rowCount + 1) + "</td>");
+            row.append('<td><input type="text" class="item-description" value="' + description + '"></td>');
+            row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
+            row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" value="' + newPrice.toFixed(2) + '" step="0.01"></td>');
+            row.append('<td><input type="text" class="item-total" readonly ></td>');
+            row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
+            tableBody.append(row);
+            updateSequenceNumbers();
+            updateGrandTotal();
+            $(".item-price").on("blur", function () {
+              const value = parseFloat($(this).val().replace(/,/g, ""));
+              if (!isNaN(value)) {
+                let formattedValue = Math.abs(value) >= 1000 ? value.toFixed(2) : formatNumberWithCommas(value.toFixed(2));
+                $(this).val(formattedValue);
+              }
+            });
+          }
+        });
+      });
+    } else {
+      const row = $("<tr></tr>");
+      row.append("<td>" + (rowCount + 1) + "</td>");
+      row.append('<td><input type="text" class="item-description"></td>');
+      row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
+      row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" step="0.01"></td>');
+      row.append('<td><input type="text" class="item-total" readonly ></td>');
+      row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
+      tableBody.append(row);
+      updateSequenceNumbers();
+      updateGrandTotal();
+      $(".item-price").on("blur", function () {
+        const value = parseFloat($(this).val().replace(/,/g, ""));
+        if (!isNaN(value)) {
+          let formattedValue = Math.abs(value) >= 1000 ? value.toFixed(2) : formatNumberWithCommas(value.toFixed(2));
+          $(this).val(formattedValue);
+        }
+      });
+    }
+  };
+  window.calculateTotal = function (input) {
+    const row = $(input).closest("tr");
+    const quantity = parseFloat(row.find(".item-quantity").val()) || 0;
+    const price = parseFloat(row.find(".item-price").val()) || 0;
+    const total = quantity * price;
+    const formattedTotal = formatNumberWithCommas(total.toFixed(2));
+    row.find(".item-total").val(formattedTotal);
+    updateGrandTotal();
+  };
+  window.deleteItem = function (button) {
+    const row = $(button).closest("tr");
+    row.remove();
+    updateSequenceNumbers();
+    updateGrandTotal();
+  };
+  window.printInvoice = function () { window.print(); };
+  window.saveInvoice = function () { /* Implement your save logic here */ };
+  window.loadSavedInvoiceByNumber = function () { /* Implement your load logic here */ };
+
+  function updateSequenceNumbers() {
+    const tableBody = $("#invoiceTable tbody");
+    tableBody.children("tr:not(.grand-total-row)").each(function (index) {
+      $(this).find("td:first-child").text(index + 1);
+    });
+  }
+  function updateGrandTotal() {
+    const tableBody = $("#invoiceTable tbody");
+    tableBody.children("tr.grand-total-row").remove();
+    const grandTotalRow = $("<tr class='grand-total-row'></tr>");
+    grandTotalRow.append("<td colspan='5'></td>");
+    tableBody.append(grandTotalRow);
+    calculateGrandTotal();
+  }
+  function calculateGrandTotal() {
+    const tableBody = $("#invoiceTable tbody");
+    const grandTotalCell = $(".grand-total-row td");
+    let totalSum = 0;
+    tableBody.children("tr:not(.grand-total-row)").each(function () {
+      const totalCell = $(this).find(".item-total");
+      if (totalCell.length > 0) {
+        const totalValue = parseFloat(totalCell.val().replace(/,/g, "")) || 0;
+        totalSum += totalValue;
+      }
+    });
+    const formattedGrandTotal = formatNumberWithCommas(totalSum.toFixed(2));
+    grandTotalCell.text("Grand Total in US$: " + formattedGrandTotal);
+  }
+
+  // Modal logic (needed by addItemToInvoice)
+  window.showCustomModal = function (message, callback) {
+    const modal = $("#customModal");
+    const modalMessage = $("#modalMessage");
+    const profitInput = $("#profitInput");
+    const okButton = $("#customModal button");
+    const closeButton = $("#customModal .close");
+    modalMessage.html(message);
+    profitInput.val("");
+    const isShortPage = document.body.clientHeight < window.innerHeight;
+    modal.removeClass('short-page long-page').addClass(isShortPage ? 'short-page' : 'long-page');
+    modal.show();
+    closeButton.off("click").on("click", function () { modal.hide(); });
+    okButton.off("click").one("click", function () {
+      const profitPercentage = parseFloat(profitInput.val());
+      callback(profitPercentage);
+      modal.hide();
+    });
+    profitInput.off("keypress").on("keypress", function (event) {
+      if (event.key === "Enter") okButton.click();
+    });
+  };
+
+  // Prevent accidental unload
+  $(document).ready(function () {
+    window.addEventListener('beforeunload', function (event) {
+      event.preventDefault();
+      event.returnValue = '';
+      return '';
+    });
+    $(window).on('unload', function () {
+      window.removeEventListener('beforeunload', function (event) {
+        event.preventDefault();
+        event.returnValue = '';
+      });
+    });
+  });
+});
+
+function formatNumberWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+++++++++++++++++++++++++++++++++++
+server.js :
+const express = require("express");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const pdf2table = require("pdf2table");
+const pdfLib = require("pdf-lib");
+const csv = require("csv-parser");
+const app = express();
+const port = process.env.PORT || 3000;
+
+// View engine and static files setup
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "src/pages"));
+app.use(express.static("public"));
+app.use(express.json());
+
+// Multer storage configuration
+const storage = multer.diskStorage({
+  destination: "public/uploads/",
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const extension = path.extname(file.originalname);
+    const filename = `file-${uniqueSuffix}${extension}`;
+    cb(null, filename);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+let combinedPdfPath = "";
+let currentPdfPath = "";
+
+// Routes
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
+// Multiple PDF Upload and Combine
+app.post("/upload-multiple", upload.array("files", 50), async (req, res) => {
+  const files = req.files;
+
+  if (!files || files.length < 2) {
+    return res.json({
+      success: false,
+      message: "Please upload at least two PDF files",
+    });
+  }
+
+  try {
+    const pdfDoc = await pdfLib.PDFDocument.create();
+
+    for (const file of files) {
+      const fileBytes = fs.readFileSync(file.path);
+      const pdfBytes = await pdfLib.PDFDocument.load(fileBytes);
+      const copiedPages = await pdfDoc.copyPages(
+        pdfBytes,
+        pdfBytes.getPageIndices()
+      );
+      copiedPages.forEach((page) => pdfDoc.addPage(page));
+    }
+
+    const combinedPdfBytes = await pdfDoc.save();
+    combinedPdfPath = path.join(__dirname, "public", "Combinedpdf", "combined.pdf");
+    fs.writeFileSync(combinedPdfPath, combinedPdfBytes);
+
+    return res.json({ success: true, message: "PDFs combined successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.json({
+      success: false,
+      message: "An error occurred while combining PDFs",
+    });
+  }
+});
+
+// Single PDF Upload
+app.post("/upload-onepdf", upload.single("onepdf"), (req, res) => {
+  const file = req.file;
+
+  if (!file) {
+    return res.json({ success: false, message: "Please upload a single PDF." });
+  }
+
+  currentPdfPath = `public/uploads/${file.filename}`;
+  res.json({
+    success: true,
+    message: "Single PDF uploaded successfully!",
+    uploadedFilePath: currentPdfPath,
+  });
+});
+
+// Extract Tables from PDF and write to extracted.csv
+app.post("/extract-tables", (req, res) => {
+  const pdfPath = currentPdfPath || combinedPdfPath;
+
+  if (!pdfPath) {
+    return res.status(404).json({ success: false, message: "No PDF file available" });
+  }
+
+  processPdf(pdfPath, (err, csvFileName, csvPath) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, error: err });
+    }
+
+    res.json({ success: true, csvPath });
+  });
+});
+
+// --- CSV Upload & Processing (Single) ---
+const expectedHeader = [
+  "Part Number",
+  "Description",
+  "Shipped",
+  "Pack",
+  "Piece Price",
+  "Total"
+];
+
+app.post("/upload-csv-single", upload.single("csv"), (req, res) => {
+  const file = req.file;
+  if (!file) {
+    return res.json({ success: false, message: "Please upload a CSV file." });
+  }
+  const csvPath = `public/uploads/${file.filename}`;
+  const outputPath = path.join(__dirname, "public/uploads/extracted.csv");
+
+  const results = [];
+  fs.createReadStream(csvPath)
+    .pipe(csv())
+    .on("data", (row) => {
+      // Map columns to match search table:
+      // 4: UPC -> Part Number
+      // 6: Product Name -> Description
+      // 10: Quantity -> Shipped
+      // 11: Box Quantity -> Pack
+      // 8: Sold Price -> Piece Price
+      // 12: Total -> Total
+      const newRow = [
+        row["UPC"] || "",
+        row["Product Name"] || "",
+        row["Quantity"] || "",
+        row["Box Quantity"] || "",
+        row["Sold Price"] || "",
+        row["Total"] || ""
+      ];
+      results.push(newRow);
+    })
+    .on("end", () => {
+      const csvData = [expectedHeader.join(",")].concat(
+        results.map((row) => row.join(","))
+      ).join("\n");
+      fs.writeFileSync(outputPath, csvData);
+      res.json({ success: true, csvPath: outputPath });
+    });
+});
+
+// --- CSV Upload & Processing (Multiple merge) ---
+app.post("/upload-csv-multiple", upload.array("csvs", 20), (req, res) => {
+  const files = req.files;
+  if (!files || files.length < 1) {
+    return res.json({ success: false, message: "Please upload at least one CSV file." });
+  }
+
+  let allRows = [];
+  let filesProcessed = 0;
+
+  files.forEach((file) => {
+    const csvPath = `public/uploads/${file.filename}`;
+    fs.createReadStream(csvPath)
+      .pipe(csv())
+      .on("data", (row) => {
+        const newRow = [
+          row["UPC"] || "",
+          row["Product Name"] || "",
+          row["Quantity"] || "",
+          row["Box Quantity"] || "",
+          row["Sold Price"] || "",
+          row["Total"] || ""
+        ];
+        allRows.push(newRow);
+      })
+      .on("end", () => {
+        filesProcessed++;
+        if (filesProcessed === files.length) {
+          const csvData = [expectedHeader.join(",")].concat(
+            allRows.map((row) => row.join(","))
+          ).join("\n");
+          fs.writeFileSync(path.join(__dirname, "public/uploads/extracted.csv"), csvData);
+          res.json({ success: true, csvPath: "/public/uploads/extracted.csv" });
+        }
+      });
+  });
+});
+
+// Download Combined PDF
+app.get("/download-merged", (req, res) => {
+  const combinedFilePath = path.join(__dirname, "public", "Combinedpdf", "combined.pdf");
+
+  if (fs.existsSync(combinedFilePath)) {
+    res.download(combinedFilePath, "combined.pdf", (err) => {
+      if (err) {
+        console.error("Error sending combined PDF:", err);
+        res.status(500).send({ error: "Failed to download combined PDF" });
+      }
+    });
+  } else {
+    res.status(404).send({ error: "Combined file not found" });
+  }
+});
+
+// Download extracted.csv
+app.get("/download/csv", (req, res) => {
+  const csvFilePath = path.join(__dirname, "public", "uploads", "extracted.csv");
+
+  if (fs.existsSync(csvFilePath)) {
+    res.download(csvFilePath, "extracted.csv", (err) => {
+      if (err) {
+        console.error("Error sending CSV:", err);
+        res.status(500).send({ error: "Failed to download CSV" });
+      }
+    });
+  } else {
+    res.status(404).send({ error: "CSV file not found" });
+  }
+});
+
+// Restart and Cleanup
+app.post("/restart", (req, res) => {
+  cleanUpFiles();
+  combinedPdfPath = "";
+  currentPdfPath = "";
+  res.json({ success: true });
+  process.exit(0);
+});
+
+// Total Calculation
+app.get("/getTotal", (req, res) => {
+  let sum = 0;
+  const csvPath = path.join(__dirname, "public/uploads", "extracted.csv");
+
+  if (!fs.existsSync(csvPath)) {
+    return res.status(404).json({ message: "No CSV file available." });
+  }
+
+  fs.createReadStream(csvPath)
+    .pipe(csv())
+    .on("data", (row) => {
+      // Skip "Grand Total" or summary/footer rows
+      if (
+        (row["Description"] && row["Description"].toLowerCase().includes("grand total")) ||
+        (row["Part Number"] && row["Part Number"].toLowerCase().includes("grand total"))
+      ) {
+        return;
+      }
+      // Clean and parse the number
+      const value = parseFloat((row["Total"] || "").replace(/,/g, "").replace(/[^0-9.-]+/g, ""));
+      if (!isNaN(value)) {
+        sum += value;
+      }
+    })
+    .on("end", () => {
+      res.json({ total: sum.toFixed(2) });
+    });
+});
+
+// Utility Functions
+function processPdf(pdfPath, callback) {
+  fs.readFile(pdfPath, (err, buffer) => {
+    if (err) {
+      return callback("Error reading the uploaded file.");
+    }
+
+    pdf2table.parse(buffer, (err, rows) => {
+      if (err) {
+        return callback("Error extracting data from PDF.");
+      }
+
+      const filteredTables = rows
+        .filter((table) => Array.isArray(table) && table.length > 0)
+        .filter((table) => table.length >= 8 && table.length <= 10);
+
+      const adjustedTables = filteredTables.map((table) => {
+        return table.map((cell) => cell.trim());
+      });
+
+      const csvFileName = "extracted.csv";
+      const csvPath = path.join(__dirname, "public/uploads", csvFileName);
+      const csvData = adjustedTables.map((row) => row.join(",")).join("\n");
+
+      fs.writeFileSync(csvPath, csvData);
+
+      callback(null, csvFileName, csvPath);
+    });
+  });
+}
+
+function cleanUpFiles() {
+  const uploadsDir = path.join(__dirname, "public/uploads");
+  fs.readdirSync(uploadsDir).forEach((file) => {
+    const filePath = path.join(uploadsDir, file);
+    if (file !== "extracted.csv") {
+      fs.unlinkSync(filePath);
+    }
+  });
+}
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+
+******************
+End vesion 1 
+******************
+
+version 2 
+added buton for displaying all invoice external modal : 
+server.js same.
+script.js changed : 
+document.addEventListener("DOMContentLoaded", function () {
+  // --- All variables as before ---
+  const mergeFilesInput = document.getElementById("mergeFilesInput");
+  const mergeFilesButton = document.getElementById("mergeFilesButton");
+  const spinnerMerge = document.getElementById("spinnerMerge");
+  const messageMerge = document.getElementById("messageMerge");
+  const extractButton = document.getElementById("extractButton");
+  const spinnerSingle = document.getElementById("spinnerSingle");
+  const messageSingle = document.getElementById("messageSingle");
+  const downloadCsvButton = document.getElementById("downloadCsvButton");
+  const getTotalButton = document.getElementById("getTotalButton");
+  const totalResultBox = document.getElementById("totalResultBox");
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const searchResultsContainer = document.getElementById("searchResults");
+  const clearSearchButton = document.getElementById("clearSearchButton");
+  const restartButton = document.getElementById("restartButton");
+  const downloadMergedButton = document.getElementById("downloadMergedButton");
+  const onePdfInput = document.getElementById("onePdfInput");
+  const onePdfButton = document.getElementById("onePdfButton");
+  const spinnerOnepdf = document.getElementById("spinnerOnepdf");
+  const messageOnepdf = document.getElementById("messageOnepdf");
+  
+
+  // CSV upload (single)
+  const csvUploadInput = document.getElementById("csvUploadInput");
+  const csvUploadButton = document.getElementById("csvUploadButton");
+  if (csvUploadButton && csvUploadInput) {
+    csvUploadButton.addEventListener("click", () => csvUploadInput.click());
+    csvUploadInput.addEventListener("change", () => {
+      const file = csvUploadInput.files[0];
+      if (file) uploadCsvSingle(file);
+    });
+  }
+  function uploadCsvSingle(file) {
+    const formData = new FormData();
+    formData.append("csv", file);
+    resetPageState();
+    fetch("/upload-csv-single", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          messageSingle.textContent = "CSV uploaded and processed successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV upload failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // CSV upload (multiple/merge)
+  const csvMergeInput = document.getElementById("csvMergeInput");
+  const csvMergeButton = document.getElementById("csvMergeButton");
+  if (csvMergeButton && csvMergeInput) {
+    csvMergeButton.addEventListener("click", () => csvMergeInput.click());
+    csvMergeInput.addEventListener("change", () => {
+      const files = csvMergeInput.files;
+      if (files.length > 0) uploadCsvMultiple(files);
+    });
+  }
+  function uploadCsvMultiple(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("csvs", file);
+    resetPageState();
+    fetch("/upload-csv-multiple", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          messageSingle.textContent = "CSVs uploaded and merged successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV merge failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // Single PDF Upload Handlers
+  onePdfButton.addEventListener("click", () => onePdfInput.click());
+  onePdfInput.addEventListener("change", () => {
+    const file = onePdfInput.files[0];
+    if (file) uploadOnepdf(file);
+  });
+  function uploadOnepdf(file) {
+    const formData = new FormData();
+    formData.append("onepdf", file);
+    spinnerOnepdf.style.display = "block";
+    resetPageState();
+    fetch("/upload-onepdf", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        spinnerOnepdf.style.display = "none";
+        if (data.success) {
+          messageOnepdf.textContent = "Single PDF uploaded successfully!";
+          extractButton.dataset.pdfUrl = `/uploads/${file.name}`;
+        } else {
+          messageOnepdf.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerOnepdf.style.display = "none";
+        messageOnepdf.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // Restart
+  restartButton.addEventListener("click", () => {
+    fetch("/restart", { method: "POST" })
+      .then((response) => response.json())
+      .then(() => {
+        resetPageState();
+        searchResultsContainer.innerHTML = "";
+        downloadMergedButton.style.display = "none";
+        messageOnepdf.textContent = "";
+      })
+      .catch((error) => { console.error(error); });
+  });
+
+  // Upload Multiple Files (PDF merge)
+  mergeFilesButton.addEventListener("click", () => mergeFilesInput.click());
+  mergeFilesInput.addEventListener("change", () => {
+    const files = mergeFilesInput.files;
+    if (files.length > 0) uploadMultipleFiles(files);
+  });
+  function uploadMultipleFiles(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("files", file);
+    spinnerMerge.style.display = "block";
+    resetPageState();
+    fetch("/upload-multiple", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        spinnerMerge.style.display = "none";
+        if (data.success) {
+          messageMerge.textContent = "PDFs uploaded & successfully merged!";
+          downloadMergedButton.style.display = "block";
+        } else {
+          messageMerge.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerMerge.style.display = "none";
+        messageMerge.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // Download merged PDF
+  downloadMergedButton.addEventListener("click", () => {
+    fetch("/download-merged")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to download the combined PDF.");
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "combined.pdf";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Error during combined PDF download:", error);
+        alert("Could not download the combined PDF. Please check the server or file availability.");
+      });
+  });
+
+  // CSV Download Handler
+  downloadCsvButton.addEventListener("click", () => {
+    fetch("/download/csv")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to download the CSV file.");
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "extracted.csv";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Error during CSV download:", error);
+        alert("Could not download the CSV. Please check the server or file availability.");
+      });
+  });
+
+  // Extract Tables Handler
+  extractButton.addEventListener("click", () => {
+    const pdfUrl = extractButton.dataset.pdfUrl || "/download/combined-pdf";
+    extractTables(pdfUrl);
+  });
+  function extractTables(pdfUrl) {
+    spinnerSingle.classList.remove("hidden");
+    resetPageState();
+    fetch("/extract-tables", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pdfUrl }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        spinnerSingle.classList.add("hidden");
+        if (data.success) {
+          messageSingle.textContent = "Tables extracted successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+        } else {
+          messageSingle.textContent = "Extraction failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerSingle.classList.add("hidden");
+        messageSingle.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  
+  // display current invoice
+  const displayCurrentInvoiceButton = document.getElementById("displayCurrentInvoiceButton");
+if (displayCurrentInvoiceButton) {
+  displayCurrentInvoiceButton.addEventListener("click", function () {
+    fetch("/download/csv")
+      .then((response) => response.text())
+      .then((csvText) => {
+        showInvoiceModal(csvText);
+      })
+      .catch(() => {
+        alert("Could not fetch the current invoice (CSV).");
+      });
+  });
+}
+
+// Helper function to show CSV in a modal or dedicated area
+function showInvoiceModal(csvText) {
+  // You can use a modal, or simply display in a new div for now
+  let modal = document.getElementById("currentInvoiceModal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "currentInvoiceModal";
+    modal.style.position = "fixed";
+    modal.style.top = "10%";
+    modal.style.left = "10%";
+    modal.style.width = "80%";
+    modal.style.height = "80%";
+    modal.style.background = "#fff";
+    modal.style.overflow = "auto";
+    modal.style.zIndex = "9999";
+    modal.style.border = "2px solid #333";
+    modal.style.padding = "20px";
+    modal.innerHTML = `<button id="closeInvoiceModal" style="float:right;">Close</button><div id="invoiceTableContainer"></div>`;
+    document.body.appendChild(modal);
+
+    document.getElementById("closeInvoiceModal").onclick = function () {
+      modal.style.display = "none";
+    };
+  } else {
+    modal.style.display = "block";
+  }
+
+  // Render CSV as table
+  const container = document.getElementById("invoiceTableContainer");
+  container.innerHTML = "";
+  const rows = csvText.trim().split("\n");
+  const table = document.createElement("table");
+  table.style.width = "100%";
+  table.style.borderCollapse = "collapse";
+  rows.forEach((row, rowIdx) => {
+    const tr = document.createElement("tr");
+    row.split(",").forEach((cell, colIdx) => {
+      const cellElem = document.createElement(rowIdx === 0 ? "th" : "td");
+      cellElem.textContent = cell;
+      cellElem.style.border = "1px solid #aaa";
+      cellElem.style.padding = "4px";
+      tr.appendChild(cellElem);
+    });
+    table.appendChild(tr);
+  });
+  container.appendChild(table);
+}
+  
+  
+  
+  
+  // CSV Search and Display
+  searchButton.addEventListener("click", performSearch);
+  clearSearchButton.addEventListener("click", clearSearch);
+  searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") performSearch();
+  });
+  function performSearch() {
+    const searchText = searchInput.value.trim();
+    fetch("/download/csv")
+      .then((response) => response.text())
+      .then((csvData) => {
+        Papa.parse(csvData, {
+          header: false,
+          skipEmptyLines: true,
+          complete: function (results) {
+            let filteredRows = results.data;
+            if (searchText) {
+              filteredRows = filteredRows.filter((row) =>
+                row.some((col) =>
+                  col
+                    .toString()
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase())
+                )
+              );
+            }
+            displaySearchResults(filteredRows);
+          },
+        });
+      })
+      .catch(() => {
+        searchResultsContainer.textContent = "Error occurred during search.";
+      });
+  }
+  function displaySearchResults(results) {
+    searchResultsContainer.innerHTML = "";
+    if (results.length > 0) {
+      const table = document.createElement("table");
+      table.classList.add("search-table");
+      results.forEach(function (row, rowIdx) {
+        const tr = document.createElement("tr");
+        tr.classList.add("search-row");
+        // Add a checkbox for each row except header
+        const checkboxCell = document.createElement(rowIdx === 0 ? "th" : "td");
+        if (rowIdx === 0) {
+          checkboxCell.textContent = "";
+        } else {
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.classList.add("row-checkbox");
+          checkboxCell.appendChild(checkbox);
+        }
+        tr.appendChild(checkboxCell);
+        for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
+          const td = document.createElement(rowIdx === 0 ? "th" : "td");
+          // Highlight "(Price)" column in red (Piece Price column index 4)
+          if (rowIdx !== 0 && columnIndex === 4) td.style.color = "red";
+          td.textContent = row[columnIndex] !== undefined ? row[columnIndex] : "";
+          tr.appendChild(td);
+        }
+        table.appendChild(tr);
+      });
+      searchResultsContainer.appendChild(table);
+    } else {
+      searchResultsContainer.textContent = "No results found.";
+    }
+  }
+  function clearSearch() {
+    searchInput.value = "";
+    searchResultsContainer.innerHTML = "";
+  }
+
+  // Total Calculation
+  getTotalButton.addEventListener("click", () => {
+    fetch("/getTotal")
+      .then((response) => response.json())
+      .then((data) => {
+        totalResultBox.textContent =
+          "Total sum: " + formatNumberWithCommas(data.total);
+        totalResultBox.style.display = "block";
+      })
+      .catch(() => {
+        alert("Error occurred while fetching total.");
+      });
+  });
+
+  // Reset Page State
+  function resetPageState() {
+    messageSingle.textContent = "";
+    messageMerge.textContent = "";
+    downloadCsvButton.style.display = "none";
+    totalResultBox.style.display = "none";
+    getTotalButton.style.display = "none";
+  }
+
+  // --------- INVOICE FUNCTIONS (GLOBAL) ---------
+  window.addItemToInvoice = function () {
+    const tableBody = $("#invoiceTable tbody");
+    const rowCount = tableBody.children("tr").length;
+    const selectedItems = $(".row-checkbox:checked").closest(".search-row");
+    if (selectedItems.length > 0) {
+      selectedItems.each(function () {
+        const description = $(this).find("td:eq(2)").text();
+        const price = parseFloat($(this).find("td:eq(5)").text().replace(/,/g, ""));
+        const message = `<p>Description: ${description}</p><p>Cost $: ${price.toFixed(2)}</p><p>Enter profit percentage %:</p>`;
+        showCustomModal(message, function (profitPercentage) {
+          if (!isNaN(profitPercentage)) {
+            const newPrice = price + (price * profitPercentage / 100);
+            const row = $("<tr></tr>");
+            row.append("<td>" + (rowCount + 1) + "</td>");
+            row.append('<td><input type="text" class="item-description" value="' + description + '"></td>');
+            row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
+            row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" value="' + newPrice.toFixed(2) + '" step="0.01"></td>');
+            row.append('<td><input type="text" class="item-total" readonly ></td>');
+            row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
+            tableBody.append(row);
+            updateSequenceNumbers();
+            updateGrandTotal();
+            $(".item-price").on("blur", function () {
+              const value = parseFloat($(this).val().replace(/,/g, ""));
+              if (!isNaN(value)) {
+                let formattedValue = Math.abs(value) >= 1000 ? value.toFixed(2) : formatNumberWithCommas(value.toFixed(2));
+                $(this).val(formattedValue);
+              }
+            });
+          }
+        });
+      });
+    } else {
+      const row = $("<tr></tr>");
+      row.append("<td>" + (rowCount + 1) + "</td>");
+      row.append('<td><input type="text" class="item-description"></td>');
+      row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
+      row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" step="0.01"></td>');
+      row.append('<td><input type="text" class="item-total" readonly ></td>');
+      row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
+      tableBody.append(row);
+      updateSequenceNumbers();
+      updateGrandTotal();
+      $(".item-price").on("blur", function () {
+        const value = parseFloat($(this).val().replace(/,/g, ""));
+        if (!isNaN(value)) {
+          let formattedValue = Math.abs(value) >= 1000 ? value.toFixed(2) : formatNumberWithCommas(value.toFixed(2));
+          $(this).val(formattedValue);
+        }
+      });
+    }
+  };
+  window.calculateTotal = function (input) {
+    const row = $(input).closest("tr");
+    const quantity = parseFloat(row.find(".item-quantity").val()) || 0;
+    const price = parseFloat(row.find(".item-price").val()) || 0;
+    const total = quantity * price;
+    const formattedTotal = formatNumberWithCommas(total.toFixed(2));
+    row.find(".item-total").val(formattedTotal);
+    updateGrandTotal();
+  };
+  window.deleteItem = function (button) {
+    const row = $(button).closest("tr");
+    row.remove();
+    updateSequenceNumbers();
+    updateGrandTotal();
+  };
+  window.printInvoice = function () { window.print(); };
+  window.saveInvoice = function () { /* Implement your save logic here */ };
+  window.loadSavedInvoiceByNumber = function () { /* Implement your load logic here */ };
+
+  function updateSequenceNumbers() {
+    const tableBody = $("#invoiceTable tbody");
+    tableBody.children("tr:not(.grand-total-row)").each(function (index) {
+      $(this).find("td:first-child").text(index + 1);
+    });
+  }
+  function updateGrandTotal() {
+    const tableBody = $("#invoiceTable tbody");
+    tableBody.children("tr.grand-total-row").remove();
+    const grandTotalRow = $("<tr class='grand-total-row'></tr>");
+    grandTotalRow.append("<td colspan='5'></td>");
+    tableBody.append(grandTotalRow);
+    calculateGrandTotal();
+  }
+  function calculateGrandTotal() {
+    const tableBody = $("#invoiceTable tbody");
+    const grandTotalCell = $(".grand-total-row td");
+    let totalSum = 0;
+    tableBody.children("tr:not(.grand-total-row)").each(function () {
+      const totalCell = $(this).find(".item-total");
+      if (totalCell.length > 0) {
+        const totalValue = parseFloat(totalCell.val().replace(/,/g, "")) || 0;
+        totalSum += totalValue;
+      }
+    });
+    const formattedGrandTotal = formatNumberWithCommas(totalSum.toFixed(2));
+    grandTotalCell.text("Grand Total in US$: " + formattedGrandTotal);
+  }
+
+  // Modal logic (needed by addItemToInvoice)
+  window.showCustomModal = function (message, callback) {
+    const modal = $("#customModal");
+    const modalMessage = $("#modalMessage");
+    const profitInput = $("#profitInput");
+    const okButton = $("#customModal button");
+    const closeButton = $("#customModal .close");
+    modalMessage.html(message);
+    profitInput.val("");
+    const isShortPage = document.body.clientHeight < window.innerHeight;
+    modal.removeClass('short-page long-page').addClass(isShortPage ? 'short-page' : 'long-page');
+    modal.show();
+    closeButton.off("click").on("click", function () { modal.hide(); });
+    okButton.off("click").one("click", function () {
+      const profitPercentage = parseFloat(profitInput.val());
+      callback(profitPercentage);
+      modal.hide();
+    });
+    profitInput.off("keypress").on("keypress", function (event) {
+      if (event.key === "Enter") okButton.click();
+    });
+  };
+
+  // Prevent accidental unload
+  $(document).ready(function () {
+    window.addEventListener('beforeunload', function (event) {
+      event.preventDefault();
+      event.returnValue = '';
+      return '';
+    });
+    $(window).on('unload', function () {
+      window.removeEventListener('beforeunload', function (event) {
+        event.preventDefault();
+        event.returnValue = '';
+      });
+    });
+  });
+});
+
+function formatNumberWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+index.hbs : changed to : 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+  <style>
+    #camera-container { display: none; position: relative; width: 220px; height: 400px; border: 1px solid #ccc; overflow: hidden; margin: 10px auto; }
+    #camera { width: 100%; height: 100%; object-fit: cover; }
+    .search-container { display: flex; align-items: center; flex-wrap: wrap; }
+    #searchInput { margin-right: 10px; flex-grow: 1; }
+    #clearSearchButton, #searchButton, #startScanButton, #stopScanButton { height: 30px; }
+    #searchResults { width: 100%; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div id="camera-container">
+    <video id="camera" autoplay playsinline autofocus></video>
+  </div>
+  <div class="button-container">
+    <div class="file-container">
+      <input type="file" id="mergeFilesInput" accept=".pdf" multiple style="display: none;" />
+      <button id="mergeFilesButton">UPLOAD PDFs FOR MERGE</button>
+      <input type="file" id="onePdfInput" accept=".pdf" style="display: none;" />
+      <button id="onePdfButton">Upload Single PDF</button>
+      <div id="spinnerOnepdf" class="spinner hidden"></div>
+      <p id="messageOnepdf"></p>
+      <!-- Single CSV upload -->
+      <form id="csvUploadForm" action="/upload-csv-single" method="post" enctype="multipart/form-data" style="margin-top:8px;">
+        <input type="file" id="csvUploadInput" name="csv" accept=".csv" style="display:none;">
+        <button type="button" id="csvUploadButton">Upload CSV</button>
+      </form>
+      <!-- Multiple CSV upload -->
+      <form id="csvMergeForm" action="/upload-csv-multiple" method="post" enctype="multipart/form-data" style="margin-top:8px;">
+        <input type="file" id="csvMergeInput" name="csvs" accept=".csv" multiple style="display:none;">
+        <button type="button" id="csvMergeButton">Upload & Merge CSVs</button>
+      </form>
+    </div>
+    <div class="spinner hidden" id="spinnerMerge"></div>
+    <div id="messageMerge"></div>
+  </div>
+  <div class="button-container">
+    <div class="file-container">
+      <input type="file" id="singleFileInput" accept=".pdf" style="display: none;" />
+      <button id="extractButton">EXTRACT TABLES</button>
+    </div>
+    <div class="spinner hidden" id="spinnerSingle"></div>
+    <div id="messageSingle"></div>
+  </div>
+  <div class="button-container">
+    <div class="control-buttons">
+      <button id="downloadCsvButton" style="display:none">Download CSV</button>
+      <button id="getTotalButton">Get Total</button>
+      <div id="totalResultBox"></div>
+    </div>
+  </div>
+  <div class="button-container">
+    <div class="control-buttons">
+      <button id="restartButton">Restart</button>
+    </div>
+  </div>
+  <div class="button-container">
+    <button id="downloadMergedButton" style="display:none">Download Merged PDF</button>
+  </div>
+  <button id="displayCurrentInvoiceButton">Display Current Invoice</button>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search by text or barcode" style="width: 200px; height: 40px;" />
+    <button id="clearSearchButton">X</button>
+    <button id="searchButton">Search</button>
+    <button id="startScanButton">Start Scan</button>
+    <button id="stopScanButton">Stop Scan</button>
+    <div id="searchResults"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>
+  <script src="/script.js"></script>
+  <script>
+    // Barcode scan JS (as before)
+    let videoStream;
+    let codeReader = new ZXing.BrowserMultiFormatReader();
+    function startScan() {
+      let selectedDeviceId;
+      let videoElem = document.createElement('video');
+      videoElem.id = 'camera';
+      document.getElementById('camera-container').appendChild(videoElem);
+      codeReader.listVideoInputDevices().then((videoInputDevices) => {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const constraints = isMobile
+          ? { video: { facingMode: 'environment', width: { ideal: 220 }, height: { ideal: 400 } } }
+          : { video: { deviceId: videoInputDevices[0].deviceId } };
+        selectedDeviceId = constraints;
+        codeReader.decodeFromConstraints(constraints, 'camera', (result, err) => {
+          if (result) {
+            document.getElementById('searchInput').value = result.text;
+            playBeep();
+            codeReader.reset();
+            let cameraContainer = document.getElementById('camera-container');
+            if (cameraContainer) cameraContainer.style.display = 'none';
+          }
+        });
+        document.getElementById('camera-container').style.display = 'block';
+      }).catch((err) => { console.error(err); });
+    }
+    function stopScan() {
+      codeReader.reset();
+      document.getElementById('searchInput').value = '';
+      let cameraContainer = document.getElementById('camera-container');
+      if (cameraContainer) cameraContainer.style.display = 'none';
+    }
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep() {
+      const oscillator = audioContext.createOscillator();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+      oscillator.connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
+    document.getElementById('startScanButton').addEventListener('click', startScan);
+    document.getElementById('stopScanButton').addEventListener('click', stopScan);
+  </script>
+
+  <!-- Invoice Info & Table Section -->
+  <div class="invoice-info-section">
+    <label for="invoiceNumber" class="left-align" id="invoiceNumberLabel">Invoice Number:</label>
+    <input type="text" id="invoiceNumber" />
+    <label for="currentDate" class="left-align" id="currentDateLabel">Date:</label>
+    <input type="text" id="currentDate" readonly />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentDateInput = document.getElementById("currentDate");
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        });
+        currentDateInput.value = formattedDate;
+      });
+    </script>
+    <label for="customerName" class="left-align" id="customerNameLabel">Customer Name:</label>
+    <input type="text" id="customerName" />
+  </div>
+  <table id="invoiceTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th class="column-description">Item Description</th>
+        <th class="column-quantity">Quantity</th>
+        <th class="column-price">Price</th>
+        <th class="column-total">Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div>
+    <button onclick="addItemToInvoice()">Add Item</button>
+    <button onclick="printInvoice()">Print</button>
+    <button onclick="saveInvoice()">Save Invoice</button>
+    <button onclick="loadSavedInvoiceByNumber()">Load Saved Invoice</button>
+  </div>
+  <div id="customModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modalMessage"></div>
+      <button onclick="getProfitPercentage()">OK</button>
+      <input type="number" class="form-control" id="profitInput" step="0.01">
+    </div>
+  </div>
+  <button id="goToIndexButton" onclick="goToIndexPage()">Reset Page Invoice</button>
+  <script>
+    function goToIndexPage() { window.location.href = "/"; }
+    // The invoice logic is now in script.js!
+  </script>
+</body>
+</html>
+
+#####################################################################
+end ver 2 
+#########################################################################
+
+vers. 3 only for script js changing .. modal all select.. at once is good but not needed: 
+document.addEventListener("DOMContentLoaded", function () {
+  // --- All variables as before ---
+  const mergeFilesInput = document.getElementById("mergeFilesInput");
+  const mergeFilesButton = document.getElementById("mergeFilesButton");
+  const spinnerMerge = document.getElementById("spinnerMerge");
+  const messageMerge = document.getElementById("messageMerge");
+  const extractButton = document.getElementById("extractButton");
+  const spinnerSingle = document.getElementById("spinnerSingle");
+  const messageSingle = document.getElementById("messageSingle");
+  const downloadCsvButton = document.getElementById("downloadCsvButton");
+  const getTotalButton = document.getElementById("getTotalButton");
+  const totalResultBox = document.getElementById("totalResultBox");
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const searchResultsContainer = document.getElementById("searchResults");
+  const clearSearchButton = document.getElementById("clearSearchButton");
+  const restartButton = document.getElementById("restartButton");
+  const downloadMergedButton = document.getElementById("downloadMergedButton");
+  const onePdfInput = document.getElementById("onePdfInput");
+  const onePdfButton = document.getElementById("onePdfButton");
+  const spinnerOnepdf = document.getElementById("spinnerOnepdf");
+  const messageOnepdf = document.getElementById("messageOnepdf");
+
+  // New for embedded display and select all
+  const displayCurrentInvoiceButton = document.getElementById("displayCurrentInvoiceButton");
+  const showAllEmbeddedButton = document.getElementById("showAllEmbeddedButton");
+  const selectAllCheckbox = document.getElementById("selectAllCheckbox");
+
+  // CSV upload (single)
+  const csvUploadInput = document.getElementById("csvUploadInput");
+  const csvUploadButton = document.getElementById("csvUploadButton");
+  if (csvUploadButton && csvUploadInput) {
+    csvUploadButton.addEventListener("click", () => csvUploadInput.click());
+    csvUploadInput.addEventListener("change", () => {
+      const file = csvUploadInput.files[0];
+      if (file) uploadCsvSingle(file);
+    });
+  }
+  function uploadCsvSingle(file) {
+    const formData = new FormData();
+    formData.append("csv", file);
+    resetPageState();
+    fetch("/upload-csv-single", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          messageSingle.textContent = "CSV uploaded and processed successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV upload failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // CSV upload (multiple/merge)
+  const csvMergeInput = document.getElementById("csvMergeInput");
+  const csvMergeButton = document.getElementById("csvMergeButton");
+  if (csvMergeButton && csvMergeInput) {
+    csvMergeButton.addEventListener("click", () => csvMergeInput.click());
+    csvMergeInput.addEventListener("change", () => {
+      const files = csvMergeInput.files;
+      if (files.length > 0) uploadCsvMultiple(files);
+    });
+  }
+  function uploadCsvMultiple(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("csvs", file);
+    resetPageState();
+    fetch("/upload-csv-multiple", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          messageSingle.textContent = "CSVs uploaded and merged successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV merge failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // Single PDF Upload Handlers
+  onePdfButton.addEventListener("click", () => onePdfInput.click());
+  onePdfInput.addEventListener("change", () => {
+    const file = onePdfInput.files[0];
+    if (file) uploadOnepdf(file);
+  });
+  function uploadOnepdf(file) {
+    const formData = new FormData();
+    formData.append("onepdf", file);
+    spinnerOnepdf.style.display = "block";
+    resetPageState();
+    fetch("/upload-onepdf", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        spinnerOnepdf.style.display = "none";
+        if (data.success) {
+          messageOnepdf.textContent = "Single PDF uploaded successfully!";
+          extractButton.dataset.pdfUrl = `/uploads/${file.name}`;
+        } else {
+          messageOnepdf.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerOnepdf.style.display = "none";
+        messageOnepdf.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // Restart
+  restartButton.addEventListener("click", () => {
+    fetch("/restart", { method: "POST" })
+      .then((response) => response.json())
+      .then(() => {
+        resetPageState();
+        searchResultsContainer.innerHTML = "";
+        downloadMergedButton.style.display = "none";
+        messageOnepdf.textContent = "";
+      })
+      .catch((error) => { console.error(error); });
+  });
+
+  // Upload Multiple Files (PDF merge)
+  mergeFilesButton.addEventListener("click", () => mergeFilesInput.click());
+  mergeFilesInput.addEventListener("change", () => {
+    const files = mergeFilesInput.files;
+    if (files.length > 0) uploadMultipleFiles(files);
+  });
+  function uploadMultipleFiles(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("files", file);
+    spinnerMerge.style.display = "block";
+    resetPageState();
+    fetch("/upload-multiple", { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        spinnerMerge.style.display = "none";
+        if (data.success) {
+          messageMerge.textContent = "PDFs uploaded & successfully merged!";
+          downloadMergedButton.style.display = "block";
+        } else {
+          messageMerge.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerMerge.style.display = "none";
+        messageMerge.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // Download merged PDF
+  downloadMergedButton.addEventListener("click", () => {
+    fetch("/download-merged")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to download the combined PDF.");
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "combined.pdf";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Error during combined PDF download:", error);
+        alert("Could not download the combined PDF. Please check the server or file availability.");
+      });
+  });
+
+  // CSV Download Handler
+  downloadCsvButton.addEventListener("click", () => {
+    fetch("/download/csv")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to download the CSV file.");
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "extracted.csv";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Error during CSV download:", error);
+        alert("Could not download the CSV. Please check the server or file availability.");
+      });
+  });
+
+  // Extract Tables Handler
+  extractButton.addEventListener("click", () => {
+    const pdfUrl = extractButton.dataset.pdfUrl || "/download/combined-pdf";
+    extractTables(pdfUrl);
+  });
+  function extractTables(pdfUrl) {
+    spinnerSingle.classList.remove("hidden");
+    resetPageState();
+    fetch("/extract-tables", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pdfUrl }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        spinnerSingle.classList.add("hidden");
+        if (data.success) {
+          messageSingle.textContent = "Tables extracted successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+        } else {
+          messageSingle.textContent = "Extraction failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerSingle.classList.add("hidden");
+        messageSingle.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // Display Current Invoice Modal
+  if (displayCurrentInvoiceButton) {
+    displayCurrentInvoiceButton.addEventListener("click", function () {
+      fetch("/download/csv")
+        .then((response) => response.text())
+        .then((csvText) => {
+          showInvoiceModal(csvText);
+        })
+        .catch(() => {
+          alert("Could not fetch the current invoice (CSV).");
+        });
+    });
+  }
+  function showInvoiceModal(csvText) {
+    let modal = document.getElementById("currentInvoiceModal");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "currentInvoiceModal";
+      modal.style.position = "fixed";
+      modal.style.top = "10%";
+      modal.style.left = "10%";
+      modal.style.width = "80%";
+      modal.style.height = "80%";
+      modal.style.background = "#fff";
+      modal.style.overflow = "auto";
+      modal.style.zIndex = "9999";
+      modal.style.border = "2px solid #333";
+      modal.style.padding = "20px";
+      modal.innerHTML = `<button id="closeInvoiceModal" style="float:right;">Close</button><div id="invoiceTableContainer"></div>`;
+      document.body.appendChild(modal);
+
+      document.getElementById("closeInvoiceModal").onclick = function () {
+        modal.style.display = "none";
+      };
+    } else {
+      modal.style.display = "block";
+    }
+
+    // Render CSV as table, formatting last four columns
+    const container = document.getElementById("invoiceTableContainer");
+    container.innerHTML = "";
+    const rows = csvText.trim().split("\n").map(r => r.split(","));
+    const table = document.createElement("table");
+    table.style.width = "100%";
+    table.style.borderCollapse = "collapse";
+    const lastFourIdx = [rows[0].length - 4, rows[0].length - 3, rows[0].length - 2, rows[0].length - 1];
+    rows.forEach((row, rowIdx) => {
+      const tr = document.createElement("tr");
+      row.forEach((cell, colIdx) => {
+        const cellElem = document.createElement(rowIdx === 0 ? "th" : "td");
+        cellElem.textContent = cell;
+        cellElem.style.border = "1px solid #aaa";
+        cellElem.style.padding = "4px";
+        if (lastFourIdx.includes(colIdx)) {
+          cellElem.style.textAlign = "center";
+          if (rowIdx !== 0) {
+            let num = parseFloat(cell.replace(/,/g, ""));
+            cellElem.textContent = !isNaN(num) ? formatNumberWithCommas(num.toFixed(2)) : cell;
+          }
+        }
+        tr.appendChild(cellElem);
+      });
+      table.appendChild(tr);
+    });
+    container.appendChild(table);
+  }
+
+  // Show All Embedded CSV in Search Container with Select All
+  if (showAllEmbeddedButton) {
+    showAllEmbeddedButton.addEventListener("click", function () {
+      fetch("/download/csv")
+        .then((response) => response.text())
+        .then((csvText) => {
+          renderCSVInSearchContainer(csvText);
+        })
+        .catch(() => {
+          alert("Could not fetch the current CSV.");
+        });
+    });
+  }
+  if (selectAllCheckbox) {
+    selectAllCheckbox.addEventListener("change", function () {
+      const checkboxes = document.querySelectorAll("#searchResults .row-checkbox");
+      checkboxes.forEach((cb) => {
+        cb.checked = selectAllCheckbox.checked;
+      });
+    });
+  }
+  function renderCSVInSearchContainer(csvText) {
+    searchResultsContainer.innerHTML = "";
+    const rows = csvText.trim().split("\n").map(r => r.split(","));
+    if (rows.length === 0) {
+      searchResultsContainer.textContent = "No results found.";
+      return;
+    }
+    const table = document.createElement("table");
+    table.classList.add("search-table");
+    const lastFourIdx = [rows[0].length - 4, rows[0].length - 3, rows[0].length - 2, rows[0].length - 1];
+    rows.forEach((row, rowIdx) => {
+      const tr = document.createElement("tr");
+      tr.classList.add("search-row");
+      // Checkbox column
+      const checkboxCell = document.createElement(rowIdx === 0 ? "th" : "td");
+      if (rowIdx === 0) {
+        checkboxCell.innerHTML = "";
+      } else {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("row-checkbox");
+        checkboxCell.appendChild(checkbox);
+      }
+      tr.appendChild(checkboxCell);
+      row.forEach((cell, colIdx) => {
+        const isLastFour = lastFourIdx.includes(colIdx);
+        const td = document.createElement(rowIdx === 0 ? "th" : "td");
+        td.textContent = cell;
+        if (isLastFour) {
+          td.style.textAlign = "center";
+          if (rowIdx !== 0) {
+            let num = parseFloat(cell.replace(/,/g, ""));
+            td.textContent = !isNaN(num) ? formatNumberWithCommas(num.toFixed(2)) : cell;
+          }
+        }
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+    searchResultsContainer.appendChild(table);
+  }
+
+  // CSV Search and Display (with last four columns formatting)
+  searchButton.addEventListener("click", performSearch);
+  clearSearchButton.addEventListener("click", clearSearch);
+  searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") performSearch();
+  });
+  function performSearch() {
+    const searchText = searchInput.value.trim();
+    fetch("/download/csv")
+      .then((response) => response.text())
+      .then((csvData) => {
+        Papa.parse(csvData, {
+          header: false,
+          skipEmptyLines: true,
+          complete: function (results) {
+            let filteredRows = results.data;
+            if (searchText) {
+              filteredRows = filteredRows.filter((row) =>
+                row.some((col) =>
+                  col
+                    .toString()
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase())
+                )
+              );
+            }
+            displaySearchResults(filteredRows);
+          },
+        });
+      })
+      .catch(() => {
+        searchResultsContainer.textContent = "Error occurred during search.";
+      });
+  }
+  function displaySearchResults(results) {
+    searchResultsContainer.innerHTML = "";
+    if (results.length > 0) {
+      const table = document.createElement("table");
+      table.classList.add("search-table");
+      const lastFourIdx = [results[0].length - 4, results[0].length - 3, results[0].length - 2, results[0].length - 1];
+      results.forEach(function (row, rowIdx) {
+        const tr = document.createElement("tr");
+        tr.classList.add("search-row");
+        // Add a checkbox for each row except header
+        const checkboxCell = document.createElement(rowIdx === 0 ? "th" : "td");
+        if (rowIdx === 0) {
+          checkboxCell.textContent = "";
+        } else {
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.classList.add("row-checkbox");
+          checkboxCell.appendChild(checkbox);
+        }
+        tr.appendChild(checkboxCell);
+        for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
+          const isLastFour = lastFourIdx.includes(columnIndex);
+          const td = document.createElement(rowIdx === 0 ? "th" : "td");
+          if (isLastFour) {
+            td.style.textAlign = "center";
+            if (rowIdx !== 0) {
+              let num = parseFloat(row[columnIndex].replace(/,/g, ""));
+              td.textContent = !isNaN(num) ? formatNumberWithCommas(num.toFixed(2)) : row[columnIndex];
+            } else {
+              td.textContent = row[columnIndex];
+            }
+          } else {
+            td.textContent = row[columnIndex] !== undefined ? row[columnIndex] : "";
+          }
+          tr.appendChild(td);
+        }
+        table.appendChild(tr);
+      });
+      searchResultsContainer.appendChild(table);
+    } else {
+      searchResultsContainer.textContent = "No results found.";
+    }
+  }
+  function clearSearch() {
+    searchInput.value = "";
+    searchResultsContainer.innerHTML = "";
+  }
+
+  // Total Calculation
+  getTotalButton.addEventListener("click", () => {
+    fetch("/getTotal")
+      .then((response) => response.json())
+      .then((data) => {
+        totalResultBox.textContent =
+          "Total sum: " + formatNumberWithCommas(data.total);
+        totalResultBox.style.display = "block";
+      })
+      .catch(() => {
+        alert("Error occurred while fetching total.");
+      });
+  });
+
+  // Reset Page State
+  function resetPageState() {
+    messageSingle.textContent = "";
+    messageMerge.textContent = "";
+    downloadCsvButton.style.display = "none";
+    totalResultBox.style.display = "none";
+    getTotalButton.style.display = "none";
+    if (selectAllCheckbox) selectAllCheckbox.checked = false;
+  }
+
+  // --------- INVOICE FUNCTIONS (GLOBAL) ---------
+  window.addItemToInvoice = function () {
+    const tableBody = $("#invoiceTable tbody");
+    const rowCount = tableBody.children("tr").length;
+    const selectedItems = $(".row-checkbox:checked").closest(".search-row");
+    if (selectedItems.length > 0) {
+      // Use first for dialog, but process all!
+      const first = selectedItems.first();
+      const description = first.find("td:eq(2)").text();
+      const price = parseFloat(first.find("td:eq(-2)").text().replace(/,/g, "")) || 0;
+      const message = `<p>Description: ${description}</p><p>Cost $: ${formatNumberWithCommas(price.toFixed(2))}</p><p>Enter profit percentage %:</p>`;
+      showCustomModal(message, function (profitPercentage) {
+        selectedItems.each(function () {
+          const $r = $(this);
+          const desc = $r.find("td:eq(2)").text();
+          // For last four columns, price is at -2 (second last)
+          const priceCellIdx = $r.find("td").length - 2;
+          const price = parseFloat($r.find("td").eq(priceCellIdx).text().replace(/,/g, "")) || 0;
+          if (!isNaN(profitPercentage) && !isNaN(price)) {
+            const newPrice = price + (price * profitPercentage / 100);
+            const row = $("<tr></tr>");
+            row.append("<td>" + (tableBody.children("tr").length + 1) + "</td>");
+            row.append('<td><input type="text" class="item-description" value="' + desc + '"></td>');
+            row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
+            row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" value="' + formatNumberWithCommas(newPrice.toFixed(2)) + '" step="0.01"></td>');
+            row.append('<td><input type="text" class="item-total" readonly ></td>');
+            row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
+            tableBody.append(row);
+            updateSequenceNumbers();
+            updateGrandTotal();
+            $(".item-price").on("blur", function () {
+              const value = parseFloat($(this).val().replace(/,/g, ""));
+              if (!isNaN(value)) {
+                let formattedValue = Math.abs(value) >= 1000 ? value.toFixed(2) : formatNumberWithCommas(value.toFixed(2));
+                $(this).val(formattedValue);
+              }
+            });
+          }
+        });
+      });
+    } else {
+      const row = $("<tr></tr>");
+      row.append("<td>" + (rowCount + 1) + "</td>");
+      row.append('<td><input type="text" class="item-description"></td>');
+      row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
+      row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" step="0.01"></td>');
+      row.append('<td><input type="text" class="item-total" readonly ></td>');
+      row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
+      tableBody.append(row);
+      updateSequenceNumbers();
+      updateGrandTotal();
+      $(".item-price").on("blur", function () {
+        const value = parseFloat($(this).val().replace(/,/g, ""));
+        if (!isNaN(value)) {
+          let formattedValue = Math.abs(value) >= 1000 ? value.toFixed(2) : formatNumberWithCommas(value.toFixed(2));
+          $(this).val(formattedValue);
+        }
+      });
+    }
+  };
+  window.calculateTotal = function (input) {
+    const row = $(input).closest("tr");
+    const quantity = parseFloat(row.find(".item-quantity").val()) || 0;
+    const price = parseFloat(row.find(".item-price").val()) || 0;
+    const total = quantity * price;
+    const formattedTotal = formatNumberWithCommas(total.toFixed(2));
+    row.find(".item-total").val(formattedTotal);
+    updateGrandTotal();
+  };
+  window.deleteItem = function (button) {
+    const row = $(button).closest("tr");
+    row.remove();
+    updateSequenceNumbers();
+    updateGrandTotal();
+  };
+  window.printInvoice = function () { window.print(); };
+  window.saveInvoice = function () { /* Implement your save logic here */ };
+  window.loadSavedInvoiceByNumber = function () { /* Implement your load logic here */ };
+
+  function updateSequenceNumbers() {
+    const tableBody = $("#invoiceTable tbody");
+    tableBody.children("tr:not(.grand-total-row)").each(function (index) {
+      $(this).find("td:first-child").text(index + 1);
+    });
+  }
+  function updateGrandTotal() {
+    const tableBody = $("#invoiceTable tbody");
+    tableBody.children("tr.grand-total-row").remove();
+    const grandTotalRow = $("<tr class='grand-total-row'></tr>");
+    grandTotalRow.append("<td colspan='5'></td>");
+    tableBody.append(grandTotalRow);
+    calculateGrandTotal();
+  }
+  function calculateGrandTotal() {
+    const tableBody = $("#invoiceTable tbody");
+    const grandTotalCell = $(".grand-total-row td");
+    let totalSum = 0;
+    tableBody.children("tr:not(.grand-total-row)").each(function () {
+      const totalCell = $(this).find(".item-total");
+      if (totalCell.length > 0) {
+        const totalValue = parseFloat(totalCell.val().replace(/,/g, "")) || 0;
+        totalSum += totalValue;
+      }
+    });
+    const formattedGrandTotal = formatNumberWithCommas(totalSum.toFixed(2));
+    grandTotalCell.text("Grand Total in US$: " + formattedGrandTotal);
+  }
+
+  // Modal logic (needed by addItemToInvoice)
+  window.showCustomModal = function (message, callback) {
+    const modal = $("#customModal");
+    const modalMessage = $("#modalMessage");
+    const profitInput = $("#profitInput");
+    const okButton = $("#customModal button");
+    const closeButton = $("#customModal .close");
+    modalMessage.html(message);
+    profitInput.val("");
+    const isShortPage = document.body.clientHeight < window.innerHeight;
+    modal.removeClass('short-page long-page').addClass(isShortPage ? 'short-page' : 'long-page');
+    modal.show();
+    closeButton.off("click").on("click", function () { modal.hide(); });
+    okButton.off("click").one("click", function () {
+      const profitPercentage = parseFloat(profitInput.val());
+      callback(profitPercentage);
+      modal.hide();
+    });
+    profitInput.off("keypress").on("keypress", function (event) {
+      if (event.key === "Enter") okButton.click();
+    });
+  };
+
+  // Prevent accidental unload
+  $(document).ready(function () {
+    window.addEventListener('beforeunload', function (event) {
+      event.preventDefault();
+      event.returnValue = '';
+      return '';
+    });
+    $(window).on('unload', function () {
+      window.removeEventListener('beforeunload', function (event) {
+        event.preventDefault();
+        event.returnValue = '';
+      });
+    });
+  });
+});
+
+function formatNumberWithCommas(number) {
+  return Number(number).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+++++++++++++++++++++++++++
+End ver3...
+++++++++++++++++++++++++++++
+
+Version ver 4 ( only script.js ) :
+
+document.addEventListener("DOMContentLoaded", function () {
+  // --- Variables ---
+  const mergeFilesInput = document.getElementById("mergeFilesInput");
+  const mergeFilesButton = document.getElementById("mergeFilesButton");
+  const spinnerMerge = document.getElementById("spinnerMerge");
+  const messageMerge = document.getElementById("messageMerge");
+  const extractButton = document.getElementById("extractButton");
+  const spinnerSingle = document.getElementById("spinnerSingle");
+  const messageSingle = document.getElementById("messageSingle");
+  const downloadCsvButton = document.getElementById("downloadCsvButton");
+  const getTotalButton = document.getElementById("getTotalButton");
+  const totalResultBox = document.getElementById("totalResultBox");
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const searchResultsContainer = document.getElementById("searchResults");
+  const clearSearchButton = document.getElementById("clearSearchButton");
+  const restartButton = document.getElementById("restartButton");
+  const downloadMergedButton = document.getElementById("downloadMergedButton");
+  const onePdfInput = document.getElementById("onePdfInput");
+  const onePdfButton = document.getElementById("onePdfButton");
+  const spinnerOnepdf = document.getElementById("spinnerOnepdf");
+  const messageOnepdf = document.getElementById("messageOnepdf");
+  const displayCurrentInvoiceButton = document.getElementById("displayCurrentInvoiceButton");
+  const showAllEmbeddedButton = document.getElementById("showAllEmbeddedButton");
+  const selectAllCheckbox = document.getElementById("selectAllCheckbox");
+  const csvUploadInput = document.getElementById("csvUploadInput");
+  const csvUploadButton = document.getElementById("csvUploadButton");
+  const csvMergeInput = document.getElementById("csvMergeInput");
+  const csvMergeButton = document.getElementById("csvMergeButton");
+
+  // --- CSV Upload (Single) ---
+  if (csvUploadButton && csvUploadInput) {
+    csvUploadButton.addEventListener("click", () => csvUploadInput.click());
+    csvUploadInput.addEventListener("change", () => {
+      const file = csvUploadInput.files[0];
+      if (file) uploadCsvSingle(file);
+    });
+  }
+  function uploadCsvSingle(file) {
+    const formData = new FormData();
+    formData.append("csv", file);
+    resetPageState();
+    fetch("/upload-csv-single", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          messageSingle.textContent = "CSV uploaded and processed successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV upload failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // --- CSV Upload (Multiple/Merge) ---
+  if (csvMergeButton && csvMergeInput) {
+    csvMergeButton.addEventListener("click", () => csvMergeInput.click());
+    csvMergeInput.addEventListener("change", () => {
+      const files = csvMergeInput.files;
+      if (files.length > 0) uploadCsvMultiple(files);
+    });
+  }
+  function uploadCsvMultiple(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("csvs", file);
+    resetPageState();
+    fetch("/upload-csv-multiple", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          messageSingle.textContent = "CSVs uploaded and merged successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV merge failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // --- Single PDF Upload ---
+  onePdfButton.addEventListener("click", () => onePdfInput.click());
+  onePdfInput.addEventListener("change", () => {
+    const file = onePdfInput.files[0];
+    if (file) uploadOnepdf(file);
+  });
+  function uploadOnepdf(file) {
+    const formData = new FormData();
+    formData.append("onepdf", file);
+    spinnerOnepdf.style.display = "block";
+    resetPageState();
+    fetch("/upload-onepdf", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => {
+        spinnerOnepdf.style.display = "none";
+        if (data.success) {
+          messageOnepdf.textContent = "Single PDF uploaded successfully!";
+          extractButton.dataset.pdfUrl = `/uploads/${file.name}`;
+        } else {
+          messageOnepdf.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerOnepdf.style.display = "none";
+        messageOnepdf.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // --- Restart ---
+  restartButton.addEventListener("click", () => {
+    fetch("/restart", { method: "POST" })
+      .then(response => response.json())
+      .then(() => {
+        resetPageState();
+        searchResultsContainer.innerHTML = "";
+        downloadMergedButton.style.display = "none";
+        messageOnepdf.textContent = "";
+      })
+      .catch(error => { console.error(error); });
+  });
+
+  // --- Upload Multiple Files (PDF merge) ---
+  mergeFilesButton.addEventListener("click", () => mergeFilesInput.click());
+  mergeFilesInput.addEventListener("change", () => {
+    const files = mergeFilesInput.files;
+    if (files.length > 0) uploadMultipleFiles(files);
+  });
+  function uploadMultipleFiles(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("files", file);
+    spinnerMerge.style.display = "block";
+    resetPageState();
+    fetch("/upload-multiple", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => {
+        spinnerMerge.style.display = "none";
+        if (data.success) {
+          messageMerge.textContent = "PDFs uploaded & successfully merged!";
+          downloadMergedButton.style.display = "block";
+        } else {
+          messageMerge.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerMerge.style.display = "none";
+        messageMerge.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // --- Download merged PDF ---
+  downloadMergedButton.addEventListener("click", () => {
+    fetch("/download-merged")
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to download the combined PDF.");
+        return response.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "combined.pdf";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error("Error during combined PDF download:", error);
+        alert("Could not download the combined PDF. Please check the server or file availability.");
+      });
+  });
+
+  // --- CSV Download Handler ---
+  downloadCsvButton.addEventListener("click", () => {
+    fetch("/download/csv")
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to download the CSV file.");
+        return response.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "extracted.csv";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error("Error during CSV download:", error);
+        alert("Could not download the CSV. Please check the server or file availability.");
+      });
+  });
+
+  // --- Extract Tables Handler ---
+  extractButton.addEventListener("click", () => {
+    const pdfUrl = extractButton.dataset.pdfUrl || "/download/combined-pdf";
+    extractTables(pdfUrl);
+  });
+  function extractTables(pdfUrl) {
+    spinnerSingle.classList.remove("hidden");
+    resetPageState();
+    fetch("/extract-tables", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pdfUrl }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        spinnerSingle.classList.add("hidden");
+        if (data.success) {
+          messageSingle.textContent = "Tables extracted successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+        } else {
+          messageSingle.textContent = "Extraction failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerSingle.classList.add("hidden");
+        messageSingle.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // --- Display Current Invoice Modal ---
+  if (displayCurrentInvoiceButton) {
+    displayCurrentInvoiceButton.addEventListener("click", function () {
+      fetch("/download/csv")
+        .then(response => response.text())
+        .then(csvText => {
+          showInvoiceModal(csvText);
+        })
+        .catch(() => {
+          alert("Could not fetch the current invoice (CSV).");
+        });
+    });
+  }
+  function showInvoiceModal(csvText) {
+    let modal = document.getElementById("currentInvoiceModal");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "currentInvoiceModal";
+      modal.style.position = "fixed";
+      modal.style.top = "10%";
+      modal.style.left = "10%";
+      modal.style.width = "80%";
+      modal.style.height = "80%";
+      modal.style.background = "#fff";
+      modal.style.overflow = "auto";
+      modal.style.zIndex = "9999";
+      modal.style.border = "2px solid #333";
+      modal.style.padding = "20px";
+      modal.innerHTML = `<button id="closeInvoiceModal" style="float:right;">Close</button><div id="invoiceTableContainer"></div>`;
+      document.body.appendChild(modal);
+
+      document.getElementById("closeInvoiceModal").onclick = function () {
+        modal.style.display = "none";
+      };
+    } else {
+      modal.style.display = "block";
+    }
+
+    // Render CSV as table, formatting last two columns
+    const container = document.getElementById("invoiceTableContainer");
+    container.innerHTML = "";
+    const rows = csvText.trim().split("\n").map(r => r.split(","));
+    const table = document.createElement("table");
+    table.style.width = "100%";
+    table.style.borderCollapse = "collapse";
+    const lastTwoIdx = [rows[0].length - 2, rows[0].length - 1];
+    rows.forEach((row, rowIdx) => {
+      const tr = document.createElement("tr");
+      row.forEach((cell, colIdx) => {
+        const cellElem = document.createElement(rowIdx === 0 ? "th" : "td");
+        cellElem.textContent = cell;
+        cellElem.style.border = "1px solid #aaa";
+        cellElem.style.padding = "4px";
+        if (lastTwoIdx.includes(colIdx)) {
+          cellElem.style.textAlign = "center";
+          if (rowIdx !== 0) {
+            let num = parseFloat(cell.replace(/,/g, ""));
+            cellElem.textContent = !isNaN(num) ? formatNumberWithCommas(num.toFixed(2)) : cell;
+          }
+        }
+        tr.appendChild(cellElem);
+      });
+      table.appendChild(tr);
+    });
+    container.appendChild(table);
+  }
+
+  // --- Show All Embedded CSV in Search Container with Select All ---
+  if (showAllEmbeddedButton) {
+    showAllEmbeddedButton.addEventListener("click", function () {
+      fetch("/download/csv")
+        .then(response => response.text())
+        .then(csvText => {
+          renderCSVInSearchContainer(csvText);
+        })
+        .catch(() => {
+          alert("Could not fetch the current CSV.");
+        });
+    });
+  }
+  if (selectAllCheckbox) {
+    selectAllCheckbox.addEventListener("change", function () {
+      const checkboxes = document.querySelectorAll("#searchResults .row-checkbox");
+      checkboxes.forEach(cb => {
+        cb.checked = selectAllCheckbox.checked;
+      });
+    });
+  }
+  function renderCSVInSearchContainer(csvText) {
+    searchResultsContainer.innerHTML = "";
+    let rows = csvText.trim().split("\n")
+      .map(line => line.split(","))
+      .filter(row => row.some(cell => cell && cell.trim() !== ""));
+    if (rows.length === 0) {
+      searchResultsContainer.textContent = "No results found.";
+      return;
+    }
+    const table = document.createElement("table");
+    table.classList.add("search-table");
+    const lastTwoIdx = [rows[0].length - 2, rows[0].length - 1];
+    rows.forEach((row, rowIdx) => {
+      const tr = document.createElement("tr");
+      tr.classList.add("search-row");
+      // Checkbox column
+      const checkboxCell = document.createElement(rowIdx === 0 ? "th" : "td");
+      if (rowIdx === 0) {
+        checkboxCell.innerHTML = "";
+      } else {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("row-checkbox");
+        checkboxCell.appendChild(checkbox);
+      }
+      tr.appendChild(checkboxCell);
+      row.forEach((cell, colIdx) => {
+        const isLastTwo = lastTwoIdx.includes(colIdx);
+        const td = document.createElement(rowIdx === 0 ? "th" : "td");
+        td.textContent = cell;
+        if (isLastTwo) {
+          td.style.textAlign = "center";
+          if (rowIdx !== 0) {
+            let num = parseFloat(cell.replace(/,/g, ""));
+            td.textContent = !isNaN(num) ? formatNumberWithCommas(num.toFixed(2)) : cell;
+          }
+        }
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+    searchResultsContainer.appendChild(table);
+  }
+
+  // --- CSV Search and Display (with last two columns formatting) ---
+  searchButton.addEventListener("click", performSearch);
+  clearSearchButton.addEventListener("click", clearSearch);
+  searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") performSearch();
+  });
+  function performSearch() {
+    const searchText = searchInput.value.trim();
+    fetch("/download/csv")
+      .then(response => response.text())
+      .then(csvData => {
+        Papa.parse(csvData, {
+          header: false,
+          skipEmptyLines: true,
+          complete: function (results) {
+            let filteredRows = results.data;
+            if (searchText) {
+              filteredRows = filteredRows.filter(row =>
+                row.some(col =>
+                  col
+                    .toString()
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase())
+                )
+              );
+            }
+            displaySearchResults(filteredRows);
+          },
+        });
+      })
+      .catch(() => {
+        searchResultsContainer.textContent = "Error occurred during search.";
+      });
+  }
+  function displaySearchResults(results) {
+    searchResultsContainer.innerHTML = "";
+    if (results.length > 0) {
+      const table = document.createElement("table");
+      table.classList.add("search-table");
+      const lastTwoIdx = [results[0].length - 2, results[0].length - 1];
+      results.forEach(function (row, rowIdx) {
+        if (!row.some(cell => cell && cell.trim() !== "")) return;
+        const tr = document.createElement("tr");
+        tr.classList.add("search-row");
+        const checkboxCell = document.createElement(rowIdx === 0 ? "th" : "td");
+        if (rowIdx === 0) {
+          checkboxCell.textContent = "";
+        } else {
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.classList.add("row-checkbox");
+          checkboxCell.appendChild(checkbox);
+        }
+        tr.appendChild(checkboxCell);
+        for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
+          const isLastTwo = lastTwoIdx.includes(columnIndex);
+          const td = document.createElement(rowIdx === 0 ? "th" : "td");
+          if (isLastTwo) {
+            td.style.textAlign = "center";
+            if (rowIdx !== 0) {
+              let num = parseFloat(row[columnIndex].replace(/,/g, ""));
+              td.textContent = !isNaN(num) ? formatNumberWithCommas(num.toFixed(2)) : row[columnIndex];
+            } else {
+              td.textContent = row[columnIndex];
+            }
+          } else {
+            td.textContent = row[columnIndex] !== undefined ? row[columnIndex] : "";
+          }
+          tr.appendChild(td);
+        }
+        table.appendChild(tr);
+      });
+      searchResultsContainer.appendChild(table);
+    } else {
+      searchResultsContainer.textContent = "No results found.";
+    }
+  }
+  function clearSearch() {
+    searchInput.value = "";
+    searchResultsContainer.innerHTML = "";
+  }
+
+  // --- Total Calculation ---
+  getTotalButton.addEventListener("click", () => {
+    fetch("/getTotal")
+      .then(response => response.json())
+      .then(data => {
+        totalResultBox.textContent =
+          "Total sum: " + formatNumberWithCommas(data.total);
+        totalResultBox.style.display = "block";
+      })
+      .catch(() => {
+        alert("Error occurred while fetching total.");
+      });
+  });
+
+  // --- Reset Page State ---
+  function resetPageState() {
+    messageSingle.textContent = "";
+    messageMerge.textContent = "";
+    downloadCsvButton.style.display = "none";
+    totalResultBox.style.display = "none";
+    getTotalButton.style.display = "none";
+    if (selectAllCheckbox) selectAllCheckbox.checked = false;
+  }
+
+  // --- INVOICE FUNCTIONS (GLOBAL) ---
+  window.addItemToInvoice = function () {
+    const tableBody = $("#invoiceTable tbody");
+    const selectedItems = $(".row-checkbox:checked").closest(".search-row");
+    if (selectedItems.length > 0) {
+      let selectedRowsArr = selectedItems.toArray();
+      processRowsWithModal(selectedRowsArr, tableBody, 0);
+    } else {
+      const row = $("<tr></tr>");
+      const rowCount = tableBody.children("tr").length;
+      row.append("<td>" + (rowCount + 1) + "</td>");
+      row.append('<td><input type="text" class="item-description"></td>');
+      row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
+      row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" step="0.01"></td>');
+      row.append('<td><input type="text" class="item-total" readonly ></td>');
+      row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
+      tableBody.append(row);
+      updateSequenceNumbers();
+      updateGrandTotal();
+      $(".item-price").on("blur", function () {
+        const value = parseFloat($(this).val().replace(/,/g, ""));
+        if (!isNaN(value)) {
+          let formattedValue = Math.abs(value) >= 1000 ? value.toFixed(2) : formatNumberWithCommas(value.toFixed(2));
+          $(this).val(formattedValue);
+        }
+      });
+    }
+  };
+
+  // --- Helper: Modal Processing for Multiple Items ---
+  function processRowsWithModal(rows, tableBody, idx) {
+    if (idx >= rows.length) return;
+    const $r = $(rows[idx]);
+    const desc = $r.find("td:eq(2)").text();
+    const priceCellIdx = $r.find("td").length - 2;
+    const price = parseFloat($r.find("td").eq(priceCellIdx).text().replace(/,/g, "")) || 0;
+    const message = `<p>Description: ${desc}</p><p>Cost $: ${formatNumberWithCommas(price.toFixed(2))}</p><p>Enter profit percentage %:</p>`;
+    showCustomModal(message, function (profitPercentage) {
+      if (!isNaN(profitPercentage) && !isNaN(price)) {
+        const newPrice = price + (price * profitPercentage / 100);
+        const row = $("<tr></tr>");
+        row.append("<td>" + (tableBody.children("tr").length + 1) + "</td>");
+        row.append('<td><input type="text" class="item-description" value="' + desc + '"></td>');
+        row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
+        row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" value="' + formatNumberWithCommas(newPrice.toFixed(2)) + '" step="0.01"></td>');
+        row.append('<td><input type="text" class="item-total" readonly ></td>');
+        row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
+        tableBody.append(row);
+        updateSequenceNumbers();
+        updateGrandTotal();
+        $(".item-price").on("blur", function () {
+          const value = parseFloat($(this).val().replace(/,/g, ""));
+          if (!isNaN(value)) {
+            let formattedValue = Math.abs(value) >= 1000 ? value.toFixed(2) : formatNumberWithCommas(value.toFixed(2));
+            $(this).val(formattedValue);
+          }
+        });
+      }
+      // Show modal for the next item automatically
+      if (idx + 1 < rows.length) {
+        setTimeout(function () {
+          processRowsWithModal(rows, tableBody, idx + 1);
+        }, 200); // small delay to allow modal to close and re-open smoothly
+      }
+    }, idx === rows.length - 1);
+  }
+
+  // --- Modal Logic ---
+  window.showCustomModal = function (message, callback, isLast) {
+    const modal = $("#customModal");
+    const modalMessage = $("#modalMessage");
+    const profitInput = $("#profitInput");
+    const okButton = $("#customModal button");
+    const closeButton = $("#customModal .close");
+    modalMessage.html(message);
+    profitInput.val("");
+    const isShortPage = document.body.clientHeight < window.innerHeight;
+    modal.removeClass('short-page long-page').addClass(isShortPage ? 'short-page' : 'long-page');
+    modal.show();
+    closeButton.off("click").on("click", function () { modal.hide(); });
+    okButton.off("click").one("click", function () {
+      const profitPercentage = parseFloat(profitInput.val());
+      callback(profitPercentage);
+      // Only hide modal if this is the last item in the sequence
+      if (isLast) modal.hide();
+    });
+    profitInput.off("keypress").on("keypress", function (event) {
+      if (event.key === "Enter") okButton.click();
+    });
+    setTimeout(() => { profitInput.focus(); }, 350);
+  };
+
+  window.calculateTotal = function (input) {
+    const row = $(input).closest("tr");
+    const quantity = parseFloat(row.find(".item-quantity").val()) || 0;
+    const price = parseFloat(row.find(".item-price").val()) || 0;
+    const total = quantity * price;
+    const formattedTotal = formatNumberWithCommas(total.toFixed(2));
+    row.find(".item-total").val(formattedTotal);
+    updateGrandTotal();
+  };
+  window.deleteItem = function (button) {
+    const row = $(button).closest("tr");
+    row.remove();
+    updateSequenceNumbers();
+    updateGrandTotal();
+  };
+  window.printInvoice = function () { window.print(); };
+  window.saveInvoice = function () { /* Implement your save logic here */ };
+  window.loadSavedInvoiceByNumber = function () { /* Implement your load logic here */ };
+
+  function updateSequenceNumbers() {
+    const tableBody = $("#invoiceTable tbody");
+    tableBody.children("tr:not(.grand-total-row)").each(function (index) {
+      $(this).find("td:first-child").text(index + 1);
+    });
+  }
+  function updateGrandTotal() {
+    const tableBody = $("#invoiceTable tbody");
+    tableBody.children("tr.grand-total-row").remove();
+    const grandTotalRow = $("<tr class='grand-total-row'></tr>");
+    grandTotalRow.append("<td colspan='5'></td>");
+    tableBody.append(grandTotalRow);
+    calculateGrandTotal();
+  }
+  function calculateGrandTotal() {
+    const tableBody = $("#invoiceTable tbody");
+    const grandTotalCell = $(".grand-total-row td");
+    let totalSum = 0;
+    tableBody.children("tr:not(.grand-total-row)").each(function () {
+      const totalCell = $(this).find(".item-total");
+      if (totalCell.length > 0) {
+        const totalValue = parseFloat(totalCell.val().replace(/,/g, "")) || 0;
+        totalSum += totalValue;
+      }
+    });
+    const formattedGrandTotal = formatNumberWithCommas(totalSum.toFixed(2));
+    grandTotalCell.text("Grand Total in US$: " + formattedGrandTotal);
+  }
+
+  // --- Prevent accidental unload ---
+  $(document).ready(function () {
+    window.addEventListener('beforeunload', function (event) {
+      event.preventDefault();
+      event.returnValue = '';
+      return '';
+    });
+    $(window).on('unload', function () {
+      window.removeEventListener('beforeunload', function (event) {
+        event.preventDefault();
+        event.returnValue = '';
+      });
+    });
+  });
+
+});
+
+function formatNumberWithCommas(number) {
+  return Number(number).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+########################################################################################
+version 5 ( last for now ) very good .
+only script.js : 
+
+document.addEventListener("DOMContentLoaded", function () {
+  // --- Variables ---
+  const mergeFilesInput = document.getElementById("mergeFilesInput");
+  const mergeFilesButton = document.getElementById("mergeFilesButton");
+  const spinnerMerge = document.getElementById("spinnerMerge");
+  const messageMerge = document.getElementById("messageMerge");
+  const extractButton = document.getElementById("extractButton");
+  const spinnerSingle = document.getElementById("spinnerSingle");
+  const messageSingle = document.getElementById("messageSingle");
+  const downloadCsvButton = document.getElementById("downloadCsvButton");
+  const getTotalButton = document.getElementById("getTotalButton");
+  const totalResultBox = document.getElementById("totalResultBox");
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const searchResultsContainer = document.getElementById("searchResults");
+  const clearSearchButton = document.getElementById("clearSearchButton");
+  const restartButton = document.getElementById("restartButton");
+  const downloadMergedButton = document.getElementById("downloadMergedButton");
+  const onePdfInput = document.getElementById("onePdfInput");
+  const onePdfButton = document.getElementById("onePdfButton");
+  const spinnerOnepdf = document.getElementById("spinnerOnepdf");
+  const messageOnepdf = document.getElementById("messageOnepdf");
+  const displayCurrentInvoiceButton = document.getElementById("displayCurrentInvoiceButton");
+  const showAllEmbeddedButton = document.getElementById("showAllEmbeddedButton");
+  const selectAllCheckbox = document.getElementById("selectAllCheckbox");
+  const csvUploadInput = document.getElementById("csvUploadInput");
+  const csvUploadButton = document.getElementById("csvUploadButton");
+  const csvMergeInput = document.getElementById("csvMergeInput");
+  const csvMergeButton = document.getElementById("csvMergeButton");
+
+  // --- CSV Upload (Single) ---
+  if (csvUploadButton && csvUploadInput) {
+    csvUploadButton.addEventListener("click", () => csvUploadInput.click());
+    csvUploadInput.addEventListener("change", () => {
+      const file = csvUploadInput.files[0];
+      if (file) uploadCsvSingle(file);
+    });
+  }
+  function uploadCsvSingle(file) {
+    const formData = new FormData();
+    formData.append("csv", file);
+    resetPageState();
+    fetch("/upload-csv-single", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          messageSingle.textContent = "CSV uploaded and processed successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV upload failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // --- CSV Upload (Multiple/Merge) ---
+  if (csvMergeButton && csvMergeInput) {
+    csvMergeButton.addEventListener("click", () => csvMergeInput.click());
+    csvMergeInput.addEventListener("change", () => {
+      const files = csvMergeInput.files;
+      if (files.length > 0) uploadCsvMultiple(files);
+    });
+  }
+  function uploadCsvMultiple(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("csvs", file);
+    resetPageState();
+    fetch("/upload-csv-multiple", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          messageSingle.textContent = "CSVs uploaded and merged successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+          performSearch();
+        } else {
+          messageSingle.textContent = "CSV merge failed. Please try again.";
+        }
+      })
+      .catch(() => { messageSingle.textContent = "An error occurred. Please try again later."; });
+  }
+
+  // --- Single PDF Upload ---
+  if (onePdfButton && onePdfInput) {
+    onePdfButton.addEventListener("click", () => onePdfInput.click());
+    onePdfInput.addEventListener("change", () => {
+      const file = onePdfInput.files[0];
+      if (file) uploadOnepdf(file);
+    });
+  }
+  function uploadOnepdf(file) {
+    const formData = new FormData();
+    formData.append("onepdf", file);
+    spinnerOnepdf.style.display = "block";
+    resetPageState();
+    fetch("/upload-onepdf", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => {
+        spinnerOnepdf.style.display = "none";
+        if (data.success) {
+          messageOnepdf.textContent = "Single PDF uploaded successfully!";
+          extractButton.dataset.pdfUrl = `/uploads/${file.name}`;
+        } else {
+          messageOnepdf.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerOnepdf.style.display = "none";
+        messageOnepdf.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // --- Restart ---
+  if (restartButton) {
+    restartButton.addEventListener("click", () => {
+      fetch("/restart", { method: "POST" })
+        .then(response => response.json())
+        .then(() => {
+          resetPageState();
+          searchResultsContainer.innerHTML = "";
+          downloadMergedButton.style.display = "none";
+          messageOnepdf.textContent = "";
+        })
+        .catch(error => { console.error(error); });
+    });
+  }
+
+  // --- Upload Multiple Files (PDF merge) ---
+  if (mergeFilesButton && mergeFilesInput) {
+    mergeFilesButton.addEventListener("click", () => mergeFilesInput.click());
+    mergeFilesInput.addEventListener("change", () => {
+      const files = mergeFilesInput.files;
+      if (files.length > 0) uploadMultipleFiles(files);
+    });
+  }
+  function uploadMultipleFiles(files) {
+    const formData = new FormData();
+    for (const file of files) formData.append("files", file);
+    spinnerMerge.style.display = "block";
+    resetPageState();
+    fetch("/upload-multiple", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => {
+        spinnerMerge.style.display = "none";
+        if (data.success) {
+          messageMerge.textContent = "PDFs uploaded & successfully merged!";
+          downloadMergedButton.style.display = "block";
+        } else {
+          messageMerge.textContent = "Upload failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerMerge.style.display = "none";
+        messageMerge.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // --- Download merged PDF ---
+  if (downloadMergedButton) {
+    downloadMergedButton.addEventListener("click", () => {
+      fetch("/download-merged")
+        .then(response => {
+          if (!response.ok) throw new Error("Failed to download the combined PDF.");
+          return response.blob();
+        })
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.style.display = "none";
+          a.href = url;
+          a.download = "combined.pdf";
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+          console.error("Error during combined PDF download:", error);
+          alert("Could not download the combined PDF. Please check the server or file availability.");
+        });
+    });
+  }
+
+  // --- CSV Download Handler ---
+  if (downloadCsvButton) {
+    downloadCsvButton.addEventListener("click", () => {
+      fetch("/download/csv")
+        .then(response => {
+          if (!response.ok) throw new Error("Failed to download the CSV file.");
+          return response.blob();
+        })
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.style.display = "none";
+          a.href = url;
+          a.download = "extracted.csv";
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+          console.error("Error during CSV download:", error);
+          alert("Could not download the CSV. Please check the server or file availability.");
+        });
+    });
+  }
+
+  // --- Extract Tables Handler ---
+  if (extractButton) {
+    extractButton.addEventListener("click", () => {
+      const pdfUrl = extractButton.dataset.pdfUrl || "/download/combined-pdf";
+      extractTables(pdfUrl);
+    });
+  }
+  function extractTables(pdfUrl) {
+    spinnerSingle.classList.remove("hidden");
+    resetPageState();
+    fetch("/extract-tables", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pdfUrl }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        spinnerSingle.classList.add("hidden");
+        if (data.success) {
+          messageSingle.textContent = "Tables extracted successfully!";
+          downloadCsvButton.style.display = "block";
+          getTotalButton.style.display = "block";
+        } else {
+          messageSingle.textContent = "Extraction failed. Please try again.";
+        }
+      })
+      .catch(() => {
+        spinnerSingle.classList.add("hidden");
+        messageSingle.textContent = "An error occurred. Please try again later.";
+      });
+  }
+
+  // --- Display Current Invoice Modal ---
+  if (displayCurrentInvoiceButton) {
+    displayCurrentInvoiceButton.addEventListener("click", function () {
+      fetch("/download/csv")
+        .then(response => response.text())
+        .then(csvText => {
+          showInvoiceModal(csvText);
+        })
+        .catch(() => {
+          alert("Could not fetch the current invoice (CSV).");
+        });
+    });
+  }
+  function showInvoiceModal(csvText) {
+    let modal = document.getElementById("currentInvoiceModal");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "currentInvoiceModal";
+      modal.style.position = "fixed";
+      modal.style.top = "10%";
+      modal.style.left = "10%";
+      modal.style.width = "80%";
+      modal.style.height = "80%";
+      modal.style.background = "#fff";
+      modal.style.overflow = "auto";
+      modal.style.zIndex = "9999";
+      modal.style.border = "2px solid #333";
+      modal.style.padding = "20px";
+      modal.innerHTML = `<button id="closeInvoiceModal" style="float:right;">Close</button><div id="invoiceTableContainer"></div>`;
+      document.body.appendChild(modal);
+
+      document.getElementById("closeInvoiceModal").onclick = function () {
+        modal.style.display = "none";
+      };
+    } else {
+      modal.style.display = "block";
+    }
+
+    // Render CSV as table, formatting last two columns
+    const container = document.getElementById("invoiceTableContainer");
+    container.innerHTML = "";
+    const rows = csvText.trim().split("\n").map(r => r.split(","));
+    const table = document.createElement("table");
+    table.style.width = "100%";
+    table.style.borderCollapse = "collapse";
+    const lastTwoIdx = [rows[0].length - 2, rows[0].length - 1];
+    rows.forEach((row, rowIdx) => {
+      const tr = document.createElement("tr");
+      row.forEach((cell, colIdx) => {
+        const cellElem = document.createElement(rowIdx === 0 ? "th" : "td");
+        cellElem.textContent = cell;
+        cellElem.style.border = "1px solid #aaa";
+        cellElem.style.padding = "4px";
+        if (lastTwoIdx.includes(colIdx)) {
+          cellElem.style.textAlign = "center";
+          if (rowIdx !== 0) {
+            let num = parseFloat(cell.replace(/,/g, ""));
+            cellElem.textContent = !isNaN(num) ? formatNumberWithCommas(num.toFixed(2)) : cell;
+          }
+        }
+        tr.appendChild(cellElem);
+      });
+      table.appendChild(tr);
+    });
+    container.appendChild(table);
+  }
+
+  // --- Show All Embedded CSV in Search Container with Select All ---
+  if (showAllEmbeddedButton) {
+    showAllEmbeddedButton.addEventListener("click", function () {
+      fetch("/download/csv")
+        .then(response => response.text())
+        .then(csvText => {
+          renderCSVInSearchContainer(csvText);
+        })
+        .catch(() => {
+          alert("Could not fetch the current CSV.");
+        });
+    });
+  }
+  if (selectAllCheckbox) {
+    selectAllCheckbox.addEventListener("change", function () {
+      const checkboxes = document.querySelectorAll("#searchResults .row-checkbox");
+      checkboxes.forEach(cb => {
+        cb.checked = selectAllCheckbox.checked;
+      });
+    });
+  }
+  function renderCSVInSearchContainer(csvText) {
+    searchResultsContainer.innerHTML = "";
+    let rows = csvText.trim().split("\n")
+      .map(line => line.split(","))
+      .filter(row => row.some(cell => cell && cell.trim() !== ""));
+    if (rows.length === 0) {
+      searchResultsContainer.textContent = "No results found.";
+      return;
+    }
+    const table = document.createElement("table");
+    table.classList.add("search-table");
+    const lastTwoIdx = [rows[0].length - 2, rows[0].length - 1];
+    rows.forEach((row, rowIdx) => {
+      const tr = document.createElement("tr");
+      tr.classList.add("search-row");
+      // Checkbox column
+      const checkboxCell = document.createElement(rowIdx === 0 ? "th" : "td");
+      if (rowIdx === 0) {
+        checkboxCell.innerHTML = "";
+      } else {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("row-checkbox");
+        checkboxCell.appendChild(checkbox);
+      }
+      tr.appendChild(checkboxCell);
+      row.forEach((cell, colIdx) => {
+        const isLastTwo = lastTwoIdx.includes(colIdx);
+        const td = document.createElement(rowIdx === 0 ? "th" : "td");
+        td.textContent = cell;
+        if (isLastTwo) {
+          td.style.textAlign = "center";
+          if (rowIdx !== 0) {
+            let num = parseFloat(cell.replace(/,/g, ""));
+            td.textContent = !isNaN(num) ? formatNumberWithCommas(num.toFixed(2)) : cell;
+          }
+        }
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+    searchResultsContainer.appendChild(table);
+  }
+
+  // --- SEARCH SECTION: FIXED ROBUST HEADER/SEARCH LOGIC ---
+  if (searchButton) searchButton.addEventListener("click", performSearch);
+  if (clearSearchButton) clearSearchButton.addEventListener("click", clearSearch);
+  if (searchInput) searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") performSearch();
+  });
+
+  function performSearch() {
+    fetch("/download/csv")
+      .then((response) => response.text())
+      .then((csvData) => {
+        Papa.parse(csvData, {
+          header: false,
+          skipEmptyLines: true,
+          complete: function (results) {
+            displaySearchResults(results.data, searchInput.value.trim());
+          },
+        });
+      })
+      .catch(() => {
+        searchResultsContainer.textContent = "Error occurred during search.";
+      });
+  }
+
+  function displaySearchResults(allRows, searchText) {
+    searchResultsContainer.innerHTML = "";
+
+    if (!Array.isArray(allRows) || allRows.length === 0) {
+      searchResultsContainer.textContent = "No results found.";
+      return;
+    }
+
+    const header = allRows[0];
+    let dataRows = allRows.slice(1);
+
+    if (!Array.isArray(header)) {
+      searchResultsContainer.textContent = "No results found.";
+      return;
+    }
+
+    let filteredRows = dataRows;
+    if (searchText) {
+      filteredRows = dataRows.filter(row =>
+        row.some(col =>
+          (col || "")
+            .toString()
+            .toLowerCase()
+            .includes(searchText.toLowerCase())
+        )
+      );
+    }
+
+    if (filteredRows.length > 0 && !Array.isArray(filteredRows[0])) {
+      filteredRows = [filteredRows];
+    }
+
+    const table = document.createElement("table");
+    table.classList.add("search-table");
+    const lastTwoIdx = [header.length - 2, header.length - 1];
+
+    const headerRow = document.createElement("tr");
+    const checkboxHeader = document.createElement("th");
+    checkboxHeader.textContent = "";
+    headerRow.appendChild(checkboxHeader);
+    header.forEach((cell, colIdx) => {
+      const th = document.createElement("th");
+      th.textContent = cell;
+      if (lastTwoIdx.includes(colIdx)) th.style.textAlign = "center";
+      headerRow.appendChild(th);
+    });
+    table.appendChild(headerRow);
+
+    let anyRow = false;
+    filteredRows.forEach((row) => {
+      if (!row || !Array.isArray(row) || !row.some(cell => cell && cell.toString().trim() !== "")) return;
+      anyRow = true;
+      const tr = document.createElement("tr");
+      tr.classList.add("search-row");
+
+      const checkboxCell = document.createElement("td");
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.classList.add("row-checkbox");
+      checkboxCell.appendChild(checkbox);
+      tr.appendChild(checkboxCell);
+
+      row.forEach((cell, colIdx) => {
+        const isLastTwo = lastTwoIdx.includes(colIdx);
+        const td = document.createElement("td");
+        if (isLastTwo) {
+          td.style.textAlign = "center";
+          let num = parseFloat((cell || "").replace(/,/g, ""));
+          td.textContent = !isNaN(num) ? formatNumberWithCommas(num.toFixed(2)) : (cell || "");
+        } else {
+          td.textContent = cell !== undefined ? cell : "";
+        }
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+
+    searchResultsContainer.appendChild(table);
+
+    if (!anyRow) {
+      const noResultsMsg = document.createElement("div");
+      noResultsMsg.textContent = "No results found.";
+      searchResultsContainer.appendChild(noResultsMsg);
+    }
+  }
+
+  function clearSearch() {
+    searchInput.value = "";
+    searchResultsContainer.innerHTML = "";
+  }
+
+  // --- Total Calculation ---
+  if (getTotalButton) {
+    getTotalButton.addEventListener("click", () => {
+      fetch("/getTotal")
+        .then(response => response.json())
+        .then(data => {
+          totalResultBox.textContent =
+            "Total sum: " + formatNumberWithCommas(data.total);
+          totalResultBox.style.display = "block";
+        })
+        .catch(() => {
+          alert("Error occurred while fetching total.");
+        });
+    });
+  }
+
+  // --- MODAL LOGIC FOR PROFIT PERCENTAGE (Add Item with Modal) ---
+  window.addItemToInvoice = function () {
+    const tableBody = document.querySelector("#invoiceTable tbody");
+    const selectedItems = document.querySelectorAll(".row-checkbox:checked");
+    if (selectedItems.length > 0) {
+      let selectedRowsArr = Array.from(selectedItems).map(cb => cb.closest("tr"));
+      processRowsWithModal(selectedRowsArr, tableBody, 0);
+    } else {
+      const row = document.createElement("tr");
+      const rowCount = tableBody.children.length;
+      row.innerHTML =
+        `<td>${rowCount + 1}</td>
+        <td><input type="text" class="item-description"></td>
+        <td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>
+        <td><input type="number" class="item-price" oninput="calculateTotal(this)" step="0.01"></td>
+        <td><input type="text" class="item-total" readonly></td>
+        <td><button onclick="deleteItem(this)">Delete</button></td>`;
+      tableBody.appendChild(row);
+      updateSequenceNumbers();
+      updateGrandTotal();
+    }
+  };
+
+  function processRowsWithModal(rows, tableBody, idx) {
+    if (idx >= rows.length) return;
+    const tr = rows[idx];
+    const cells = tr.querySelectorAll("td, th");
+    const desc = cells[2] ? cells[2].textContent : "";
+    const price = cells[cells.length - 2] ? parseFloat(cells[cells.length - 2].textContent.replace(/,/g, "")) || 0 : 0;
+    showCustomModal(
+      `<p>Description: ${desc}</p><p>Cost $: ${formatNumberWithCommas(price.toFixed(2))}</p><p>Enter profit percentage %:</p>`,
+      function (profitPercentage) {
+        if (!isNaN(profitPercentage) && !isNaN(price)) {
+          const newPrice = price + (price * profitPercentage / 100);
+          const row = document.createElement("tr");
+          row.innerHTML =
+            `<td></td>
+            <td><input type="text" class="item-description" value="${desc}"></td>
+            <td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>
+            <td><input type="number" class="item-price" oninput="calculateTotal(this)" value="${formatNumberWithCommas(newPrice.toFixed(2))}" step="0.01"></td>
+            <td><input type="text" class="item-total" readonly></td>
+            <td><button onclick="deleteItem(this)">Delete</button></td>`;
+          tableBody.appendChild(row);
+          updateSequenceNumbers();
+          updateGrandTotal();
+        }
+        // Show modal for the next item automatically
+        if (idx + 1 < rows.length) {
+          setTimeout(function () {
+            processRowsWithModal(rows, tableBody, idx + 1);
+          }, 200);
+        }
+      },
+      idx === rows.length - 1
+    );
+  }
+
+  window.showCustomModal = function (message, callback, isLast) {
+    const modal = document.getElementById("customModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const profitInput = document.getElementById("profitInput");
+    const okButton = modal.querySelector("button");
+    const closeButton = modal.querySelector(".close");
+    modalMessage.innerHTML = message;
+    profitInput.value = "";
+    modal.style.display = "block";
+    closeButton.onclick = function () { modal.style.display = "none"; };
+    okButton.onclick = function () {
+      const profitPercentage = parseFloat(profitInput.value);
+      callback(profitPercentage);
+      if (isLast) modal.style.display = "none";
+    };
+    profitInput.onkeypress = function (event) {
+      if (event.key === "Enter") okButton.click();
+    };
+    setTimeout(() => { profitInput.focus(); }, 350);
+  };
+
+  window.calculateTotal = function (input) {
+    const row = input.closest("tr");
+    const quantity = parseFloat(row.querySelector(".item-quantity")?.value) || 0;
+    const price = parseFloat(row.querySelector(".item-price")?.value) || 0;
+    const total = quantity * price;
+    const totalInput = row.querySelector(".item-total");
+    if (totalInput) {
+      totalInput.value = formatNumberWithCommas(total.toFixed(2));
+    }
+    updateGrandTotal();
+  };
+
+  window.deleteItem = function (button) {
+    const row = button.closest("tr");
+    row.remove();
+    updateSequenceNumbers();
+    updateGrandTotal();
+  };
+
+  window.printInvoice = function () {
+    window.print();
+  };
+
+  window.saveInvoice = function () {
+    alert("Save Invoice functionality is not yet implemented.");
+  };
+
+  window.loadSavedInvoiceByNumber = function () {
+    alert("Load Invoice functionality is not yet implemented.");
+  };
+
+  function updateSequenceNumbers() {
+    const tableBody = document.querySelector("#invoiceTable tbody");
+    Array.from(tableBody.children).forEach((tr, idx) => {
+      const td = tr.querySelector("td");
+      if (td) td.textContent = idx + 1;
+    });
+  }
+
+  function updateGrandTotal() {
+    const tableBody = document.querySelector("#invoiceTable tbody");
+    let totalSum = 0;
+    Array.from(tableBody.children).forEach(tr => {
+      const totalInput = tr.querySelector(".item-total");
+      if (totalInput) {
+        const totalValue = parseFloat(totalInput.value.replace(/,/g, "")) || 0;
+        totalSum += totalValue;
+      }
+    });
+    let grandTotalRow = document.querySelector("#invoiceTable tfoot .grand-total-row");
+    if (!grandTotalRow) {
+      let tfoot = document.querySelector("#invoiceTable tfoot");
+      if (!tfoot) {
+        tfoot = document.createElement("tfoot");
+        document.getElementById("invoiceTable").appendChild(tfoot);
+      }
+      grandTotalRow = document.createElement("tr");
+      grandTotalRow.className = "grand-total-row";
+      tfoot.appendChild(grandTotalRow);
+    }
+    if (grandTotalRow) {
+      grandTotalRow.innerHTML = `<td colspan="4"></td><td colspan="2" style="font-weight:bold">Grand Total: ${formatNumberWithCommas(totalSum.toFixed(2))}</td>`;
+    }
+  }
+
+  // --- Reset Page State ---
+  function resetPageState() {
+    messageSingle.textContent = "";
+    messageMerge.textContent = "";
+    if (downloadCsvButton) downloadCsvButton.style.display = "none";
+    if (totalResultBox) totalResultBox.style.display = "none";
+    if (getTotalButton) getTotalButton.style.display = "none";
+    if (selectAllCheckbox) selectAllCheckbox.checked = false;
+  }
+
+  // --- Helper for number formatting ---
+  window.formatNumberWithCommas = function (number) {
+    return Number(number).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+
+  // --- Prevent accidental unload ---
+  if (typeof $ !== "undefined") {
+    $(document).ready(function () {
+      window.addEventListener('beforeunload', function (event) {
+        event.preventDefault();
+        event.returnValue = '';
+        return '';
+      });
+      $(window).on('unload', function () {
+        window.removeEventListener('beforeunload', function (event) {
+          event.preventDefault();
+          event.returnValue = '';
+        });
+      });
+    });
+  }
+});
+
+####################################################
+css : 
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .invoice-section, .invoice-section *, 
+  .invoice-info-section, .invoice-info-section *, /* Make this new section visible */
+  #invoiceTable, #invoiceTable * {
+    visibility: visible;
+  }
+
+  .invoice-section {
+    position: absolute;
+    left: 0;
+    top: 50px;
+  }
+
+  .invoice-info-section {
+    position: absolute;
+    left: 0;
+    top: 10px; /* Adjust this as needed */
+  }
+--===-=-=-=-=-=-=-=-=-------------------------
+
+========================================================
+
+entire existing css : working before any modifications : 
+
+
+body {
+  text-align: left;
+  font-family: Arial, sans-serif;
+ }
+
+
+#getTotalButton {
+  background-color: green;
+  color: white;
+  margin-right: 10px; /* Add some margin to the right for spacing */
+}
+
+#totalResultBox {
+  border: 2px solid green; /* Bold border */
+    font-weight: bold; /* Bold text */
+ justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  color: green;
+  font-size: 16px;
+  width: 180px; /* Set a specific width */
+  height: 20px; /* Set a specific height */
+margin-left: 6px; /* Add some margin to the right for spacing */
+
+}
+
+
+/* Apply styling to both buttons */
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 14px;
+  transition: background-color 0.2s, transform 0.2s;
+  border-radius: 8%;
+}
+
+/* Style the Restart button */
+#restartButton {
+  background-color: #f00000;
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 14px;
+}
+
+/* Add a hover effect for all buttons */
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.15);
+}
+
+/* Hide the default file input buttons */
+input[type="file"] {
+  display: none;
+}
+
+/* Styling for the spinner */
+.spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.search-table td {
+  border: 1px solid #3498db; /* Blue color border */
+  padding: 8px;
+}
+
+/* Style the clearSearchButton */
+#clearSearchButton {
+  border-radius: 15%; /* Make it round */
+}
+
+
+/* General styles for the invoice section including labels invoices */
+.section-divider {
+  margin-bottom: 30px; /* Adjust as needed */
+}
+
+/* General styles for the invoice section after label invoices */
+div.invoice-section {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+/* Style for Invoice Number Label */
+#invoiceNumberLabel.left-align {
+  font-size: 14px; /* Adjust the font size as needed */
+  color: black; /* Text color (black) */
+  background-color: yellow; /* Background color */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style for Current Date Label */
+#currentDateLabel.left-align {
+  font-size: 14px; /* Adjust the font size as needed */
+  color: black; /* Text color (black) */
+  background-color: yellow; /* Background color */
+}
+
+/* Style for Customer Name Label */
+#customerNameLabel.left-align {
+  font-size: 14px; /* Adjust the font size as needed */
+  color: black; /* Text color (black) */
+  background-color: yellow; /* Background color */
+white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style for Invoice Number text box input */
+#invoiceNumber {
+  display: block;
+  width: 50px; /* Adjust the width as needed */
+  font-size: 14px; /* Adjust the font size as needed */
+  border: 2px solid #cccccc; /* Border color #f7f7f7 light gray  */
+  background-color: #33333333;/* Background color */
+  height: 15px; /* Adjust the height as needed */
+}
+
+/* Style for Current Date text box input */
+#currentDate {
+  display: block;
+  width: 130px; /* Adjust the width as needed */
+  font-size: 14px; /* Adjust the font size as needed */
+  border: 2px solid #cccccc; /* Border color */
+  background-color: #33333333 ; /* Background color dark gray with !important */
+  height: 15px; /* Adjust the height as needed */
+}
+
+/* Style for Customer Name text box input*/
+#customerName {
+  display: block;
+  width: 130px; /* Adjust the width as needed */
+  font-size: 14px; /* Adjust the font size as needed */
+  border: 2px solid #cccccc; /* Border color */
+  background-color: #33333333; /* Background color */
+  height: 15px; /* Adjust the height as needed */
+}
+
+
+
+#invoiceTable th {
+  text-align: center;
+  background-color: yellow;
+}
+
+#invoiceTable input.item-description {
+  font-size: 16px;
+  color: black;
+  width: 90%; /* Use a percentage width */
+  min-width: 340px; /* Set a minimum width */
+  margin-top: 5px;
+  border: 2px solid #cccccc;
+  background-color: #f7f7f7;
+  height: auto;
+  resize: horizontal;
+  overflow-x: auto; /* Enable horizontal scroll bars if the content overflows horizontally */
+  text-align: center;
+}
+
+
+
+#invoiceTable input.item-quantity {
+  font-size: 16px;
+  color: black;
+  width: 60px;
+  margin-top: 5px;
+  border: 2px solid #cccccc;
+  background-color: #f7f7f7;
+  height: auto;
+text-align: center;
+}
+
+#invoiceTable input.item-price {
+  font-size: 16px;
+  color: black;
+  width: 80px;
+  margin-top: 5px;
+  border: 2px solid #cccccc;
+  background-color: #f7f7f7;
+  height: auto;
+text-align: center;
+}
+
+#invoiceTable input.item-total {
+  font-size: 16px;
+  color: black;
+  width: 90px;
+  margin-top: 5px;
+  border: 2px solid #cccccc;
+  background-color: #f7f7f7;
+  height: auto;
+text-align: center;
+}
+
+
+
+ .grand-total-row {
+    text-align: center;
+    font-weight: bold;
+    background-color: yellow;
+  }
+
+/* reset page entirely */
+#goToIndexButton {
+  background-color: red;
+  /* Add any other styles you want for the button */
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .invoice-section, .invoice-section *, 
+  .invoice-info-section, .invoice-info-section *, /* Make this new section visible */
+  #invoiceTable, #invoiceTable * {
+    visibility: visible;
+  }
+
+  .invoice-section {
+    position: absolute;
+    left: 0;
+    top: 50px;
+  }
+
+  .invoice-info-section {
+    position: absolute;
+    left: 0;
+    top: 10px; /* Adjust this as needed */
+  }
+
+
+  #invoiceTable {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    position: absolute;
+    left: 0;
+    top: 100px;
+  }
+
+  #invoiceTable th:nth-child(6),
+  #invoiceTable td:nth-child(6) {
+    display: none; /* Hide the "Action" column */
+  }
+}
+
+#customModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 20px;
+    top: 70%;
+    transform: translateY(-30%);
+    width: 35%; /* Adjust the width as needed for mobile devices */
+    max-width: 400px; /* Set a max-width to ensure modal doesn't get too wide */
+    overflow-y: auto;
+    background-color: lightblue;
+    padding: 10px;
+    border: 3px solid green;
+    border-radius: 18px;
+}
+
+
+/* Default positioning for short pages */
+#customModal.short-page {
+    top: 50%;
+    transform: translateY(-70%);
+}
+
+/* Adjusted positioning for long pages */
+#customModal.long-page {
+    top: 80%;
+    transform: translateY(-30%);
+}
+
+
+/* Adjust the color of the modal text message to white */
+#modalMessage {
+    color: black;
+    margin-right: 25px; /* Adjust the right margin as needed */
+    font-size: 14px;
+    font-family: 'Helvetica', sans-serif;
+    line-height: 1; 
+    font-weight: bold;
+    text-align: center; /* Center-align the text */
+    margin-bottom: 0px;
+    top: -2px;
+}
+
+.modal-content {
+    position: relative; /* Adjust the position property */
+}
+
+.close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -22px; /* Adjust this value to move it more up */
+    right: 1px;
+    font-size: 30px; /* Adjust the font size */
+   color: white;  
+  padding: 1px;
+    cursor: pointer;
+    border: none;
+    background-color: green; /* Add a green background color */
+    border-radius: 50%; /* Make it circular */
+    width: 30px; /* Set the width and height for the circular button */
+    height: 30px;
+}
+
+.close:hover {
+    color: red; /* Change the color on hover to your preferred color */
+}
+
+
+#profitInput {
+    width: 20%; /* Adjust the width as needed */
+    padding: 8px; /* Adjust padding for better appearance */
+    font-size: 16px; /* Adjust font size for better visibility */
+    
+}
+#customModal button {
+    background-color: green; /* Set the background color */
+    color: white; /* Set the text color */
+    padding: 10px 20px; /* Adjust padding for better appearance */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    cursor: pointer;
+    font-size: 16px; /* Set the font size */
+    
+}
+
+#customModal button:hover {
+    background-color: darkgreen; /* Change background color on hover */
+}
+

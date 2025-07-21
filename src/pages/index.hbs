@@ -1,99 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-  #camera-container {
-  display: none;
-  position: relative;
-  width: 220px; /* Set the desired width for the camera feed */
-  height: 400px; /* Adjust the height as needed, in this case, reduced by 30% */
-  border: 1px solid #ccc;
-  overflow: hidden;
-  margin: 10px auto; /* Center the camera container and add margin */
-}
-  #camera {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Maintain the aspect ratio and cover the container */
-  }
-  .search-container {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap; /* Allow items to wrap to the next line */
-    }
-    #searchInput {
-      margin-right: 10px;
-      flex-grow: 1; /* Allow the input to grow and take available space */
-    }
-    #clearSearchButton,
-    #searchButton,
-    #startScanButton,
-    #stopScanButton {
-      height: 30px;
-    }
-    #searchResults {
-      width: 100%; /* Make the results span the full width */
-      margin-top: 10px; /* Add some space between input/buttons and results */
-    }
-   
- </style>
-  <head>
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/style.css" />
-  </head>
+  <style>
+    #camera-container { display: none; position: relative; width: 220px; height: 400px; border: 1px solid #ccc; overflow: hidden; margin: 10px auto; }
+    #camera { width: 100%; height: 100%; object-fit: cover; }
+    .search-container { display: flex; align-items: center; flex-wrap: wrap; }
+    #searchInput { margin-right: 10px; flex-grow: 1; }
+    #clearSearchButton, #searchButton, #startScanButton, #stopScanButton { height: 30px; }
+    #searchResults { width: 100%; margin-top: 10px; }
+  </style>
+</head>
 <body>
   <div id="camera-container">
     <video id="camera" autoplay playsinline autofocus></video>
-     </div>
-     <div class="button-container">
+  </div>
+  <div class="button-container">
     <div class="file-container">
-    <input type="file" id="mergeFilesInput" accept=".pdf" multiple />
-    <button id="mergeFilesButton">UPLOAD PDFs FOR MERGE</button>
- <input type="file" id="onePdfInput" accept=".pdf" style="display: none;" />
-<button id="onePdfButton">Upload Single PDF</button>
-<div id="spinnerOnepdf" class="spinner hidden"></div>
-<p id="messageOnepdf"></p>
-
+      <input type="file" id="mergeFilesInput" accept=".pdf" multiple style="display: none;" />
+      <button id="mergeFilesButton">UPLOAD PDFs FOR MERGE</button>
+      <input type="file" id="onePdfInput" accept=".pdf" style="display: none;" />
+      <button id="onePdfButton">Upload Single PDF</button>
+      <div id="spinnerOnepdf" class="spinner hidden"></div>
+      <p id="messageOnepdf"></p>
+      <!-- Single CSV upload -->
+      <form id="csvUploadForm" action="/upload-csv-single" method="post" enctype="multipart/form-data" style="margin-top:8px;">
+        <input type="file" id="csvUploadInput" name="csv" accept=".csv" style="display:none;">
+        <button type="button" id="csvUploadButton">Upload CSV</button>
+      </form>
+      <!-- Multiple CSV upload -->
+      <form id="csvMergeForm" action="/upload-csv-multiple" method="post" enctype="multipart/form-data" style="margin-top:8px;">
+        <input type="file" id="csvMergeInput" name="csvs" accept=".csv" multiple style="display:none;">
+        <button type="button" id="csvMergeButton">Upload & Merge CSVs</button>
+      </form>
+    </div>
+    <div class="spinner hidden" id="spinnerMerge"></div>
+    <div id="messageMerge"></div>
   </div>
-  <div class="spinner hidden" id="spinnerMerge"></div>
-  <div id="messageMerge"></div>
-</div>
-<!-- Modify the existing button for extracting tables -->
-<div class="button-container">
-  <div class="file-container">
-    <input type="file" id="singleFileInput" accept=".pdf" />
-    <button id="extractButton">EXTRACT TABLES</button>
+  <div class="button-container">
+    <div class="file-container">
+      <input type="file" id="singleFileInput" accept=".pdf" style="display: none;" />
+      <button id="extractButton">EXTRACT TABLES</button>
+    </div>
+    <div class="spinner hidden" id="spinnerSingle"></div>
+    <div id="messageSingle"></div>
   </div>
-  <div class="spinner hidden" id="spinnerSingle"></div>
-  <div id="messageSingle"></div>
-</div>
   <div class="button-container">
     <div class="control-buttons">
       <button id="downloadCsvButton" style="display:none">Download CSV</button>
-     <button id="getTotalButton" class=>Get Total</button>
-    <!-- Add this div for the total result text box -->
-  <div id="totalResultBox" ></div>
-    
+      <button id="getTotalButton">Get Total</button>
+      <div id="totalResultBox"></div>
     </div>
   </div>
- <!-- Add the restart button -->
   <div class="button-container">
-  <div class="control-buttons">
-    <button id="restartButton" class=>Restart</button>
+    <div class="control-buttons">
+      <button id="restartButton">Restart</button>
+    </div>
   </div>
-</div>
-  <!-- Add a button for downloading the merged PDF -->
-<div class="button-container">
-  <button id="downloadMergedButton" style="display:none">Download Merged PDF</button>
-</div>
-  <button id="goToInvoiceButton" onclick="openInvoicePage()">Go to Invoice</button>
-<script>
-  // Add this JavaScript function to navigate to the invoice page
-  function openInvoicePage() {
-    window.open("/invoice.html", "_blank");
-  }
-</script>
-    <div class="search-container">
+  <div class="button-container">
+    <button id="downloadMergedButton" style="display:none">Download Merged PDF</button>
+  </div>
+  <button id="displayCurrentInvoiceButton">Display Current Invoice</button>
+  <button id="showAllEmbeddedButton">Show all Embedded</button>
+<label style="margin-left: 10px;">
+  <input type="checkbox" id="selectAllCheckbox"> Select All
+</label>
+  <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search by text or barcode" style="width: 200px; height: 40px;" />
     <button id="clearSearchButton">X</button>
     <button id="searchButton">Search</button>
@@ -101,347 +75,110 @@
     <button id="stopScanButton">Stop Scan</button>
     <div id="searchResults"></div>
   </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-  <script src="/script.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js"></script>
   <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>
+  <script src="/script.js"></script>
   <script>
-let videoStream;
-  let codeReader = new ZXing.BrowserMultiFormatReader();
-  function startScan() {
-    let selectedDeviceId;
-    let videoElem = document.createElement('video');
-    videoElem.id = 'camera';
-    document.getElementById('camera-container').appendChild(videoElem);
-    codeReader.listVideoInputDevices().then((videoInputDevices) => {
-      // Use the back camera on mobile devices
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            const constraints = isMobile
-        ? { video: { facingMode: 'environment', width: { ideal: 220 }, height: { ideal: 400 } } }
-        : { video: { deviceId: videoInputDevices[0].deviceId } };
-      selectedDeviceId = constraints;
-      codeReader.decodeFromConstraints(constraints, 'camera', (result, err) => {
-        if (result) {
-          document.getElementById('searchInput').value = result.text;
-          playBeep();
-          codeReader.reset();
-         let cameraContainer = document.getElementById('camera-container');
-    if (cameraContainer) {
-        cameraContainer.style.display = 'none';
+    // Barcode scan JS (as before)
+    let videoStream;
+    let codeReader = new ZXing.BrowserMultiFormatReader();
+    function startScan() {
+      let selectedDeviceId;
+      let videoElem = document.createElement('video');
+      videoElem.id = 'camera';
+      document.getElementById('camera-container').appendChild(videoElem);
+      codeReader.listVideoInputDevices().then((videoInputDevices) => {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const constraints = isMobile
+          ? { video: { facingMode: 'environment', width: { ideal: 220 }, height: { ideal: 400 } } }
+          : { video: { deviceId: videoInputDevices[0].deviceId } };
+        selectedDeviceId = constraints;
+        codeReader.decodeFromConstraints(constraints, 'camera', (result, err) => {
+          if (result) {
+            document.getElementById('searchInput').value = result.text;
+            playBeep();
+            codeReader.reset();
+            let cameraContainer = document.getElementById('camera-container');
+            if (cameraContainer) cameraContainer.style.display = 'none';
+          }
+        });
+        document.getElementById('camera-container').style.display = 'block';
+      }).catch((err) => { console.error(err); });
     }
-      }
-      });
-      document.getElementById('camera-container').style.display = 'block';
-    }).catch((err) => {
-      console.error(err);
-    });
-  }
- function stopScan() {
-    codeReader.reset();
-    document.getElementById('searchInput').value = '';
-    // Hide the camera container
-    let cameraContainer = document.getElementById('camera-container');
-    if (cameraContainer) {
-        cameraContainer.style.display = 'none';
+    function stopScan() {
+      codeReader.reset();
+      document.getElementById('searchInput').value = '';
+      let cameraContainer = document.getElementById('camera-container');
+      if (cameraContainer) cameraContainer.style.display = 'none';
     }
-}
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  function playBeep() {
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
-    oscillator.connect(audioContext.destination);
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.1);
-  }
-  document.getElementById('startScanButton').addEventListener('click', startScan);
-  document.getElementById('stopScanButton').addEventListener('click', stopScan);
-</script>
-
-
- <div class="invoice-info-section">
-  <label for="invoiceNumber" class="left-align" id="invoiceNumberLabel">Invoice Number:</label>
-  <input type="text" id="invoiceNumber" />
-
-  <label for="currentDate" class="left-align"  id="currentDateLabel"    >Date:</label>
-  <input type="text" id="currentDate" readonly />
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const currentDateInput = document.getElementById("currentDate");
-
-      const currentDate = new Date();
-      const formattedDate = currentDate.toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      });
-
-      currentDateInput.value = formattedDate;
-    });
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep() {
+      const oscillator = audioContext.createOscillator();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+      oscillator.connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
+    document.getElementById('startScanButton').addEventListener('click', startScan);
+    document.getElementById('stopScanButton').addEventListener('click', stopScan);
   </script>
 
-  <label for="customerName" class="left-align"  id="customerNameLabel">Customer Name:</label>
-  <input type="text" id="customerName" />
-</div>
-
-     
+  <!-- Invoice Info & Table Section -->
+  <div class="invoice-info-section">
+    <label for="invoiceNumber" class="left-align" id="invoiceNumberLabel">Invoice Number:</label>
+    <input type="text" id="invoiceNumber" />
+    <label for="currentDate" class="left-align" id="currentDateLabel">Date:</label>
+    <input type="text" id="currentDate" readonly />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentDateInput = document.getElementById("currentDate");
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        });
+        currentDateInput.value = formattedDate;
+      });
+    </script>
+    <label for="customerName" class="left-align" id="customerNameLabel">Customer Name:</label>
+    <input type="text" id="customerName" />
+  </div>
   <table id="invoiceTable">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th class="column-description">Item Description</th>
-      <th class="column-quantity">Quantity</th>
-      <th class="column-price">Price</th>
-      <th class="column-total">Total</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th class="column-description">Item Description</th>
+        <th class="column-quantity">Quantity</th>
+        <th class="column-price">Price</th>
+        <th class="column-total">Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
   </table>
-<div>
-  <button onclick="addItemToInvoice()">Add Item</button>
-  <button onclick="printInvoice()">Print</button>
-  <button onclick="saveInvoice()">Save Invoice</button>
-  <button onclick="loadSavedInvoiceByNumber()">Load Saved Invoice</button>
-</div>
- <!-- Include this modal structure in your HTML -->
-<div id="customModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div id="modalMessage"></div>
-    <button onclick="getProfitPercentage()">OK</button>
-    <input type="number" class="form-control" id="profitInput" step="0.01">
-     </div>
-</div>
-
-<script>
-function showCustomModal(message, callback) {
-    const modal = $("#customModal");
-    const modalMessage = $("#modalMessage");
-    const profitInput = $("#profitInput");
-    const okButton = $("#customModal button");
-    const closeButton = $("#customModal .close");
-
-    // Set the message content
-    modalMessage.html(message);
-    profitInput.val(""); // Clear the input box
-
-    // Determine if the page is short or long
-    const isShortPage = document.body.clientHeight < window.innerHeight;
-
-    // Add class to the modal based on page height
-    modal.removeClass('short-page long-page').addClass(isShortPage ? 'short-page' : 'long-page');
-
-    // Show the modal
-    modal.show();
-
-    // Close the modal if the close button is clicked
-    closeButton.off("click").on("click", function () {
-        modal.hide();
-    });
-
-    // Execute the callback function only once when OK button is clicked
-    okButton.off("click").one("click", function () {
-        // Get the profit percentage input value
-        const profitPercentage = parseFloat(profitInput.val());
-
-        // Call the callback function with the profit percentage
-        callback(profitPercentage);
-
-        // Hide the modal after executing the callback
-        modal.hide();
-    });
-
-    // Handle "Enter" key press on the profitInput field
-    profitInput.off("keypress").on("keypress", function (event) {
-        if (event.key === "Enter") {
-            // Trigger the click event on the OK button
-            okButton.click();
-        }
-    });
-}
-
-//////////////////////////////////////////////////////////
-
-function addItemToInvoice() {
-    const tableBody = $("#invoiceTable tbody");
-    const rowCount = tableBody.children("tr").length;
-
-    // Check if there are selected items from the search results
-    const selectedItems = $(".row-checkbox:checked").closest(".search-row");
-
-    if (selectedItems.length > 0) {
-        // Additional logic for handling selected items from the search results
-        selectedItems.each(function () {
-            const description = $(this).find("td:eq(2)").text(); // Assuming "Description" is the third column
-            const price = parseFloat($(this).find("td:eq(6)").text().replace(/,/g, "")); // Assuming "Price" is the seventh column
-
-            // Construct the message including "Description" and "Cost Price"
-const message = `<p>Description: ${description}</p><p>Cost $: ${price.toFixed(2)}</p><p>Enter profit percentage %:</p>`;
-
-// Show the modal with the message and input box for profit
-showCustomModal(message, function (profitPercentage) {
-                // Update the "Price" cell in the added item based on the profit percentage
-                if (!isNaN(profitPercentage)) {
-                    const newPrice = price + (price * profitPercentage / 100);
-
-                    // Automatically add a new row to the invoice table
-                    const row = $("<tr></tr>");
-                    row.append("<td>" + (rowCount + 1) + "</td>");
-                    row.append('<td><input type="text" class="item-description" value="' + description + '"></td>');
-                    row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
-                    row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" value="' + newPrice.toFixed(2) + '" step="0.01"></td>');
-                    row.append('<td><input type="text" class="item-total" readonly ></td>');
-                    row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
-
-                    tableBody.append(row);
-
-                    // Update the sequence numbers
-                    updateSequenceNumbers();
-                    // Calculate and update the grand total
-                    updateGrandTotal();
-                    // Automatically format item price as a digital number with commas
-                    $(".item-price").on("blur", function () {
-                        const value = parseFloat($(this).val().replace(/,/g, ""));
-                        if (!isNaN(value)) {
-                            let formattedValue;
-                            // Check if the number is greater than or equal to 1000
-                            if (Math.abs(value) >= 1000) {
-                                formattedValue = value.toFixed(2);
-                            } else {
-                                formattedValue = formatNumberWithCommas(value.toFixed(2));
-                            }
-
-                            $(this).val(formattedValue);
-                        }
-                    });
-                }
-            });
-        });
-    } else {
-        // If no items are selected, add an empty row to the invoice table
-        const row = $("<tr></tr>");
-        row.append("<td>" + (rowCount + 1) + "</td>");
-        row.append('<td><input type="text" class="item-description"></td>');
-        row.append('<td><input type="number" class="item-quantity" oninput="calculateTotal(this)"></td>');
-        row.append('<td><input type="number" class="item-price" oninput="calculateTotal(this)" step="0.01"></td>');
-        row.append('<td><input type="text" class="item-total" readonly ></td>');
-        row.append('<td><button onclick="deleteItem(this)">Delete</button></td>');
-
-        tableBody.append(row);
-
-        // Update the sequence numbers
-        updateSequenceNumbers();
-        // Calculate and update the grand total
-        updateGrandTotal();
-        // Automatically format item price as a digital number with commas
-        $(".item-price").on("blur", function () {
-            const value = parseFloat($(this).val().replace(/,/g, ""));
-            if (!isNaN(value)) {
-                let formattedValue;
-                // Check if the number is greater than or equal to 1000
-                if (Math.abs(value) >= 1000) {
-                    formattedValue = value.toFixed(2);
-                } else {
-                    formattedValue = formatNumberWithCommas(value.toFixed(2));
-                }
-
-                $(this).val(formattedValue);
-            }
-        });
-    }
-}
-  //////////////////////////////////////////////////////
-  function calculateTotal(input) {
-    const row = $(input).closest("tr");
-    const quantity = parseFloat(row.find(".item-quantity").val()) || 0;
-    const price = parseFloat(row.find(".item-price").val()) || 0;
-    const total = quantity * price;
-    const formattedTotal = formatNumberWithCommas(total.toFixed(2));
-    row.find(".item-total").val(formattedTotal);
-    // Calculate and update the grand total
-    updateGrandTotal();
-}
-  function formatNumberWithCommas(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-  function updateSequenceNumbers() {
-    const tableBody = $("#invoiceTable tbody");
-    // Skip the "Grand Total" row when updating sequence numbers
-    tableBody.children("tr:not(.grand-total-row)").each(function (index) {
-      $(this).find("td:first-child").text(index + 1);
-    });
-  }
-  function updateGrandTotal() {
-    const tableBody = $("#invoiceTable tbody");
-    tableBody.children("tr.grand-total-row").remove();
-    const grandTotalRow = $("<tr class='grand-total-row'></tr>");
-    grandTotalRow.append("<td colspan='5'></td>");
-    tableBody.append(grandTotalRow);
-    // Calculate grand total and update the value
-    calculateGrandTotal();
-  }
-  function calculateGrandTotal() {
-    const tableBody = $("#invoiceTable tbody");
-    const grandTotalCell = $(".grand-total-row td");
-    let totalSum = 0;
-    tableBody.children("tr:not(.grand-total-row)").each(function () {
-      const totalCell = $(this).find(".item-total");
-      if (totalCell.length > 0) {
-        const totalValue = parseFloat(totalCell.val().replace(/,/g, "")) || 0;
-        totalSum += totalValue;
-      }
-    });
-    const formattedGrandTotal = formatNumberWithCommas(totalSum.toFixed(2));
-    grandTotalCell.text("Grand Total in US$: " + formattedGrandTotal);
-  }
-    function deleteItem(button) {
-    const row = $(button).closest("tr");
-    row.remove();
-    // Update the sequence numbers
-    updateSequenceNumbers();
-    // Calculate and update the grand total
-    updateGrandTotal();
-  }
-
-  function printInvoice() {
-    window.print();
-  }
-
-  
-  ///////
-        $(document).ready(function () {
-    // Display a confirmation message before the page is unloaded
-    window.addEventListener('beforeunload', function (event) {
-        // Cancel the event
-        event.preventDefault();
-        // Standard for most browsers
-        event.returnValue = '';
-
-        // For some older browsers
-        return '';
-    });
-
-    // Remove the confirmation when the page is about to be closed intentionally
-    $(window).on('unload', function () {
-        window.removeEventListener('beforeunload', function (event) {
-            event.preventDefault();
-            event.returnValue = '';
-        });
-    });
-});
-//////////////////////////////////
-  
-</script>
-  <button id="goToIndexButton" onclick="goToIndexPage()">
-  Reset Page Invoice
-</button>
-<script>
-  function goToIndexPage() {
-    window.location.href = "/";
-  }
+  <div>
+    <button onclick="addItemToInvoice()">Add Item</button>
+    <button onclick="printInvoice()">Print</button>
+    <button onclick="saveInvoice()">Save Invoice</button>
+    <button onclick="loadSavedInvoiceByNumber()">Load Saved Invoice</button>
+  </div>
+  <div id="customModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modalMessage"></div>
+      <button onclick="getProfitPercentage()">OK</button>
+      <input type="number" class="form-control" id="profitInput" step="0.01">
+    </div>
+  </div>
+  <button id="goToIndexButton" onclick="goToIndexPage()">Reset Page Invoice</button>
+  <script>
+    function goToIndexPage() { window.location.href = "/"; }
+    // The invoice logic is now in script.js!
   </script>
 </body>
 </html>

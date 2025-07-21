@@ -1,89 +1,1593 @@
-Line #,Part Number,Description,Shipped,Pack,Piece Price,Price,Total,Tax,Exmpt
-1,071610302808,CGR BACKWOOD 8/5PK RUSSIAN CREAM,6,8,3.69,29.50,177.00,C
-2,070137514855,CGR BLACK N MILD $2.49 10/5PK FILTER TIP,3,10,1.80,18.00,54.00,C
-3,070137514855,CGR BLACK N MILD $2.49 10/5PK FILTER TIP,7,10,1.80,18.00,126.00,C
-4,070137500186,CGR BLACK N MILD 10/5PK REG       1/30     50,8,10,4.25,42.50,340.00,C,C
-5,070137511212,CGR BLACK N MILD 25CT JAZZ     1/30     25,5,25,0.85,21.25,106.25,C,C
-6,070137511212,CGR BLACK N MILD 25CT JAZZ     1/30     25,6,25,0.85,21.25,127.50,C,C
-7,070137005230,CGR BLACK N MILD 25CT WINE     1/30     25,4,25,0.85,21.25,85.00,C,C
-8,070137809555,CGR BLACK N MILD 89C 25CT REGULAR 21836,27,25,0.68,16.99,458.73,C
-9,070137514237,CGR BLACK N MILD 99C 25CT SWEETS      1/30,8,25,0.68,16.99,135.92,C
-10,070137514237,CGR BLACK N MILD 99C 25CT SWEETS      1/30,8,25,0.68,16.99,135.92,C
-11,819721012335,CGR BLUNTVILLE 25CT $1.29 PRE-PRICED,6,25,0.64,15.99,95.94,C
-12,819721012427,CGR BLUNTVILLE 25CT $1.29 PRE-PRICED PINK,5,25,0.64,15.99,79.95,C
-13,874411000696,CGR CHEYENNE MENTHOL 200CT      1/60,10,10,1.25,12.50,125.00,C
-14,874411000719,CGR CHEYENNE PEACH 200CT          1/60,2,10,1.25,12.50,25.00,C
-15,874411000726,CGR CHEYENNE VANILLA 200CT          1/60,6,10,1.25,12.50,75.00,C
-16,874411000702,CGR CHEYENNE W/CHERRY 200CT    1/60,6,10,1.25,12.50,75.00,C
-Line #,Part Number,Description,Shipped,Pack,Piece Price,Price,Total,Tax,Exmpt
-071610498532,1,Size,32.50,32.50,Tax,C,LY.
-17,071610498532,CGR DM CIGARILLOS BUY2 GET3 CHOCOLATE,1,20,1.63,32.50,32.50,C,LY.
-18,705105723761,CGR ENTOURAGE 25CT LE PRIVE       1/40,2,25,0.72,18.00,36.00,C
-19,819721010676,CGR ENTOURAGE 25CT PINK VANILLA       1/40,2,25,0.72,18.00,36.00,C
-20,031700237953,CGR GAME 2/$1.29 BLUE 30PCH-2CT     1/12,3,30,0.73,22.00,66.00,C
-21,031700237991,CGR GAME 2/$1.29 DIAMOND 30PCH-2CT,4,30,0.73,22.00,88.00,C
-22,031700237946,CGR GAME 2/$1.29 GREEN 30PCH-2CT     1/12,3,30,0.73,22.00,66.00,C
-23,031700237915,CGR GAME 2/$1.29 HONEY 30PCH-2CT     1/12,3,30,0.73,22.00,66.00,C
-24,031700237984,CGR GAME 2/$1.29 MANGO 30PCH-2CT     1/12,3,30,0.73,22.00,66.00,C
-25,031700238028,CGR GAME 2/$1.29 RED SWEETS 30PCH-2CT,4,30,0.73,22.00,88.00,C
-26,031700236611,CGR GAME 3/$1.29 MINIS RED SWEETS,1,15,0.77,11.50,11.50,C
-27,031700236611,CGR GAME 3/$1.29 MINIS RED SWEETS,4,15,0.77,11.50,46.00,C
-28,031700238332,CGR GAME LEAF 2/$1.49 DARK RUM,2,15,0.90,13.50,27.00,C
-29,031700238936,CGR GAME LEAF 5/$2.99 BLACK RASPBERRY,4,15,0.93,13.99,55.96,C
-30,031700236239,CGR GAME LEAF MINI SAVE ON 5 5F3.49,4,8,2.25,18.00,72.00,C
-31,842426170734,CGR GOOD TIMES 2/1.39C 15CT SWEET,6,15,0.80,11.99,71.94,C
-32,817127029506,CGR SHOW 5/$1 15CT BLACK CHERRY      1/1,1,15,0.53,8.00,8.00,C
-33,858765004647,CGR SHOW 5/$1 15CT BLUE PALMA     1/24,2,15,0.53,8.00,16.00,C
-Line #,Part Number,Description,Shipped,Pack,Piece Price,Price,Total,Tax,Exmpt
-817127021531,4,Size,8.00,32.00,Tax,C,LY.
-34,817127021531,CGR SHOW 5/$1 15CT DIAMOND       1/24,4,15,0.53,8.00,32.00,C,LY.
-35,858765008898,CGR SHOW 5/$1 15CT ICE      1/25      75,4,15,0.53,8.00,32.00,C,C
-36,858765001653,CGR SHOW 5/$1 15CT JAMAICAN BUZZ     1/24,1,15,0.53,8.00,8.00,C
-37,858765005941,CGR SHOW 5/$1 15CT KIWI STRAWBERRY,1,15,0.53,8.00,8.00,C
-38,817127027441,CGR SHOW 5/$1 15CT LEMON ICE      1/25,2,15,0.53,8.00,16.00,C
-39,858765005859,CGR SHOW 5/$1 15CT OG KUSH      1/24      75,2,15,0.53,8.00,16.00,C,C
-40,858765005880,CGR SHOW 5/$1 15CT PEACH MANGO TATA,2,15,0.53,8.00,16.00,C
-41,858765005842,CGR SHOW 5/$1 15CT PINEAPPLE BUZZ,2,15,0.53,8.00,16.00,C
-42,817127020800,CGR SHOW 5/$1 15CT RUSSIAN GEM       1/24,2,15,0.53,8.00,16.00,C
-43,858765005934,CGR SHOW 5/$1 15CT SPIRAL BLACK      1/24,2,15,0.53,8.00,16.00,C
-44,858765005828,CGR SHOW 5/$1 15CT SWEET      1/24      75,2,15,0.53,8.00,16.00,C,C
-45,858765004739,CGR SHOW 5/$1 15CT WATERMELON      1/24,2,15,0.53,8.00,16.00,C
-46,858765005835,CGR SHOW 5/$1 15CT WHITE GRAPE      1/24,2,15,0.53,8.00,16.00,C
-47,025900329839,CGR SWISHER SWEETS 2/$1.19 30CT/2PACK,3,30,0.70,20.89,62.67,C
-48,025900287337,CGR SWISHER SWEETS 2/$1.19 30CT/2PACK,2,30,0.70,20.89,41.78,C
-49,025900325718,CGR SWISHER SWEETS BLK 2/$1.49 15/2PK,4,15,0.90,13.50,54.00,C
-50,025900325718,CGR SWISHER SWEETS BLK 2/$1.49 15/2PK,6,15,0.90,13.50,81.00,C
-51,025900359539,CGR SWISHER SWEETS LEAF $2.49,4,10,1.48,14.75,59.00,C
-Line #,Part Number,Description,Shipped,Pack,Piece Price,Price,Total,Tax,Exmpt
-025900359515,5,Size,14.75,73.75,Tax,C,LY.
-52,025900359515,CGR SWISHER SWEETS LEAF $2.49,5,10,1.48,14.75,73.75,C,LY.
-53,025900359515,CGR SWISHER SWEETS LEAF $2.49,4,10,1.48,14.75,59.00,C
-54,025900359553,CGR SWISHER SWEETS LEAF $2.49,7,10,1.48,14.75,103.25,C
-55,025900359508,CGR SWISHER SWEETS LEAF $2.49,5,10,1.48,14.75,73.75,C
-56,025900359508,CGR SWISHER SWEETS LEAF $2.49,7,10,1.48,14.75,103.25,C
-57,025900453381,DC CGR SWISHER SWEET FOIL 2/99C,2,30,0.58,17.50,35.00,C
-WILL BE PAID TO GEORGIA DEPARTMENT OF REVENUE,$0.00,$0.00,$0.00,$0.00,$0.00,L,$0.00
-Line #,Part Number,Description,Shipped,Pack,Piece Price,Price,Total,Tax,Exmpt
-1,717519195225,TOB AL CAPONE 12CT LEAF WRAP COGNAC,1,12,0.83,9.99,9.99,T
-2,717519195409,TOB AL CAPONE 18PK LEAF WRAP ORIGINAL,1,18,0.83,14.99,14.99,T
-3,717519195447,TOB AL CAPONE 18PK LEAF WRAP RUM,1,18,0.83,14.99,14.99,T
-4,070195596602,TOB L/L BIG DUKE 3OZ POUCHES $1.99,2,12,1.38,16.50,33.00,T
-5,070195596169,TOB L/L BIG DUKE 6CT-16OZ PRE-PRICED,2,6,6.75,40.50,81.00,T
-6,070195591768,TOB L/L REDMAN AMERICA'S BEST CHEW,1,12,5.92,71.00,71.00,T
-7,799953039327,TOB L/L STOKER 3OZ POUCHES SUPREME RED,3,12,1.33,15.99,47.97,T
-8,860010326299,TOB LIL LEAF MANGO 3/$2.99 10/3PK     1/30,2,10,1.60,15.99,31.98,T
-9,860010326268,TOB LIL LEAF ORIGINAL 3/$2.99 10/3PK,2,10,1.60,15.99,31.98,T
-10,860010326275,TOB LIL LEAF RUSSIAN CREAM 3/$2.99 10/3PK,2,10,1.60,15.99,31.98,T
-11,616663964971,TOB LOOSE LEAF WRAP 5/8PK 40CT HONEY,1,8,4.63,37.00,37.00,T
-12,742978846166,TOB LOOSE LEAF WRAP 5/8PK 40CT PEACH,1,8,4.63,37.00,37.00,T
-13,660111933729,TOB LOOSE LEAF WRAP 5/8PK 40CT RESERVE,2,8,5.25,42.00,84.00,T
-14,616663964933,TOB LOOSE LEAF WRAP 5/8PK 40CT RUSSIAN,1,8,4.63,37.00,37.00,T
-Line #,Part Number,Description,Shipped,Pack,Piece Price,Price,Total,Tax,Exmpt
-15,660111933682,TOB LOOSE LEAF WRAP 5/8PK 40CT,1,8,4.63,37.00,37.00,T
-16,658238735616,TOB LOOSE LEAF WRAP 5/8PK 40CT,2,8,4.63,37.00,74.00,T
-17,796559467103,TOB SLAPWOODS DARK EDITION 10CT     1/20,5,10,4.50,45.00,225.00,T
-18,784762078513,TOB ZIG ZAG WRAP RILLO 4F99 15CT BLUE,1,1,9.50,9.50,9.50,T
-19,784762078216,TOB ZIG ZAG WRAP RILLO 4F99 15CT,1,15,0.63,9.50,9.50,T
-20,784762078919,TOB ZIG ZAG WRAP RILLO 4F99 15CT GOLD,2,15,0.63,9.50,19.00,T
-21,784762078810,TOB ZIG ZAG WRAP RILLO 4F99 15CT GREEN,3,15,0.63,9.50,28.50,T
-22,784762078711,TOB ZIG ZAG WRAP RILLO 4F99 15CT SWEET,1,15,0.63,9.50,9.50,T
+Part Number,Description,Shipped,Pack,Piece Price,Total
+,,,,,
+10819913012591,* ML Juul 4 Pod Strength 5% 8CT | Strength Classic Menthol,2,8,102.0,204.0
+,,,,,
+10819913011426,* ML Juul 4 Pod Strength 5% 8CT | Strength Virginia Tobacco,1,8,102.0,102.0
+,,,,,
+842426165242,4 Kings 4 For $1.19 15CT (C24) | Blueberry Pineapple,4,15,8.65,34.6
+,,,,,
+842426165334,4 Kings 4 For $1.19 15CT (C24) | Green Sweet,2,15,8.65,17.3
+,,,,,
+842426165396,4 Kings 4 For $1.19 15CT (C24) | Mango,2,15,8.65,17.3
+,,,,,
+842426165426,4 Kings 4 For $1.19 15CT (C24) | Melonberry,1,15,8.65,8.65
+,,,,,
+842426165457,4 Kings 4 For $1.19 15CT (C24) | Napa Grape,4,15,8.65,34.6
+,,,,,
+842426165518,4 Kings 4 For $1.19 15CT (C24) | Watermelon,4,15,8.65,34.6
+,,,,,
+071610340473,Backwoods 10CT/3PK (C30) | Russian Cream,3,10,24.0,72.0
+,,,,,
+071610340565,Backwoods 8CT/5PK (C30) | Banana,6,8,30.5,183.0
+,,,,,
+071610340169,Backwoods 8CT/5PK (C30) | Black Russian,2,8,30.5,61.0
+,,,,,
+071610341036,Backwoods 8CT/5PK (C30) | Bold,1,8,30.5,30.5
+,,,,,
+071610341517,Backwoods 8CT/5PK (C30) | Chocolate,6,8,30.5,183.0
+,,,,,
+071610341548,Backwoods 8CT/5PK (C30) | Dark Berry,1,8,30.5,30.5
+,,,,,
+071610302730,Backwoods 8CT/5PK (C30) | Dark Stout,1,8,30.5,30.5
+,,,,,
+071610301870,Backwoods 8CT/5PK (C30) | Honey Berry,30,8,30.5,915.0
+,,,,,
+071610302273,Backwoods 8CT/5PK (C30) | Honey Bourbon,9,8,30.5,274.5
+,,,,,
+071610302808,Backwoods 8CT/5PK (C30) | Russian Cream,33,8,30.5,1006.5
+,,,,,
+071610301924,Backwoods 8CT/5PK (C30) | Sweet Aromatic,32,8,30.5,976.0
+,,,,,
+071610341760,Backwoods 8CT/5PK (C30) | Tical,30,8,30.5,915.0
+,,,,,
+071610340848,Backwoods 8CT/5PK (C30) | Vanilla,3,8,30.5,91.5
+,,,,,
+071610301900,Backwoods 8CT/5PK (C30) | Wild N Mild Orig,3,8,30.5,91.5
+,,,,,
+071610340305,Backwoods 8CT/5PK (C30) | Wild Rum,1,8,30.5,30.5
+,,,,,
+071610341364,Backwoods Select 10CT/3PK (C32) | Pennsylvania,2,10,29.99,59.98
+,,,,,
+070137514893,Black N Mild $1.19 25CT Plastic Tip (C30) | Jazz,14,25,18.0,252.0
+,,,,,
+070137500889,Black N Mild 10CT/5PK (C30) | Apple,1,10,44.0,44.0
+,,,,,
+070137500421,Black N Mild 10CT/5PK (C30) | Cream,1,10,44.0,44.0
+,,,,,
+070137513728,Black N Mild 10CT/5PK (C30) | Filter Tip Sweet,16,10,17.99,287.84
+,,,,,
+070137500186,Black N Mild 10CT/5PK (C30) | Original,20,10,44.0,880.0
+,,,,,
+070137500384,Black N Mild 10CT/5PK (C30) | Select,2,10,44.0,88.0
+,,,,,
+070137000235,Black N Mild 10CT/5PK (C30) | Wine,5,,44.0,220.0
+,,,,,
+070137511168,Black N Mild 10CT/5PK Wood Tip (C30) | Jazz,2,10,47.0,94.0
+,,,,,
+070137505259,Black N Mild 10CT/5PK Wood Tip (C30) | Original,3,10,47.0,141.0
+,,,,,
+070137505297,Black N Mild 10CT/5PK Wood Tip (C30) | Wine,2,10,47.0,94.0
+,,,,,
+070137005186,Black N Mild 25CT (C30) | Original,13,25,22.0,286.0
+,,,,,
+070137839354,Black N Mild 25CT Nice Price (C30) | Jazz,2,,19.5,39.0
+,,,,,
+070137511229,Black N Mild 25CT Wood Tip (C30) | Jazz,1,25,24.99,24.99
+,,,,,
+070137525257,Black N Mild 25CT Wood Tip (C30) | Original,17,25,24.99,424.83
+,,,,,
+070137525295,Black N Mild 25CT Wood Tip (C30) | Wine,12,25,24.99,299.88
+,,,,,
+070137515630,Black N Mild 25CT Wood Tip Nice Price (C30) | Sweet,2,25,24.99,49.98
+,,,,,
+070137839651,Black N Mild 5 For 4 (C30) | Original,30,10,35.0,1050.0
+,,,,,
+070137839750,Black N Mild 5 For 4 (C30) | Wine,29,10,35.0,1015.0
+,,,,,
+070137514237,Black N Mild 99C 25CT (C30) | Sweets,7,25,18.0,126.0
+,,,,,
+819721012397,Bluntville $1.29C Pre-Priced 25CT (C50) | Blue,50,25,16.25,812.5
+,,,,,
+819721012335,Bluntville $1.29C Pre-Priced 25CT (C50) | Palma Trio,55,25,16.25,893.75
+,,,,,
+819721012458,Bluntville $1.29C Pre-Priced 25CT (C50) | Piff,2,25,16.25,32.5
+,,,,,
+819721012366,Bluntville $1.29C Pre-Priced 25CT (C50) | Triple Vanilla,62,25,16.25,1007.5
+,,,,,
+689076935920,Bluntville 25CT (C50) | Sweet,1,25,17.0,17.0
+,,,,,
+874411000726,Cheyenne Filtered Cigar (C60) | Vanilla,6,20,12.99,77.94
+,,,,,
+751667074346,Djarum 10PKct/12CT (C40) | Bali Hai,4,10,43.89,175.56
+,,,,,
+751667046947,Djarum 10PKct/12CT (C40) | Black,6,10,43.89,263.34
+,,,,,
+751667067546,Djarum 10PKct/12CT (C40) | Cherry/Ruby,4,10,43.89,175.56
+,,,,,
+751667074261,Djarum 10PKct/12CT (C40) | Mild Select,1,10,43.89,43.89
+,,,,,
+751667090629,Djarum 10PKct/12CT (C40) | Vanilla / Ivory,2,10,43.89,87.78
+,,,,,
+071610495883,Dutch Master 3CT/$1.99 20CT (C16) | Palma,4,20,24.5,98.0
+,,,,,
+71610502314,Dutch Master 4 For 5PK (C24) | Corona De Luxe,4,4,21.99,87.96
+,,,,,
+071610503809,Dutch Master 4 For 5PK (C24) | Corona Grape,2,4,21.99,43.98
+,,,,,
+071610502345,Dutch Master 4 For 5PK (C24) | Corona Sport Honey,3,4,21.99,65.97
+,,,,,
+071610502413,Dutch Master 4 For 5PK (C24) | Palma,4,4,21.99,87.96
+,,,,,
+071610505056,Dutch Master 5PKct/5CT (C12) | Silver Fusion,2,30,26.5,53.0
+,,,,,
+071610498532,Dutch Master Cigarillo 20CT (C16) | Chocolate,2,20,32.0,64.0
+,,,,,
+071610499539,Dutch Master Cigarillo 3Pk 20CT (C16) | Green,2,20,32.99,65.98
+,,,,,
+071610341197,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Berry Fusion,3,30,23.99,71.97
+,,,,,
+071610341234,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Gold,1,30,23.99,23.99
+,,,,,
+071610341210,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Honey Fusion,5,30,23.99,119.95
+,,,,,
+071610341081,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Platinum,5,30,23.99,119.95
+,,,,,
+071610341173,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Royal  Haze,4,30,23.99,95.96
+,,,,,
+071610341609,Dutch Master Grape 3Pk 20CT (C16),6,20,32.5,195.0
+,,,,,
+071610341302,Dutch Master Leaf 2 For $1.49 30CT (C12) | Tropical,2,30,25.0,50.0
+,,,,,
+819721010867,Entourage 25CT (C40) | Connoisseur,3,25,18.0,54.0
+,,,,,
+819721010676,Entourage 25CT (C40) | Pink Vanilla,2,25,18.0,36.0
+,,,,,
+819721010690,Entourage 25CT (C40) | Wine,2,25,18.0,36.0
+,,,,,
+031700237960,Game 2 For $1.29 30CT (C12) | Black Cherry,5,30,21.99,109.95
+,,,,,
+031700238035,Game 2 For $1.29 30CT (C12) | Black Sweets,41,30,21.99,901.59
+,,,,,
+031700237953,Game 2 For $1.29 30CT (C12) | Blue,55,30,21.99,1209.45
+,,,,,
+031700237991,Game 2 For $1.29 30CT (C12) | Diamond,53,30,21.99,1165.47
+,,,,,
+031700239377,Game 2 For $1.29 30CT (C12) | Espresso Martini,5,30,21.99,109.95
+,,,,,
+031700237939,Game 2 For $1.29 30CT (C12) | Grape,9,30,21.99,197.91
+,,,,,
+031700237946,Game 2 For $1.29 30CT (C12) | Green,18,30,21.99,395.82
+,,,,,
+031700237915,Game 2 For $1.29 30CT (C12) | Honey,1,30,21.99,21.99
+,,,,,
+031700237984,Game 2 For $1.29 30CT (C12) | Mango,7,30,21.99,153.93
+,,,,,
+031700239414,Game 2 For $1.29 30CT (C12) | Mvp White Russian,9,30,21.99,197.91
+,,,,,
+031700238011,Game 2 For $1.29 30CT (C12) | Natural Silver,80,30,21.99,1759.2
+,,,,,
+031700238004,Game 2 For $1.29 30CT (C12) | Pineapple,19,30,21.99,417.81
+,,,,,
+031700239100,Game 2 For $1.29 30CT (C12) | Red Ruby,7,30,21.99,153.93
+,,,,,
+031700238028,Game 2 For $1.29 30CT (C12) | Red Sweets,8,30,21.99,175.92
+,,,,,
+031700239391,Game 2 For $1.29 30CT (C12) | Summer Blend,1,,21.99,21.99
+,,,,,
+031700237922,Game 2 For $1.29 30CT (C12) | White Grape,32,30,21.99,703.68
+,,,,,
+031700237977,Game 2 For $1.29 30CT (C12) | White Peach,5,30,21.99,109.95
+,,,,,
+031700238677,Game Leaf 2CT/$1.49 15CT (C24) | Dark,4,15,12.99,51.96
+,,,,,
+031700238936,Game Leaf 5CT/$2.99 8CT (C24) | Black Raspberry,1,8,13.99,13.99
+,,,,,
+031700236864,Game Mini 3CT/$1.29 15CT (C24) | Black Sweets,2,15,11.99,23.98
+,,,,,
+031700236628,Game Mini 3CT/$1.29 15CT (C24) | Blue,7,15,11.99,83.93
+,,,,,
+031700236840,Game Mini 3CT/$1.29 15CT (C24) | Diamond,11,15,11.99,131.89
+,,,,,
+031700236611,Game Mini 3CT/$1.29 15CT (C24) | Red Sweets,8,15,11.99,95.92
+,,,,,
+031700238943,Game Special Reserve 15CT (C28),4,15,15.0,60.0
+,,,,,
+031700239216,Gameleaf 5CT/$3.79 8CT (C24) | White Russian,27,8,18.0,486.0
+,,,,,
+842426146371,Good Time 2/$1.29C Sweet Woods 15CT/2Pk  (C24) | Platinum Unsweet,2,15,10.99,21.98
+,,,,,
+842426183819,Good Time Sweet Woods Leaf 15/2CT (C24) | Dark Sweet,5,15,14.99,74.95
+,,,,,
+842426166867,Good Times #Hd 3CT/$1.29 15CT (C24) | Berry Fusion,3,15,9.75,29.25
+,,,,,
+842426166898,Good Times #Hd 3CT/$1.29 15CT (C24) | Blue,4,15,9.75,39.0
+,,,,,
+842426166928,Good Times #Hd 3CT/$1.29 15CT (C24) | Cognac,2,15,9.75,19.5
+,,,,,
+842426166980,Good Times #Hd 3CT/$1.29 15CT (C24) | Honey,3,15,9.75,29.25
+,,,,,
+842426166836,Good Times #Hd 3CT/$1.29 15CT (C24) | Honey Fusion,3,15,9.75,29.25
+,,,,,
+842426167048,Good Times #Hd 3CT/$1.29 15CT (C24) | Napa Grape,6,15,9.75,58.5
+,,,,,
+842426167130,Good Times #Hd 3CT/$1.29 15CT (C24) | Russian Cream,4,15,9.75,39.0
+,,,,,
+842426181082,Good Times #Hd 3CT/$1.29 15CT (C24) | Strawberry Cream,4,15,9.75,39.0
+,,,,,
+842426167109,Good Times #Hd 3CT/$1.29 15CT (C24) | Sweet,3,15,9.75,29.25
+,,,,,
+842426167161,Good Times #Hd 3CT/$1.29 15CT (C24) | Vanilla,8,15,9.75,78.0
+,,,,,
+842426164078,Good Times #Hd Palma $1.29 10CT (C24) | Blue,2,10,8.0,16.0
+,,,,,
+842426165150,Good Times #Hd Palma $1.29 10CT (C24) | Green,2,10,8.0,16.0
+,,,,,
+842426170529,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Banana,6,15,12.25,73.5
+,,,,,
+842426170581,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Classic,2,15,12.25,24.5
+,,,,,
+842426170796,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Cognac,1,15,12.25,12.25
+,,,,,
+842426170826,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Honey Berry,4,15,12.25,49.0
+,,,,,
+842426170734,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Russian Cream,8,15,12.25,98.0
+,,,,,
+842426170550,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Sweet Aroma,6,15,12.25,73.5
+,,,,,
+842426170499,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Vanilla,11,15,12.25,134.75
+,,,,,
+842426181839,Good Times Black Smooth 69C 15CT (C25) | Black Cherry,1,25,5.25,5.25
+,,,,,
+842426181532,Good Times Black Smooth 69C 15CT (C25) | Blueberry,3,25,5.25,15.75
+,,,,,
+842426181594,Good Times Black Smooth 69C 15CT (C25) | Vanilla,2,25,5.25,10.5
+,,,,,
+842426181563,Good Times Black Smooth 69C 15CT (C25) | Watermelon,1,25,5.25,5.25
+,,,,,
+850026718034,Hempcgr 2 Sies Blunt 15CT/2PK (C24) | Grape Kush,2,15,9.49,18.98
+,,,,,
+850026718195,Hempcgr 2 Sies Blunt 15CT/2PK (C24) | Og Sweet,2,15,9.49,18.98
+,,,,,
+850026718157,Hempcgr 2 Sies Blunt 15CT/2PK (C24) | Vanilla Sky,2,15,9.49,18.98
+,,,,,
+070330644809,Lgt Bic 50CT (C6) | Reg CT+3,2,50,47.0,94.0
+,,,,,
+756545704629,Lighter Great Lite Clear 50CT (C20),2,50,4.5,9.0
+,,,,,
+025900443108,Optimo 2CT/$99C 30CTct/2PK (C24) | Grape,2,30,17.99,35.98
+,,,,,
+025900443054,Optimo 2CT/$99C 30CTct/2PK (C24) | Silver,2,30,17.99,35.98
+,,,,,
+070235501412,Phillies Titan 10CT/5PK (C12),1,10,41.99,41.99
+,,,,,
+894945001426,Pipe Tobacco Bag Ohm 16OZ (C24) | Blue,25,1,9.49,237.25
+,,,,,
+894945001419,Pipe Tobacco Bag Ohm 16OZ (C24) | Bold,15,1,9.49,142.35
+,,,,,
+894945001433,Pipe Tobacco Bag Ohm 16OZ (C24) | Silver,8,1,9.49,75.92
+,,,,,
+894945001839,Pipe Tobacco Bag Ohm 16OZ (C24) | Turkish Red,15,1,9.49,142.35
+,,,,,
+761073427896,Pipe Tobacco Captain Black Tin 7OZ (C12) | Original,3,1,21.99,65.97
+,,,,,
+619682010124,Royal Blunts Ez Roll 25CT (C100) | Blueberry,2,25,6.5,13.0
+,,,,,
+619682621320,Royal Blunts Ez Roll 25CT (C100) | Jamaica Rum,1,25,6.5,6.5
+,,,,,
+619682010360,Royal Blunts Ez Roll 25CT (C100) | Sour Apple,2,25,6.5,13.0
+,,,,,
+619682009906,Royal Blunts Ez Roll 25CT (C100) | Strawberry Banana,2,25,6.5,13.0
+,,,,,
+619682621221,Royal Blunts Ez Roll 25CT (C100) | Wet Mango,2,25,6.5,13.0
+,,,,,
+816568010340,Shargio Cigarette Tube King Size 200CT (C40) | Red + 50CT Free,24,,2.19,52.56
+,,,,,
+858765004067,Show 2CT/99C 15CT Z Palma (C24),2,15,8.0,16.0
+,,,,,
+858765007396,Show 5CT/$1 15CT (C24) | Cream,2,15,8.0,16.0
+,,,,,
+817127021531,Show 5CT/$1 15CT (C24) | Diamond,2,15,8.0,16.0
+,,,,,
+858765005941,Show 5CT/$1 15CT (C24) | Kiwi Strawberry,2,15,8.0,16.0
+,,,,,
+858765005859,Show 5CT/$1 15CT (C24) | Koosh,1,15,8.0,8.0
+,,,,,
+817127027441,Show 5CT/$1 15CT (C24) | Lemon Ice,2,15,8.0,16.0
+,,,,,
+858765009093,Show 5CT/$1 15CT (C24) | Silver,2,15,8.0,16.0
+,,,,,
+858765005828,Show 5CT/$1 15CT (C24) | Sweet,3,15,8.0,24.0
+,,,,,
+858765004739,Show 5CT/$1 15CT (C24) | Watermelon,2,15,8.0,16.0
+,,,,,
+858765008676,Show 5CT/$1 15CT (C24) | Wet & Fruity,3,15,8.0,24.0
+,,,,,
+025900287351,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Blue Berry,2,30,20.89,41.78
+,,,,,
+025900329884,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Cream,1,30,20.89,20.89
+,,,,,
+025900329839,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Diamond,31,30,20.89,647.59
+,,,,,
+025900287344,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Grape,3,30,20.89,62.67
+,,,,,
+025900287337,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Regular Sweet,32,30,20.89,668.48
+,,,,,
+025900284336,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Strawberry,4,30,20.89,83.56
+,,,,,
+025900426828,Swisher Sweets 2CT/$99C 30CT/2PK (C24) | Banana Smash,2,30,16.5,33.0
+,,,,,
+025900337667,Swisher Sweets 2CT/$99C 30CT/2PK (C24) | Maui Pineapple,2,30,16.5,33.0
+,,,,,
+025900453381,Swisher Sweets 2CT/$99C 30CT/2PK (C24) | Wild Rush,2,30,16.5,33.0
+,,,,,
+025900336776,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Cocoa,2,15,13.49,26.98
+,,,,,
+025900325718,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Smooth,13,,13.49,175.37
+,,,,,
+025900297695,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Wine,6,,13.49,80.94
+,,,,,
+025900336905,Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Berry,4,,24.99,99.96
+,,,,,
+025900336882,Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Cherry,2,,24.99,49.98
+,,,,,
+025900336899,Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Grape,4,30,24.99,99.96
+,,,,,
+025900359027,Swisher Sweets Leaf 10CT/3PK (C20) | Sweet Aromatic,16,10,19.5,312.0
+,,,,,
+025900240868,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Blue Berry,2,15,15.25,30.5
+,,,,,
+025900379339,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Gold,3,15,15.25,45.75
+,,,,,
+025900240813,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Grape,1,15,15.25,15.25
+,,,,,
+025900240929,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Island Bash,3,15,15.25,45.75
+,,,,,
+025900321161,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Mango Passion Fruit,3,15,15.25,45.75
+,,,,,
+025900240806,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Reg,2,15,15.25,30.5
+,,,,,
+025900240905,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Sticky Sweet,1,15,15.25,15.25
+,,,,,
+025900359034,Swisher Sweetss Leaf 10CTct/3PK (C20) | Cognac,5,10,19.99,99.95
+,,,,,
+025900359010,Swisher Sweetss Leaf 10CTct/3PK (C20) | Honey,27,10,19.99,539.73
+,,,,,
+025900359058,Swisher Sweetss Leaf 10CTct/3PK (C20) | Irish Cream,18,10,19.99,359.82
+,,,,,
+025900359003,Swisher Sweetss Leaf 10CTct/3PK (C20) | Original,18,10,19.99,359.82
+,,,,,
+844504002975,Tob American Club 16OZ (C20) | Blue Light,20,1,9.5,190.0
+,,,,,
+844504002951,Tob American Club 16OZ (C20) | Menthol,15,1,9.5,142.5
+,,,,,
+070195596602,Tob L/L Big Duke 3OZ Pouches $1.99 (C12) | Regular,52,12,15.99,831.48
+,,,,,
+070195596169,Tob L/L Big Duke 6CT-16OZ Pre-Priced $9.99 (C4) | Original,7,6,40.0,280.0
+,,,,,
+033300635368,Tob L/L Bowie Chew B1G1 (C12),2,12,24.99,49.98
+,,,,,
+033300270521,Tob L/L Bowie Pre-Priced $2.19 12CT (C12),5,12,18.0,90.0
+,,,,,
+033300270538,Tob L/L Chattanooga $2.19 12CT 3OZ (C12),4,12,18.0,72.0
+,,,,,
+033300635870,Tob L/L Chewing Tobacco Starr $2.19 Per Pouch 12CT (C12) | Peach,4,12,18.0,72.0
+,,,,,
+033300635849,Tob L/L Chewing Tobacco Starr $2.19 Per Pouch 12CT (C12) | Regular,64,12,18.0,1152.0
+,,,,,
+070195354035,Tob L/L Days Work Plug 15CT (C10),1,15,135.0,135.0
+,,,,,
+033300632541,Tob L/L Lancaster B1G1 (C12),3,6,35.99,107.97
+,,,,,
+042100007725,Tob L/L Levi Garret Reg 3OZ (C12),12,12,193.99,2327.88
+,,,,,
+070195594196,Tob L/L Redman America'S Best Chew 6CT (C12) | Golden Blend,39,6,46.0,1794.0
+,,,,,
+070195594202,Tob L/L Redman America'S Best Chew 6CT (C12) | Original Blend,24,6,46.0,1104.0
+,,,,,
+070195594400,Tob L/L Redman America'S Best Chew 6CT (C12) | Silver Blend,7,6,46.0,322.0
+,,,,,
+033300635900,Tob L/L Starr B1G1 (C12) | Regular,4,12,28.99,115.96
+,,,,,
+799953010111,Tob L/L Stoker 16OZ - 6CT (C4) | Apple,2,6,72.99,145.98
+,,,,,
+799953024118,Tob L/L Stoker 16OZ - 6CT (C4) | Peach,1,6,72.99,72.99
+,,,,,
+799953039525,Tob L/L Stoker 3OZ Pouches Red Supreme $1.99 (C12) | Bold,30,12,15.99,479.7
+,,,,,
+799953039327,Tob L/L Stoker 3OZ Pouches Supreme $1.99 (C12) Red,93,12,15.99,1487.07
+,,,,,
+860010326299,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Mango,7,10,16.0,112.0
+,,,,,
+860010326268,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Original,8,10,16.0,128.0
+,,,,,
+860010326275,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Russian Cream,8,10,16.0,128.0
+,,,,,
+762446462735,Tob Longhorn Snuff 0.75C Off 5CT (C18) | Long Cut Straight,4,5,7.5,30.0
+,,,,,
+762446414000,Tob Longhorn Tub 14.4OZ 1CT (C8) | Finecut Natural,48,1,13.99,671.52
+,,,,,
+762446454006,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Natural,24,1,13.99,335.76
+,,,,,
+762446424009,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Straight,40,1,13.99,559.6
+,,,,,
+762446404001,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Wintergreen,11,1,13.99,153.89
+,,,,,
+33300518043,Tob Snuff Butter Cup Can 4.65OZ 1CT (C12),12,1,36.99,443.88
+,,,,,
+073100014611,Tob Snuff Copenhagen 5CT Can (C18) | Long Cut,4,5,26.0,104.0
+,,,,,
+073100014772,Tob Snuff Copenhagen 5CT Can (C18) | Pouches Regular,3,5,26.0,78.0
+,,,,,
+073100010897,Tob Snuff Copenhagen 5CT Can (C18) | Regular Snuff,3,5,26.0,78.0
+,,,,,
+42100001761,Tob Snuff Dental Sweet 12CT   (C12),6,12,178.0,1068.0
+,,,,,
+04254418,Tob Snuff Grizzly 5CT Can (C18) | Pouches Wintergreen,2,5,22.5,45.0
+,,,,,
+042100001266,Tob Snuff Peach Sweet 12CT (C12),10,12,182.99,1829.9
+,,,,,
+033300518166,Tob Snuff Rail Road Sweet 4.65 Tc (C12),5,1,37.0,185.0
+,,,,,
+073100014802,Tob Snuff Skoal 5CT Can (C18) | Long Cut Berry,3,5,26.5,79.5
+,,,,,
+073100022142,Tob Snuff Skoal 5CT Can (C18) | Long Cut Citrus,3,5,26.5,79.5
+,,,,,
+073100014789,Tob Snuff Skoal 5CT Pouches (C18) | Wintergreen,5,5,26.5,132.5
+,,,,,
+033300518203,Tob Snuff Square Sweet Tc 1CT  (C12),100,1,37.0,3700.0
+,,,,,
+799953209300,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Fine Cut Natural,12,1,13.99,167.88
+,,,,,
+799953221203,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Mint,21,1,13.99,293.79
+,,,,,
+799953209201,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Natural,60,1,13.99,839.4
+,,,,,
+799953231202,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Straight,22,1,13.99,307.78
+,,,,,
+799953210207,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Wintergreen,24,1,13.99,335.76
+,,,,,
+033300518241,Tob Snuff Superior Scotch Tc 1CT    (C12),24,1,37.0,888.0
+,,,,,
+033300518265,Tob Snuff Tops Mild Tc   (C12),5,1,37.0,185.0
+,,,,,
+42100002041,Tob Snuff Tube Rose 12CT (Tp) 1.5OZ (C12),4,12,169.99,679.96
+,,,,,
+787269093218,Tob Up Leef Red Rose Blend 12G 1CT Bottle  (C24),24,1,1.99,47.76
+,,,,,
+784762071613,Tob Zig Zag Wrap 2F99 25CT (C25) | Apple,4,25,12.99,51.96
+,,,,,
+784762071637,Tob Zig Zag Wrap 2F99 25CT (C25) | Cherry,2,25,12.99,25.98
+,,,,,
+784762071644,Tob Zig Zag Wrap 2F99 25CT (C25) | Melon,2,25,12.99,25.98
+,,,,,
+784762071682,Tob Zig Zag Wrap 2F99 25CT (C25) | Straight Up,2,25,12.99,25.98
+,,,,,
+784762071668,Tob Zig Zag Wrap 2F99 25CT (C25) | Strawberry,2,25,12.99,25.98
+,,,,,
+784762078513,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Blue,2,15,9.5,19.0
+,,,,,
+784762078216,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Blueberry,2,15,9.5,19.0
+,,,,,
+784762078810,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Green,1,15,9.5,9.5
+,,,,,
+784762078711,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Sweet,2,15,9.5,19.0
+,,,,,
+031700237762,White Owl 2CT/$1.19 30CT/2PK (C12) | Blue Raspberry,12,30,20.5,246.0
+,,,,,
+031700238844,White Owl 2CT/$1.19 30CT/2PK (C12) | Cherry Moonshine,5,30,20.5,102.5
+,,,,,
+031700237700,White Owl 2CT/$1.19 30CT/2PK (C12) | Silver,3,30,20.5,61.5
+,,,,,
+031700239162,White Owl 2CT/$1.19 30CT/2PK (C12) | Sweet Peachtea Moonshine,12,30,20.5,246.0
+,,,,,
+031700237694,White Owl 2CT/$1.19 30CT/2PK (C12) | Sweets,12,30,20.5,246.0
+,,,,,
+031700237885,White Owl 2CT/$1.19 30CT/2PK (C12) | Swirl Chocolate & Vanilla,12,30,20.5,246.0
+,,,,,
+031700238394,White Owl 2CT/$1.19 30CT/2PK (C12) | Triple Grape,12,30,20.5,246.0
+,,,,,
+031700237717,White Owl 2CT/$1.19 30CT/2PK (C12) | White Grape,8,30,20.5,164.0
+,,,,,
+031700238257,White Owl Cig 2F99C 30CT (C12) | White Peach,4,30,17.5,70.0
+,,,,,
+,,,,,
+842426171458,4 Kings 4 For $1.19 15CT (C24) | Black Diamond,1,15,8.65,8.65
+,,,,,
+842426165211,4 Kings 4 For $1.19 15CT (C24) | Black Sweet,1,15,8.65,8.65
+,,,,,
+842426165242,4 Kings 4 For $1.19 15CT (C24) | Blueberry Pineapple,1,15,8.65,8.65
+,,,,,
+842426172059,4 Kings 4 For $1.19 15CT (C24) | Classic Green,1,15,8.65,8.65
+,,,,,
+842426165273,4 Kings 4 For $1.19 15CT (C24) | Diamond,1,15,8.65,8.65
+,,,,,
+842426165303,4 Kings 4 For $1.19 15CT (C24) | French Vanilla,1,15,8.65,8.65
+,,,,,
+842426165334,4 Kings 4 For $1.19 15CT (C24) | Green Sweet,2,15,8.65,17.3
+,,,,,
+842426165365,4 Kings 4 For $1.19 15CT (C24) | Kiwi Berry,2,15,8.65,17.3
+,,,,,
+842426165396,4 Kings 4 For $1.19 15CT (C24) | Mango,1,15,8.65,8.65
+,,,,,
+842426165426,4 Kings 4 For $1.19 15CT (C24) | Melonberry,1,15,8.65,8.65
+,,,,,
+842426165457,4 Kings 4 For $1.19 15CT (C24) | Napa Grape,1,15,8.65,8.65
+,,,,,
+842426165488,4 Kings 4 For $1.19 15CT (C24) | Sweet Delicious,1,15,8.65,8.65
+,,,,,
+842426165518,4 Kings 4 For $1.19 15CT (C24) | Watermelon,2,15,8.65,17.3
+,,,,,
+842426165549,4 Kings 4 For $1.19 15CT (C24) | Watermelon Grape,1,15,8.65,8.65
+,,,,,
+842426165570,4 Kings 4 For $1.19 15CT (C24) | White Grape,2,15,8.65,17.3
+,,,,,
+071610340473,Backwoods 10CT/3PK (C30) | Russian Cream,6,10,24.0,144.0
+,,,,,
+071610303089,Backwoods 24CT (C25) | Russian Cream,3,24,21.0,63.0
+,,,,,
+071610340565,Backwoods 8CT/5PK (C30) | Banana,3,8,30.5,91.5
+,,,,,
+071610341036,Backwoods 8CT/5PK (C30) | Bold,2,8,30.5,61.0
+,,,,,
+071610341548,Backwoods 8CT/5PK (C30) | Dark Berry,1,8,30.5,30.5
+,,,,,
+071610302808,Backwoods 8CT/5PK (C30) | Russian Cream,4,8,30.5,122.0
+,,,,,
+071610340848,Backwoods 8CT/5PK (C30) | Vanilla,2,8,30.5,61.0
+,,,,,
+9103416116264,Bag Blaze 1/10 Small Thank You Printed Black Bag White Box 1000CT,2,1,8.5,17.0
+,,,,,
+605126633318,Bag Blaze 1/8 Thank You Printed Black T-Shirt Bag White Box 800Ct (No Barcode),2,,11.99,23.98
+,,,,,
+070137500889,Black N Mild 10CT/5PK (C30) | Apple,2,10,44.0,88.0
+,,,,,
+070137500421,Black N Mild 10CT/5PK (C30) | Cream,1,10,44.0,44.0
+,,,,,
+070137513377,Black N Mild 10CT/5PK (C30) | Filter Tip,7,10,18.0,126.0
+,,,,,
+070137513728,Black N Mild 10CT/5PK (C30) | Filter Tip Sweet,9,10,18.0,162.0
+,,,,,
+070137500186,Black N Mild 10CT/5PK (C30) | Original,18,10,44.0,792.0
+,,,,,
+070137500384,Black N Mild 10CT/5PK (C30) | Select,5,10,44.0,220.0
+,,,,,
+070137000235,Black N Mild 10CT/5PK (C30) | Wine,10,10,44.0,440.0
+,,,,,
+070137511168,Black N Mild 10CT/5PK Wood Tip (C30) | Jazz,7,10,49.0,343.0
+,,,,,
+070137505259,Black N Mild 10CT/5PK Wood Tip (C30) | Original,6,10,49.0,294.0
+,,,,,
+070137505297,Black N Mild 10CT/5PK Wood Tip (C30) | Wine,3,10,49.0,147.0
+,,,,,
+070137511212,Black N Mild 25CT (C30) | Jazz,5,25,22.0,110.0
+,,,,,
+070137005186,Black N Mild 25CT (C30) | Original,68,25,21.75,1479.0
+,,,,,
+070137005230,Black N Mild 25CT (C30) | Wine,5,25,21.75,108.75
+,,,,,
+070137511229,Black N Mild 25CT Wood Tip (C30) | Jazz,7,25,24.75,173.25
+,,,,,
+070137525257,Black N Mild 25CT Wood Tip (C30) | Original,15,25,24.75,371.25
+,,,,,
+070137515630,Black N Mild 25CT Wood Tip Nice Price (C30) | Sweet,13,25,24.75,321.75
+,,,,,
+070137515593,Black N Mild 5 For 4 (C30) | Jazz,9,10,35.0,315.0
+,,,,,
+070137512776,Black N Mild 99C 25CT (C30) | Casino,8,25,18.0,144.0
+,,,,,
+070137824152,Black N Mild 99C 25CT (C30) | Original,10,25,18.0,180.0
+,,,,,
+070137514237,Black N Mild 99C 25CT (C30) | Sweets,14,25,18.0,252.0
+,,,,,
+819721012335,Bluntville $1.29C Pre-Priced 25CT (C50) | Palma Trio,2,25,17.0,34.0
+,,,,,
+819721012458,Bluntville $1.29C Pre-Priced 25CT (C50) | Piff,1,25,17.0,17.0
+,,,,,
+819721012427,Bluntville $1.29C Pre-Priced 25CT (C50) | Pink Diva,10,25,17.0,170.0
+,,,,,
+819721012366,Bluntville $1.29C Pre-Priced 25CT (C50) | Triple Vanilla,16,25,17.0,272.0
+,,,,,
+10857545012046,Bob Marley Hemp Wraps 2/25PK (C50) | Natural,2,25,11.99,23.98
+,,,,,
+10857545012077,Bob Marley Hemp Wraps 2/25PK (C50) | Strawberry,1,25,11.99,11.99
+,,,,,
+874411000696,Cheyenne Filtered Cigar (C60) | Menthol,5,10,12.99,64.95
+,,,,,
+874411000719,Cheyenne Filtered Cigar (C60) | Peach,8,10,12.99,103.92
+,,,,,
+039517818365,Cheyenne Filtered Cigar (C60) | Strawberry,8,10,12.99,103.92
+,,,,,
+874411000726,Cheyenne Filtered Cigar (C60) | Vanilla,9,10,12.99,116.91
+,,,,,
+874411000702,Cheyenne Filtered Cigar (C60) | W/Cherry,10,10,12.99,129.9
+,,,,,
+874411000733,Cheyenne Filtered Cigar (C60) | Xotic Berry,4,10,12.99,51.96
+,,,,,
+751667074346,Djarum 10PKct/12CT (C40) | Bali Hai,9,10,43.89,395.01
+,,,,,
+751667046947,Djarum 10PKct/12CT (C40) | Black,9,10,43.89,395.01
+,,,,,
+751667067546,Djarum 10PKct/12CT (C40) | Cherry/Ruby,4,10,43.89,175.56
+,,,,,
+751667074223,Djarum 10PKct/12CT (C40) | Clove Splash,3,10,43.89,131.67
+,,,,,
+751667090667,Djarum 10PKct/12CT (C40) | Menthol/Emerald,1,10,43.89,43.89
+,,,,,
+751667074261,Djarum 10PKct/12CT (C40) | Mild Select,5,10,43.89,219.45
+,,,,,
+751667067584,Djarum 10PKct/12CT (C40) | Special,7,10,43.89,307.23
+,,,,,
+751667313704,Djarum 10PKct/12CT (C40) | Ultra Smooth / Silver,3,10,43.89,131.67
+,,,,,
+751667090629,Djarum 10PKct/12CT (C40) | Vanilla / Ivory,1,10,43.89,43.89
+,,,,,
+71610502314,Dutch Master 4 For 5PK (C24) | Corona De Luxe,3,4,21.99,65.97
+,,,,,
+071610503809,Dutch Master 4 For 5PK (C24) | Corona Grape,2,4,21.99,43.98
+,,,,,
+071610502345,Dutch Master 4 For 5PK (C24) | Corona Sport Honey,3,4,21.99,65.97
+,,,,,
+071610502413,Dutch Master 4 For 5PK (C24) | Palma,3,4,21.99,65.97
+,,,,,
+071610499508,Dutch Master Cigarillo 20CT (C16) | Palma,10,20,33.5,335.0
+,,,,,
+071610499331,Dutch Master Cigarillo 20CT/2CT (C15) | Palma,3,20,44.0,132.0
+,,,,,
+071610340183,Dutch Master Cigarillo 3Pk 20CT (C16) | Russian Cream,2,20,33.99,67.98
+,,,,,
+071610341197,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Berry Fusion,2,30,23.99,47.98
+,,,,,
+071610341203,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Blue Dream Fusion,2,30,23.99,47.98
+,,,,,
+071610341333,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Diamond,2,30,23.99,47.98
+,,,,,
+071610341234,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Gold,6,30,23.99,143.94
+,,,,,
+071610341678,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Green Envy,14,30,23.99,335.86
+,,,,,
+071610341210,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Honey Fusion,3,30,23.99,71.97
+,,,,,
+071610341241,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Og,2,30,23.99,47.98
+,,,,,
+071610341081,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Platinum,1,30,23.99,23.99
+,,,,,
+071610341180,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Sweet Fusion,1,30,23.99,23.99
+,,,,,
+071610341609,Dutch Master Grape 3Pk 20CT (C16),2,20,32.5,65.0
+,,,,,
+071610502376,Dutch Master President 5CT / 5PK,28,,21.0,588.0
+,,,,,
+705105723761,Entourage 25CT (C40) | Le Prive,5,25,18.0,90.0
+,,,,,
+819721010676,Entourage 25CT (C40) | Pink Vanilla,1,25,18.0,18.0
+,,,,,
+819721010683,Entourage 25CT (C40) | Vanilla,6,50,18.0,108.0
+,,,,,
+031700237960,Game 2 For $1.29 30CT (C12) | Black Cherry,2,30,21.99,43.98
+,,,,,
+031700238035,Game 2 For $1.29 30CT (C12) | Black Sweets,16,30,21.99,351.84
+,,,,,
+031700237953,Game 2 For $1.29 30CT (C12) | Blue,79,30,21.99,1737.21
+,,,,,
+031700237991,Game 2 For $1.29 30CT (C12) | Diamond,25,30,21.99,549.75
+,,,,,
+031700239377,Game 2 For $1.29 30CT (C12) | Espresso Martini,5,30,21.99,109.95
+,,,,,
+031700237946,Game 2 For $1.29 30CT (C12) | Green,16,30,21.99,351.84
+,,,,,
+031700237915,Game 2 For $1.29 30CT (C12) | Honey,10,30,21.99,219.9
+,,,,,
+031700237984,Game 2 For $1.29 30CT (C12) | Mango,8,30,21.99,175.92
+,,,,,
+031700239414,Game 2 For $1.29 30CT (C12) | Mvp White Russian,2,30,21.99,43.98
+,,,,,
+031700238011,Game 2 For $1.29 30CT (C12) | Natural Silver,48,30,21.99,1055.52
+,,,,,
+031700238004,Game 2 For $1.29 30CT (C12) | Pineapple,31,30,21.99,681.69
+,,,,,
+031700239100,Game 2 For $1.29 30CT (C12) | Red Ruby,15,30,21.99,329.85
+,,,,,
+031700238028,Game 2 For $1.29 30CT (C12) | Red Sweets,24,30,21.99,527.76
+,,,,,
+031700239391,Game 2 For $1.29 30CT (C12) | Summer Blend,11,,21.99,241.89
+,,,,,
+031700237922,Game 2 For $1.29 30CT (C12) | White Grape,28,30,21.99,615.72
+,,,,,
+031700237977,Game 2 For $1.29 30CT (C12) | White Peach,16,30,21.99,351.84
+,,,,,
+031700238714,Game Leaf 2CT/$1.29 15CT (C24) | Tropical,1,15,11.5,11.5
+,,,,,
+031700238677,Game Leaf 2CT/$1.49 15CT (C24) | Dark,16,15,12.99,207.84
+,,,,,
+031700236864,Game Mini 3CT/$1.29 15CT (C24) | Black Sweets,24,15,11.99,287.76
+,,,,,
+031700236628,Game Mini 3CT/$1.29 15CT (C24) | Blue,5,15,11.99,59.95
+,,,,,
+031700236840,Game Mini 3CT/$1.29 15CT (C24) | Diamond,7,15,11.99,83.93
+,,,,,
+031700236611,Game Mini 3CT/$1.29 15CT (C24) | Red Sweets,4,15,11.99,47.96
+,,,,,
+842426166867,Good Times #Hd 3CT/$1.29 15CT (C24) | Berry Fusion,1,15,9.75,9.75
+,,,,,
+842426166898,Good Times #Hd 3CT/$1.29 15CT (C24) | Blue,1,15,9.75,9.75
+,,,,,
+842426166959,Good Times #Hd 3CT/$1.29 15CT (C24) | Green Sweet,1,15,9.75,9.75
+,,,,,
+842426167017,Good Times #Hd 3CT/$1.29 15CT (C24) | Kash,1,15,9.75,9.75
+,,,,,
+842426167048,Good Times #Hd 3CT/$1.29 15CT (C24) | Napa Grape,1,15,9.75,9.75
+,,,,,
+842426167079,Good Times #Hd 3CT/$1.29 15CT (C24) | Pure Silver,3,15,9.75,29.25
+,,,,,
+842426167130,Good Times #Hd 3CT/$1.29 15CT (C24) | Russian Cream,2,15,9.75,19.5
+,,,,,
+842426167109,Good Times #Hd 3CT/$1.29 15CT (C24) | Sweet,2,15,9.75,19.5
+,,,,,
+842426167161,Good Times #Hd 3CT/$1.29 15CT (C24) | Vanilla,3,15,9.75,29.25
+,,,,,
+842426170581,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Classic,1,15,12.25,12.25
+,,,,,
+842426170796,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Cognac,2,15,12.25,24.5
+,,,,,
+842426170765,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Golden Honey,1,15,12.25,12.25
+,,,,,
+842426170826,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Honey Berry,1,15,12.25,12.25
+,,,,,
+842426170642,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Natural,3,15,12.25,36.75
+,,,,,
+842426170734,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Russian Cream,6,15,12.25,73.5
+,,,,,
+842426170499,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Vanilla,4,15,12.25,49.0
+,,,,,
+842426181532,Good Times Black Smooth 69C 15CT (C25) | Blueberry,3,25,5.25,15.75
+,,,,,
+842426181686,Good Times Black Smooth 69C 15CT (C25) | Mango,1,25,5.25,5.25
+,,,,,
+842426181747,Good Times Black Smooth 69C 15CT (C25) | Peach,1,25,5.25,5.25
+,,,,,
+842426182225,Good Times Black Smooth 69C 15CT (C25) | Sweet,1,25,5.25,5.25
+,,,,,
+842426181594,Good Times Black Smooth 69C 15CT (C25) | Vanilla,1,25,5.25,5.25
+,,,,,
+842426181563,Good Times Black Smooth 69C 15CT (C25) | Watermelon,1,25,5.25,5.25
+,,,,,
+10854029008717,King Palm Pouch 2PK Mini Rolls 20CT (C40) | Margarita,1,20,26.99,26.99
+,,,,,
+070330644809,Lgt Bic 50CT (C6) | Reg CT+3,6,50,47.0,282.0
+,,,,,
+756545704629,Lighter Great Lite Clear 50CT (C20),25,50,4.5,112.5
+,,,,,
+070235501412,Phillies Titan 10CT/5PK (C12),1,10,41.99,41.99
+,,,,,
+894945001426,Pipe Tobacco Bag Ohm 16OZ (C24) | Blue,8,1,9.49,75.92
+,,,,,
+894945001419,Pipe Tobacco Bag Ohm 16OZ (C24) | Bold,2,1,9.49,18.98
+,,,,,
+894945001488,Pipe Tobacco Bag Ohm 16OZ (C24) | Menthol,5,1,9.49,47.45
+,,,,,
+894945001440,Pipe Tobacco Bag Ohm 16OZ (C24) | Natural,4,1,9.49,37.96
+,,,,,
+894945001433,Pipe Tobacco Bag Ohm 16OZ (C24) | Silver,12,1,9.49,113.88
+,,,,,
+894945001839,Pipe Tobacco Bag Ohm 16OZ (C24) | Turkish Red,4,1,9.49,37.96
+,,,,,
+894945001846,Pipe Tobacco Bag Ohm 16OZ (C24) | Yellow,4,1,9.49,37.96
+,,,,,
+894945001679,Pipe Tobacco Bag Ohm 6OZ (C36) | Mentho Gold,3,1,4.2,12.6
+,,,,,
+894945001402,Pipe Tobacco Bag Ohm 6OZ (C36) | Natural,1,1,4.25,4.25
+,,,,,
+894945001853,Pipe Tobacco Bag Ohm 6OZ (C36) | Red,3,1,4.25,12.75
+,,,,,
+894945001396,Pipe Tobacco Bag Ohm 6OZ (C36) | Silver,8,1,4.25,34.0
+,,,,,
+894945001860,Pipe Tobacco Bag Ohm 6OZ (C36) | Yellow,1,1,4.25,4.25
+,,,,,
+716165252054,Raw Cone Classic Black 1.25 32CT/6 Cones (C32),1,32,34.0,34.0
+,,,,,
+716165201960,Raw Cone Organic 1.25 32CT/6 Cones (C32),1,32,27.99,27.99
+,,,,,
+716165202110,Raw Cone Organic King Size 32CT/3 Cones (C32),1,32,26.5,26.5
+,,,,,
+611269991000,Red Bull 8.4OZ-24CT | Regular Small,1,24,36.99,36.99
+,,,,,
+611269623727,Red Bull 8.4OZ-24CT | Total Zero,1,24,36.99,36.99
+,,,,,
+817127027441,Show 5CT/$1 15CT (C24) | Lemon Ice,1,15,8.0,8.0
+,,,,,
+858765005880,Show 5CT/$1 15CT (C24) | Peach Mango Tata,1,15,8.0,8.0
+,,,,,
+858765005842,Show 5CT/$1 15CT (C24) | Pineapple Buzz,1,15,8.0,8.0
+,,,,,
+858765005828,Show 5CT/$1 15CT (C24) | Sweet,1,15,8.0,8.0
+,,,,,
+858765008676,Show 5CT/$1 15CT (C24) | Wet & Fruity,1,15,8.0,8.0
+,,,,,
+025900329839,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Diamond,1,30,20.89,20.89
+,,,,,
+025900287337,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Regular Sweet,126,30,20.89,2632.14
+,,,,,
+025900329860,Swisher Sweets 2CT/$1.19 30CT/2Pk (C24) | Tropical,1,30,20.89,20.89
+,,,,,
+025900453381,Swisher Sweets 2CT/$99C 30CT/2PK (C24) | Wild Rush,2,30,16.5,33.0
+,,,,,
+025900336776,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Cocoa,1,15,13.49,13.49
+,,,,,
+025900325718,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Smooth,12,15,13.49,161.88
+,,,,,
+025900297695,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Wine,2,15,13.49,26.98
+,,,,,
+025900336882,Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Cherry,3,30,24.99,74.97
+,,,,,
+025900359522,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Aromatic,22,10,14.5,319.0
+,,,,,
+025900359546,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Brandy,14,10,14.5,203.0
+,,,,,
+025900359553,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Cream,17,10,14.5,246.5
+,,,,,
+025900359515,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Honey,8,10,14.5,116.0
+,,,,,
+025900359508,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Original,18,10,14.5,261.0
+,,,,,
+025900240868,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Blue Berry,1,15,15.25,15.25
+,,,,,
+025900240790,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Diamond,1,15,15.25,15.25
+,,,,,
+071737451298,Talon Filtered Cigar (C30) | Regular,4,10,9.25,37.0
+,,,,,
+071737451328,Talon Filtered Cigar (C30) | Silver,3,200,9.25,27.75
+,,,,,
+071737451236,Talon Filtered Cigar (C30) | Sweet Original,4,200,9.25,37.0
+,,,,,
+844504002975,Tob American Club 16OZ (C20) | Blue Light,5,1,9.5,47.5
+,,,,,
+844504002968,Tob American Club 16OZ (C20) | Classic,5,1,9.5,47.5
+,,,,,
+844504002951,Tob American Club 16OZ (C20) | Menthol,2,1,9.5,19.0
+,,,,,
+817127028387,Tob Big Dog Broad Leaf Pp $1.99 20/2PK (C24) | Blueberry Cookies Leaf,2,20,20.0,40.0
+,,,,,
+817127028028,Tob Big Dog Broad Leaf Pp $1.99 20/2PK (C24) | Platinum Dark Leaf,2,20,20.0,40.0
+,,,,,
+817127028011,Tob Big Dog Broad Leaf Pp $1.99 20/2PK (C24) | Vanilla,2,20,20.0,40.0
+,,,,,
+070195596602,Tob L/L Big Duke 3OZ Pouches $1.99 (C12) | Regular,4,12,15.99,63.96
+,,,,,
+070195596275,Tob L/L Big Duke 3OZ Pouches $1.99 (C12) | Southern Blend,4,12,15.99,63.96
+,,,,,
+070195596312,Tob L/L Big Duke 6CT-16OZ Pre-Priced $9.99 (C4) | Sweet Blend,1,6,41.0,41.0
+,,,,,
+033300270521,Tob L/L Bowie Pre-Priced $2.19 12CT (C12),2,12,18.0,36.0
+,,,,,
+033300270538,Tob L/L Chattanooga $2.19 12CT 3OZ (C12),14,12,18.0,252.0
+,,,,,
+033300635870,Tob L/L Chewing Tobacco Starr $2.19 Per Pouch 12CT (C12) | Peach,9,12,18.0,162.0
+,,,,,
+033300635849,Tob L/L Chewing Tobacco Starr $2.19 Per Pouch 12CT (C12) | Regular,11,12,18.0,198.0
+,,,,,
+070195354035,Tob L/L Days Work Plug 15CT (C10),4,15,135.0,540.0
+,,,,,
+033300632541,Tob L/L Lancaster B1G1 (C12),8,6,35.99,287.92
+,,,,,
+070195594196,Tob L/L Redman America'S Best Chew 6CT (C12) | Golden Blend,10,6,46.0,460.0
+,,,,,
+070195594202,Tob L/L Redman America'S Best Chew 6CT (C12) | Original Blend,9,6,46.0,414.0
+,,,,,
+070195594400,Tob L/L Redman America'S Best Chew 6CT (C12) | Silver Blend,28,6,46.0,1288.0
+,,,,,
+799953039525,Tob L/L Stoker 3OZ Pouches Red Supreme $1.99 (C12) | Bold,31,12,15.99,495.69
+,,,,,
+799953039327,Tob L/L Stoker 3OZ Pouches Supreme $1.99 (C12) Red,73,12,16.0,1168.0
+,,,,,
+860010326282,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Cognac & Honey,1,10,16.0,16.0
+,,,,,
+850059190029,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Dark,4,10,16.0,64.0
+,,,,,
+850059190463,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Dark White,1,10,16.0,16.0
+,,,,,
+860010326299,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Mango,4,10,16.0,64.0
+,,,,,
+860010326268,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Original,7,10,16.0,112.0
+,,,,,
+860010326275,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Russian Cream,2,10,16.0,32.0
+,,,,,
+850059190036,Tob Lil Leaf  3/$2.99 10/3PK (C30) | White Rum,13,10,16.0,208.0
+,,,,,
+860009348363,Tob Lil Leaf 10CT/5PK (C30) | Cognac & Honey,1,10,38.49,38.49
+,,,,,
+762446414000,Tob Longhorn Tub 14.4OZ 1CT (C8) | Finecut Natural,56,1,13.99,783.44
+,,,,,
+762446444007,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Mint,16,1,13.99,223.84
+,,,,,
+762446454006,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Natural,40,1,13.99,559.6
+,,,,,
+762446424009,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Straight,4,1,13.99,55.96
+,,,,,
+762446404001,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Wintergreen,40,1,13.99,559.6
+,,,,,
+658238734800,Tob Loose Leaf  5/8PK 40CT (C40) | Ice Cold,1,8,22.0,22.0
+,,,,,
+658238735029,Tob Loose Leaf  5/8PK 40CT (C40) | Red Rum,1,8,22.0,22.0
+,,,,,
+616663964902,Tob Loose Leaf Wrap 5/8PK 40CT (C40) | Natural Dark,1,5,22.0,22.0
+,,,,,
+616663964933,Tob Loose Leaf Wrap 5/8PK 40CT (C40) | Russian Cream,1,5,22.0,22.0
+,,,,,
+660111933682,Tob Loose Leaf Wrap 5/8PK 40CT (C40) | Strawberry Dream,1,5,22.0,22.0
+,,,,,
+742978846173,Tob Loose Leaf Wrap 5/8PK 40CT (C40) | Sweet Aromatic,1,8,22.0,22.0
+,,,,,
+658238735616,Tob Loose Leaf Wrap 5/8PK 40CT (C40) | Watermelon Dream,1,8,22.0,22.0
+,,,,,
+616663964971,Tob Loose Leaf Wrap 5/8PK 40CT Honey Bourbon 1/40 40,1,8,22.0,22.0
+,,,,,
+796559467110,Tob Slapwoods Wraps 10CT (C20) | Natural,4,10,33.0,132.0
+,,,,,
+033300616947,Tob Snuff Kayak 10CT Can (C18) | Long Cut Straight,4,10,20.5,82.0
+,,,,,
+033300518142,Tob Snuff Navy Sweet Tc (C12),36,1,37.0,1332.0
+,,,,,
+042100001266,Tob Snuff Peach Sweet 12CT (C12),1,12,182.99,182.99
+,,,,,
+033300511129,Tob Snuff Rail Road Sweet 12 Blue (C12),1,12,126.0,126.0
+,,,,,
+033300611171,Tob Snuff Square 12CT  2 (C12),2,12,126.0,252.0
+,,,,,
+033300518203,Tob Snuff Square Sweet Tc 1CT  (C12),64,1,37.0,2368.0
+,,,,,
+799953210306,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Fine Cut Wintergreen,4,1,13.99,55.96
+,,,,,
+799953221203,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Mint,36,1,13.99,503.64
+,,,,,
+799953209201,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Natural,4,1,13.99,55.96
+,,,,,
+799953231202,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Straight,84,1,13.99,1175.16
+,,,,,
+799953210207,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Wintergreen,78,1,13.99,1091.22
+,,,,,
+033300611249,Tob Snuff Superior 12CT   2 (C12),2,12,126.0,252.0
+,,,,,
+033300518241,Tob Snuff Superior Scotch Tc 1CT    (C12),108,1,37.0,3996.0
+,,,,,
+033300518302,Tob Snuff Tops Sweet Tc Blue    (C12),12,1,37.0,444.0
+,,,,,
+42100002041,Tob Snuff Tube Rose 12CT (Tp) 1.5OZ (C12),4,12,181.0,724.0
+,,,,,
+784762071583,Tob Zig Zag Wrap 2F99 25CT (C25) | Grape,1,25,12.99,12.99
+,,,,,
+784762078513,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Blue,2,15,9.5,19.0
+,,,,,
+784762078612,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Pink,2,15,9.5,19.0
+,,,,,
+784762078414,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Purple,2,15,9.5,19.0
+,,,,,
+784762078711,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Sweet,2,15,9.5,19.0
+,,,,,
+031700237762,White Owl 2CT/$1.19 30CT/2PK (C12) | Blue Raspberry,14,30,20.5,287.0
+,,,,,
+031700237731,White Owl 2CT/$1.19 30CT/2PK (C12) | Emerald,12,30,20.5,246.0
+,,,,,
+031700237748,White Owl 2CT/$1.19 30CT/2PK (C12) | Green Sweets,11,30,20.5,225.5
+,,,,,
+031700237779,White Owl 2CT/$1.19 30CT/2PK (C12) | Mango,2,30,20.5,41.0
+,,,,,
+031700237724,White Owl 2CT/$1.19 30CT/2PK (C12) | Platinum,12,30,20.5,246.0
+,,,,,
+031700237700,White Owl 2CT/$1.19 30CT/2PK (C12) | Silver,16,30,20.5,328.0
+,,,,,
+031700237694,White Owl 2CT/$1.19 30CT/2PK (C12) | Sweets,16,30,20.5,328.0
+,,,,,
+031700237885,White Owl 2CT/$1.19 30CT/2PK (C12) | Swirl Chocolate & Vanilla,12,30,20.5,246.0
+,,,,,
+031700237717,White Owl 2CT/$1.19 30CT/2PK (C12) | White Grape,3,30,20.5,61.5
+,,,,,
+031700238547,White Owl Cig 2F99C 30CT (C12) | Cherry Vanilla,1,15,17.5,17.5
+,,,,,
+031700001530,White Owl Newyorker 10/5PK (C24),1,10,33.5,33.5
+,,,,,
+,,,,,
+842426165365,4 Kings 4 For $1.19 15CT (C24) | Kiwi Berry,1,15,8.65,8.65
+,,,,,
+071610340473,Backwoods 10CT/3PK (C30) | Russian Cream,2,10,24.0,48.0
+,,,,,
+071610303089,Backwoods 24CT (C25) | Russian Cream,1,24,21.0,21.0
+,,,,,
+071610340565,Backwoods 8CT/5PK (C30) | Banana,2,8,30.0,60.0
+,,,,,
+071610302730,Backwoods 8CT/5PK (C30) | Dark Stout,2,8,30.0,60.0
+,,,,,
+0410181181458,Backwoods 8CT/5PK (C30) | Honey,6,8,30.0,180.0
+,,,,,
+071610301870,Backwoods 8CT/5PK (C30) | Honey Berry,20,8,30.0,600.0
+,,,,,
+071610341739,Backwoods 8CT/5PK (C30) | Nola Banana Foster,5,8,30.0,150.0
+,,,,,
+071610302808,Backwoods 8CT/5PK (C30) | Russian Cream,38,8,30.0,1140.0
+,,,,,
+071610301924,Backwoods 8CT/5PK (C30) | Sweet Aromatic,36,8,30.0,1080.0
+,,,,,
+071610341760,Backwoods 8CT/5PK (C30) | Tical,1,8,30.0,30.0
+,,,,,
+071610340848,Backwoods 8CT/5PK (C30) | Vanilla,8,8,30.0,240.0
+,,,,,
+070137500889,Black N Mild 10CT/5PK (C30) | Apple,2,10,43.5,87.0
+,,,,,
+070137500384,Black N Mild 10CT/5PK (C30) | Select,2,10,43.5,87.0
+,,,,,
+070137000235,Black N Mild 10CT/5PK (C30) | Wine,3,10,43.5,130.5
+,,,,,
+070137505259,Black N Mild 10CT/5PK Wood Tip (C30) | Original,3,10,49.0,147.0
+,,,,,
+070137511212,Black N Mild 25CT (C30) | Jazz,2,25,21.75,43.5
+,,,,,
+070137005186,Black N Mild 25CT (C30) | Original,5,25,21.75,108.75
+,,,,,
+070137005230,Black N Mild 25CT (C30) | Wine,3,25,21.75,65.25
+,,,,,
+070137511229,Black N Mild 25CT Wood Tip (C30) | Jazz,2,25,24.5,49.0
+,,,,,
+070137525257,Black N Mild 25CT Wood Tip (C30) | Original,8,25,24.5,196.0
+,,,,,
+070137515630,Black N Mild 25CT Wood Tip Nice Price (C30) | Sweet,2,25,21.0,42.0
+,,,,,
+070137512776,Black N Mild 99C 25CT (C30) | Casino,3,25,18.0,54.0
+,,,,,
+070137824152,Black N Mild 99C 25CT (C30) | Original,40,25,18.0,720.0
+,,,,,
+025900293345,Black Stone Cherry Tip 10PK 10CT Value Pack 1/20 10,24,10,45.5,1092.0
+,,,,,
+819721012397,Bluntville $1.29C Pre-Priced 25CT (C50) | Blue,2,25,16.5,33.0
+,,,,,
+819721012335,Bluntville $1.29C Pre-Priced 25CT (C50) | Palma Trio,11,25,16.5,181.5
+,,,,,
+819721012427,Bluntville $1.29C Pre-Priced 25CT (C50) | Pink Diva,5,25,16.5,82.5
+,,,,,
+819721012366,Bluntville $1.29C Pre-Priced 25CT (C50) | Triple Vanilla,60,25,16.5,990.0
+,,,,,
+819721010355,Bluntville 25CT (C50) | Grape,2,25,17.0,34.0
+,,,,,
+874411000696,Cheyenne Filtered Cigar (C60) | Menthol,3,10,12.99,38.97
+,,,,,
+039517818365,Cheyenne Filtered Cigar (C60) | Strawberry,4,10,12.99,51.96
+,,,,,
+874411000702,Cheyenne Filtered Cigar (C60) | W/Cherry,3,10,12.99,38.97
+,,,,,
+751667046947,Djarum 10PKct/12CT (C40) | Black,2,10,43.75,87.5
+,,,,,
+751667067546,Djarum 10PKct/12CT (C40) | Cherry/Ruby,6,10,43.75,262.5
+,,,,,
+751667067584,Djarum 10PKct/12CT (C40) | Special,5,10,43.75,218.75
+,,,,,
+751667290029,Djarum 10PKct/12CT (C40) | Ultra Menthol/Sapphire,5,10,43.75,218.75
+,,,,,
+751667090629,Djarum 10PKct/12CT (C40) | Vanilla / Ivory,5,10,43.75,218.75
+,,,,,
+071610495883,Dutch Master 3CT/$1.99 20CT (C16) | Palma,16,20,24.5,392.0
+,,,,,
+71610502314,Dutch Master 4 For 5PK (C24) | Corona De Luxe,5,4,21.99,109.95
+,,,,,
+071610503809,Dutch Master 4 For 5PK (C24) | Corona Grape,5,4,21.99,109.95
+,,,,,
+071610502345,Dutch Master 4 For 5PK (C24) | Corona Sport Honey,5,4,21.99,109.95
+,,,,,
+071610502413,Dutch Master 4 For 5PK (C24) | Palma,17,4,21.99,373.83
+,,,,,
+071610499508,Dutch Master Cigarillo 20CT (C16) | Palma,9,20,33.5,301.5
+,,,,,
+071610499331,Dutch Master Cigarillo 20CT/2CT (C15) | Palma,5,20,44.0,220.0
+,,,,,
+071610340183,Dutch Master Cigarillo 3Pk 20CT (C16) | Russian Cream,2,20,33.5,67.0
+,,,,,
+071610341197,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Berry Fusion,4,30,24.0,96.0
+,,,,,
+071610341210,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Honey Fusion,3,30,24.0,72.0
+,,,,,
+071610341227,Dutch Master Fusion 2CT/$1.29 30CT (C12) | Irish,1,30,24.0,24.0
+,,,,,
+071610341609,Dutch Master Grape 3Pk 20CT (C16),2,20,32.5,65.0
+,,,,,
+071610502376,Dutch Master President 5CT / 5PK,2,,21.0,42.0
+,,,,,
+077170260664,Gambler 200CT 100Mm Cigarette Tube (C50) | Lights 100 GLFTC,25,10,3.25,81.25
+,,,,,
+077170260640,Gambler 200CT 100Mm Cigarette Tube (C50) | Regular GRFTC,25,10,3.25,81.25
+,,,,,
+077170260763,Gambler 200CT 100Mm Tubecut Cigarette Tube (C50) | Gold GTFLL,25,10,3.25,81.25
+,,,,,
+077170260725,Gambler 200CT 100Mm Tubecut Cigarette Tube (C50) | Regular GTFRL,25,10,3.25,81.25
+,,,,,
+077170260220,Gambler 200CT King Size Cigarette Tube (C50) | Regular GRT20,25,10,2.49,62.25
+,,,,,
+077170260749,Gambler 200CT Kingsize Tubecut Cigarette Tube (C50) | Lights 100 GTFLK,25,10,2.49,62.25
+,,,,,
+077170260701,Gambler 200CT Kingsize Tubecut Cigarette Tube (C50) | Regular GTFRK,25,10,2.49,62.25
+,,,,,
+031700238035,Game 2 For $1.29 30CT (C12) | Black Sweets,2,30,22.0,44.0
+,,,,,
+031700237953,Game 2 For $1.29 30CT (C12) | Blue,17,30,22.0,374.0
+,,,,,
+031700237991,Game 2 For $1.29 30CT (C12) | Diamond,14,30,22.0,308.0
+,,,,,
+031700239377,Game 2 For $1.29 30CT (C12) | Espresso Martini,1,30,22.0,22.0
+,,,,,
+031700237946,Game 2 For $1.29 30CT (C12) | Green,3,30,22.0,66.0
+,,,,,
+031700239414,Game 2 For $1.29 30CT (C12) | Mvp White Russian,5,30,22.0,110.0
+,,,,,
+031700238011,Game 2 For $1.29 30CT (C12) | Natural Silver,15,30,22.0,330.0
+,,,,,
+031700238004,Game 2 For $1.29 30CT (C12) | Pineapple,2,30,22.0,44.0
+,,,,,
+031700239100,Game 2 For $1.29 30CT (C12) | Red Ruby,1,30,22.0,22.0
+,,,,,
+031700239391,Game 2 For $1.29 30CT (C12) | Summer Blend,5,,22.0,110.0
+,,,,,
+031700237922,Game 2 For $1.29 30CT (C12) | White Grape,2,30,22.0,44.0
+,,,,,
+031700237977,Game 2 For $1.29 30CT (C12) | White Peach,2,30,22.0,44.0
+,,,,,
+031700234860,Game Leaf 2CT/$1.29 15CT (C24) | Sweet Aromatic,1,15,11.5,11.5
+,,,,,
+031700238714,Game Leaf 2CT/$1.29 15CT (C24) | Tropical,1,15,11.5,11.5
+,,,,,
+031700238936,Game Leaf 5CT/$2.99 8CT (C24) | Black Raspberry,3,8,13.99,41.97
+,,,,,
+031700236864,Game Mini 3CT/$1.29 15CT (C24) | Black Sweets,2,15,12.0,24.0
+,,,,,
+031700236628,Game Mini 3CT/$1.29 15CT (C24) | Blue,5,15,12.0,60.0
+,,,,,
+031700236840,Game Mini 3CT/$1.29 15CT (C24) | Diamond,1,15,12.0,12.0
+,,,,,
+031700238943,Game Special Reserve 15CT (C28),1,15,15.0,15.0
+,,,,,
+842426166867,Good Times #Hd 3CT/$1.29 15CT (C24) | Berry Fusion,1,15,9.75,9.75
+,,,,,
+842426166928,Good Times #Hd 3CT/$1.29 15CT (C24) | Cognac,1,15,9.75,9.75
+,,,,,
+842426166836,Good Times #Hd 3CT/$1.29 15CT (C24) | Honey Fusion,1,15,9.75,9.75
+,,,,,
+842426167048,Good Times #Hd 3CT/$1.29 15CT (C24) | Napa Grape,1,15,9.75,9.75
+,,,,,
+842426167079,Good Times #Hd 3CT/$1.29 15CT (C24) | Pure Silver,2,15,9.75,19.5
+,,,,,
+842426167130,Good Times #Hd 3CT/$1.29 15CT (C24) | Russian Cream,1,15,9.75,9.75
+,,,,,
+842426170529,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Banana,2,15,12.0,24.0
+,,,,,
+842426170642,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Natural,1,15,12.0,12.0
+,,,,,
+842426170734,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Russian Cream,5,15,12.0,60.0
+,,,,,
+842426170499,Good Times 2 For $1.39 Sweet Woods Leaf 15CT (C24) | Vanilla,1,15,12.0,12.0
+,,,,,
+842426181686,Good Times Black Smooth 69C 15CT (C25) | Mango,2,25,5.25,10.5
+,,,,,
+842426181594,Good Times Black Smooth 69C 15CT (C25) | Vanilla,2,25,5.25,10.5
+,,,,,
+842426181563,Good Times Black Smooth 69C 15CT (C25) | Watermelon,2,25,5.25,10.5
+,,,,,
+842426181716,Good Times Black Smooth 69C 15CT (C25) | Wine,2,25,5.25,10.5
+,,,,,
+818892014254,Good Times Wrap 79C 2PK 25CT (C25) | Black,1,25,9.5,9.5
+,,,,,
+812319010805,Good Times Wrap 79C 2PK 25CT (C25) | Cherry,2,25,9.5,19.0
+,,,,,
+818892016555,Good Times Wrap 79C 2PK 25CT (C25) | Fruit Punch,1,25,9.5,9.5
+,,,,,
+812319010355,Good Times Wrap 79C 2PK 25CT (C25) | Mangolicious,2,25,9.5,19.0
+,,,,,
+812319010546,Good Times Wrap 79C 2PK 25CT (C25) | Natural,1,25,9.5,9.5
+,,,,,
+812319010560,Good Times Wrap 79C 2PK 25CT (C25) | Peach,1,25,9.5,9.5
+,,,,,
+812319010836,Good Times Wrap 79C 2PK 25CT (C25) | Watermelon,1,25,9.5,9.5
+,,,,,
+719499005617,High Hemp Wraps 2CT/25PK (C50) | Flora Passion,2,25,9.5,19.0
+,,,,,
+025900444143,Optimo 2CT/$99C 30CTct/2PK (C24) | Diamond,3,30,18.0,54.0
+,,,,,
+025900443108,Optimo 2CT/$99C 30CTct/2PK (C24) | Grape,2,30,18.0,36.0
+,,,,,
+025900443030,Optimo 2CT/$99C 30CTct/2PK (C24) | Green,3,30,18.0,54.0
+,,,,,
+025900443016,Optimo 2CT/$99C 30CTct/2PK (C24) | Sweet,1,30,18.0,18.0
+,,,,,
+070235108512,Phillies Blunt 10CT/5PK (C30) | Regular,18,50,39.99,719.82
+,,,,,
+070235501412,Phillies Titan 10CT/5PK (C12),2,10,41.99,83.98
+,,,,,
+607122100023,Pipe Tobacco Bag Cherokee 16OZ (C12) | Mellow Blue,4,1,10.5,42.0
+,,,,,
+607122100016,Pipe Tobacco Bag Cherokee 16OZ (C12) | Original Red,4,1,9.5,38.0
+,,,,,
+894945001426,Pipe Tobacco Bag Ohm 16OZ (C24) | Blue,12,1,9.5,114.0
+,,,,,
+894945001488,Pipe Tobacco Bag Ohm 16OZ (C24) | Menthol,12,1,9.5,114.0
+,,,,,
+894945001433,Pipe Tobacco Bag Ohm 16OZ (C24) | Silver,9,1,9.5,85.5
+,,,,,
+619682009968,Royal Blunts Ez Roll 25CT (C100) | Atomic Blast,1,25,6.5,6.5
+,,,,,
+619682010124,Royal Blunts Ez Roll 25CT (C100) | Blueberry,2,25,6.5,13.0
+,,,,,
+619682621320,Royal Blunts Ez Roll 25CT (C100) | Jamaica Rum,2,25,6.5,13.0
+,,,,,
+619682010360,Royal Blunts Ez Roll 25CT (C100) | Sour Apple,2,25,6.5,13.0
+,,,,,
+619682009906,Royal Blunts Ez Roll 25CT (C100) | Strawberry Banana,1,25,6.5,6.5
+,,,,,
+619682621221,Royal Blunts Ez Roll 25CT (C100) | Wet Mango,2,25,6.5,13.0
+,,,,,
+816568010234,Shargio Cigarette Tube 250CT 100Mm (C40) | Blue,20,10,2.59,51.8
+,,,,,
+816568010357,Shargio Cigarette Tube King Size 200CT (C40) | Blue + 50CT Free,20,20,2.19,43.8
+,,,,,
+858765004647,Show 5CT/$1 15CT (C24) | Blue Palma,1,15,7.9,7.9
+,,,,,
+817127029544,Show 5CT/$1 15CT (C24) | Green Sweet,1,15,7.9,7.9
+,,,,,
+025900287351,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Blue Berry,1,30,20.5,20.5
+,,,,,
+025900329839,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Diamond,1,30,20.5,20.5
+,,,,,
+025900284305,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Peach,1,30,20.5,20.5
+,,,,,
+025900287337,Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Regular Sweet,9,30,20.5,184.5
+,,,,,
+025900294243,Swisher Sweets 2CT/$99C 30CT/2PK (C24) | Peach,1,30,16.5,16.5
+,,,,,
+025900336776,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Cocoa,2,15,13.25,26.5
+,,,,,
+025900325732,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Grape,2,15,13.25,26.5
+,,,,,
+025900325718,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Smooth,8,15,13.25,106.0
+,,,,,
+025900297695,Swisher Sweets Blk 2CT/$1.49 15CT/2PK (C48) | Wine,1,15,13.25,13.25
+,,,,,
+025900336882,Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Cherry,1,30,26.0,26.0
+,,,,,
+025900359522,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Aromatic,11,10,14.5,159.5
+,,,,,
+025900359546,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Brandy,8,10,14.5,116.0
+,,,,,
+025900359515,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Honey,18,10,14.5,261.0
+,,,,,
+025900359553,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Irish Cream,35,10,14.5,507.5
+,,,,,
+025900359508,Swisher Sweets Leaf 2CT/$2.49 10CT/3PK (C20) | Original,27,10,14.5,391.5
+,,,,,
+025900240868,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Blue Berry,1,15,15.0,15.0
+,,,,,
+025900240929,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Island Bash,1,15,15.0,15.0
+,,,,,
+025900240806,Swisher Sweets Mini Foil 3 For 2 15CT/3PK (C24) | Reg,1,15,15.0,15.0
+,,,,,
+844504002968,Tob American Club 16OZ (C20) | Classic,2,1,9.5,19.0
+,,,,,
+071610341685,Tob Backwood True Wraps 16CT/5PK (C15) | Aromatic,2,16,58.0,116.0
+,,,,,
+817127027953,Tob Big Dog Broad Leaf Pp $1.99 20/2PK (C24) | Aromatic,4,20,20.0,80.0
+,,,,,
+817127028028,Tob Big Dog Broad Leaf Pp $1.99 20/2PK (C24) | Platinum Dark Leaf,5,20,20.0,100.0
+,,,,,
+817127028035,Tob Big Dog Broad Leaf Pp $1.99 20/2PK (C24) | Russian Cream,5,20,20.0,100.0
+,,,,,
+817127028011,Tob Big Dog Broad Leaf Pp $1.99 20/2PK (C24) | Vanilla,3,20,20.0,60.0
+,,,,,
+750122786671,Tob Fronto King Dark Crush 12G 1CT Bottle (C24),48,1,2.0,96.0
+,,,,,
+035106057146,Tob L/L Beechnut $4.29 12CT 3OZ  (C12),1,12,31.0,31.0
+,,,,,
+070195596602,Tob L/L Big Duke 3OZ Pouches $1.99 (C12) | Regular,56,12,15.99,895.44
+,,,,,
+070195596169,Tob L/L Big Duke 6CT-16OZ Pre-Priced $9.99 (C4) | Original,6,6,40.0,240.0
+,,,,,
+033300270521,Tob L/L Bowie Pre-Priced $2.19 12CT (C12),48,12,18.0,864.0
+,,,,,
+033300270538,Tob L/L Chattanooga $2.19 12CT 3OZ (C12),30,12,18.0,540.0
+,,,,,
+033300635870,Tob L/L Chewing Tobacco Starr $2.19 Per Pouch 12CT (C12) | Peach,21,12,18.0,378.0
+,,,,,
+033300635849,Tob L/L Chewing Tobacco Starr $2.19 Per Pouch 12CT (C12) | Regular,68,12,18.0,1224.0
+,,,,,
+033300632541,Tob L/L Lancaster B1G1 (C12),12,6,35.99,431.88
+,,,,,
+042100007725,Tob L/L Levi Garret Reg 3OZ (C12),6,12,206.0,1236.0
+,,,,,
+070195594196,Tob L/L Redman America'S Best Chew 6CT (C12) | Golden Blend,24,6,46.0,1104.0
+,,,,,
+070195594202,Tob L/L Redman America'S Best Chew 6CT (C12) | Original Blend,48,6,46.0,2208.0
+,,,,,
+799953001119,Tob L/L Stoker 16OZ - 6CT (C4) | Classic,1,6,74.0,74.0
+,,,,,
+799953039327,Tob L/L Stoker 3OZ Pouches Supreme $1.99 (C12) Red,87,12,16.0,1392.0
+,,,,,
+860010326299,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Mango,4,10,15.5,62.0
+,,,,,
+860010326268,Tob Lil Leaf  3/$2.99 10/3PK (C30) | Original,6,10,15.5,93.0
+,,,,,
+850059190036,Tob Lil Leaf  3/$2.99 10/3PK (C30) | White Rum,2,10,15.5,31.0
+,,,,,
+762446414000,Tob Longhorn Tub 14.4OZ 1CT (C8) | Finecut Natural,18,1,14.5,261.0
+,,,,,
+762446444007,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Mint,4,1,14.5,58.0
+,,,,,
+762446454006,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Natural,6,1,14.5,87.0
+,,,,,
+762446424009,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Straight,46,1,14.5,667.0
+,,,,,
+762446404001,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Wintergreen,45,1,14.5,652.5
+,,,,,
+742978846173,Tob Loose Leaf Wrap 5/8PK 40CT (C40) | Sweet Aromatic,1,8,22.0,22.0
+,,,,,
+658238735616,Tob Loose Leaf Wrap 5/8PK 40CT (C40) | Watermelon Dream,1,8,22.0,22.0
+,,,,,
+796559467196,Tob Slapwoods Wraps 10CT (C20) | Bloodshot,2,10,32.0,64.0
+,,,,,
+796559467103,Tob Slapwoods Wraps 10CT (C20) | Dark Edition,5,10,32.0,160.0
+,,,,,
+738607282948,Tob Slapwoods Wraps 10CT (C20) | Russian Cream,3,10,32.0,96.0
+,,,,,
+073100014611,Tob Snuff Copenhagen 5CT Can (C18) | Long Cut,3,5,26.0,78.0
+,,,,,
+073100014772,Tob Snuff Copenhagen 5CT Can (C18) | Pouches Regular,4,5,26.0,104.0
+,,,,,
+073100010897,Tob Snuff Copenhagen 5CT Can (C18) | Regular Snuff,3,5,26.0,78.0
+,,,,,
+42100001365,Tob Snuff Dental Scotch Yellow 12CT (C12),6,12,179.99,1079.94
+,,,,,
+42100001761,Tob Snuff Dental Sweet 12CT   (C12),7,12,180.5,1263.5
+,,,,,
+033300616770,Tob Snuff Kayak 10CT Can (C18) | Long Cut Apple,18,10,21.0,378.0
+,,,,,
+033300616688,Tob Snuff Kayak 10CT Can (C18) | Long Cut Grape,4,10,21.0,84.0
+,,,,,
+033300616947,Tob Snuff Kayak 10CT Can (C18) | Long Cut Straight,36,10,21.0,756.0
+,,,,,
+033300616930,Tob Snuff Kayak 10CT Can (C18) | Long Cut Wintergreen,18,10,21.0,378.0
+,,,,,
+033300518142,Tob Snuff Navy Sweet Tc (C12),78,1,37.0,2886.0
+,,,,,
+042100001266,Tob Snuff Peach Sweet 12CT (C12),6,12,182.99,1097.94
+,,,,,
+073100010934,Tob Snuff Skoal 5CT Can (C18) | Fine Cut Wintergreen,18,5,26.5,477.0
+,,,,,
+073100011030,Tob Snuff Skoal 5CT Can (C18) | Long Cut Cherry,2,5,26.5,53.0
+,,,,,
+073100010972,Tob Snuff Skoal 5CT Can (C18) | Long Cut Mint,4,5,26.5,106.0
+,,,,,
+073100019067,Tob Snuff Skoal 5CT Can (C18) | Long Cut Peach,2,5,26.5,53.0
+,,,,,
+073100010958,Tob Snuff Skoal 5CT Can (C18) | Long Cut Wintergreen,4,5,26.5,106.0
+,,,,,
+033300518203,Tob Snuff Square Sweet Tc 1CT  (C12),60,1,37.0,2220.0
+,,,,,
+799953209300,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Fine Cut Natural,24,1,14.0,336.0
+,,,,,
+799953221203,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Mint,24,1,14.0,336.0
+,,,,,
+799953231202,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Straight,24,1,14.0,336.0
+,,,,,
+040835640750,Tob Up Leef Grabba Whole Leaf 5OZ 6CT  (C24),3,6,14.0,42.0
+,,,,,
+787269093218,Tob Up Leef Red Rose Blend 12G 1CT Bottle  (C24),48,1,1.89,90.72
+,,,,,
+784762071613,Tob Zig Zag Wrap 2F99 25CT (C25) | Apple,1,25,13.0,13.0
+,,,,,
+784762071743,Tob Zig Zag Wrap 2F99 25CT (C25) | Pineapple,1,25,13.0,13.0
+,,,,,
+784762071668,Tob Zig Zag Wrap 2F99 25CT (C25) | Strawberry,1,25,13.0,13.0
+,,,,,
+784762078513,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Blue,1,15,9.75,9.75
+,,,,,
+784762078216,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Blueberry,4,15,9.75,39.0
+,,,,,
+784762077325,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Daimond,2,,9.75,19.5
+,,,,,
+784762078117,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Grape,1,15,9.75,9.75
+,,,,,
+784762078810,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Green,3,15,9.75,29.25
+,,,,,
+784762078612,Tob Zig Zag Wrap Rillo 4F99 15CT (C24) | Pink,3,15,9.75,29.25
+,,,,,
+031700237724,White Owl 2CT/$1.19 30CT/2PK (C12) | Platinum,5,30,20.5,102.5
+,,,,,
+031700237700,White Owl 2CT/$1.19 30CT/2PK (C12) | Silver,3,30,20.5,61.5
+,,,,,
+031700237694,White Owl 2CT/$1.19 30CT/2PK (C12) | Sweets,3,30,20.5,61.5
+,,,,,
+031700238394,White Owl 2CT/$1.19 30CT/2PK (C12) | Triple Grape,1,30,20.5,20.5
+,,,,,
+031700237847,White Owl 2CT/$1.19 30CT/2PK (C12) | Tropical Twist,1,30,20.5,20.5
+,,,,,
+031700237717,White Owl 2CT/$1.19 30CT/2PK (C12) | White Grape,3,30,20.5,61.5
+,,,,,
+,,,,,
+070137505297,Black N Mild 10CT/5PK Wood Tip (C30) | Wine,6,10,49.6,297.6
+,,,,,
+070137511229,Black N Mild 25CT Wood Tip (C30) | Jazz,5,25,24.8,124.0
+,,,,,
+070137515630,Black N Mild 25CT Wood Tip Nice Price (C30) | Sweet,10,25,21.0,210.0
+,,,,,
+070137839750,Black N Mild 5 For 4 (C30) | Wine,21,10,35.5,745.5
+,,,,,
+070137514237,Black N Mild 99C 25CT (C30) | Sweets,10,25,18.0,180.0
+,,,,,
+751667067546,Djarum 10PKct/12CT (C40) | Cherry/Ruby,3,10,44.25,132.75
+,,,,,
+071610499508,Dutch Master Cigarillo 20CT (C16) | Palma,15,20,33.5,502.5
+,,,,,
+031700237953,Game 2 For $1.29 30CT (C12) | Blue,12,30,22.0,264.0
+,,,,,
+031700237991,Game 2 For $1.29 30CT (C12) | Diamond,12,30,22.0,264.0
+,,,,,
+031700239377,Game 2 For $1.29 30CT (C12) | Espresso Martini,5,30,22.0,110.0
+,,,,,
+031700238011,Game 2 For $1.29 30CT (C12) | Natural Silver,12,30,22.0,264.0
+,,,,,
+894945001426,Pipe Tobacco Bag Ohm 16OZ (C24) | Blue,15,1,10.0,150.0
+,,,,,
+894945001419,Pipe Tobacco Bag Ohm 16OZ (C24) | Bold,15,1,10.0,150.0
+,,,,,
+894945001488,Pipe Tobacco Bag Ohm 16OZ (C24) | Menthol,15,1,10.0,150.0
+,,,,,
+894945001433,Pipe Tobacco Bag Ohm 16OZ (C24) | Silver,15,1,10.0,150.0
+,,,,,
+894945001839,Pipe Tobacco Bag Ohm 16OZ (C24) | Turkish Red,10,1,10.0,100.0
+,,,,,
+894945001846,Pipe Tobacco Bag Ohm 16OZ (C24) | Yellow,10,1,10.0,100.0
+,,,,,
+025900336882,Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Cherry,24,30,25.0,600.0
+,,,,,
+844504002975,Tob American Club 16OZ (C20) | Blue Light,20,1,10.0,200.0
+,,,,,
+844504002968,Tob American Club 16OZ (C20) | Classic,20,1,10.0,200.0
+,,,,,
+033300270521,Tob L/L Bowie Pre-Priced $2.19 12CT (C12),12,12,18.0,216.0
+,,,,,
+033300635849,Tob L/L Chewing Tobacco Starr $2.19 Per Pouch 12CT (C12) | Regular,12,12,18.0,216.0
+,,,,,
+070195594202,Tob L/L Redman America'S Best Chew 6CT (C12) | Original Blend,24,6,46.0,1104.0
+,,,,,
+799953010111,Tob L/L Stoker 16OZ - 6CT (C4) | Apple,1,6,74.0,74.0
+,,,,,
+762446414000,Tob Longhorn Tub 14.4OZ 1CT (C8) | Finecut Natural,16,1,14.5,232.0
+,,,,,
+762446444007,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Mint,16,1,14.5,232.0
+,,,,,
+762446424009,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Straight,32,1,14.5,464.0
+,,,,,
+762446404001,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Wintergreen,24,1,14.5,348.0
+,,,,,
+033300518142,Tob Snuff Navy Sweet Tc (C12),12,1,37.0,444.0
+,,,,,
+033300611171,Tob Snuff Square 12CT  2 (C12),2,12,126.0,252.0
+,,,,,
+033300518203,Tob Snuff Square Sweet Tc 1CT  (C12),12,1,37.0,444.0
+,,,,,
+799953221203,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Mint,24,1,14.25,342.0
+,,,,,
+799953232209,Tob Snuff Stoker'S $2 Off Tub 12OZ 1CT (C12) | Longcut Straight,144,1,12.0,1728.0
+,,,,,
+033300611249,Tob Snuff Superior 12CT   2 (C12),2,12,126.0,252.0
+,,,,,
+033300611300,Tob Snuff Tops Sweet 12CT (C12),1,12,126.0,126.0
+,,,,,
+033300518302,Tob Snuff Tops Sweet Tc Blue    (C12),12,1,37.0,444.0
+,,,,,
+031700237779,White Owl 2CT/$1.19 30CT/2PK (C12) | Mango,5,30,20.5,102.5
+,,,,,
+031700237700,White Owl 2CT/$1.19 30CT/2PK (C12) | Silver,5,30,20.5,102.5
+,,,,,
+031700237847,White Owl 2CT/$1.19 30CT/2PK (C12) | Tropical Twist,5,30,20.5,102.5
+,,,,,
+031700237717,White Owl 2CT/$1.19 30CT/2PK (C12) | White Grape,5,30,20.5,102.5
+,,,,,
+,,,,,
+842426165242,CGR 4 Kings 4 For $1.19 15CT (C24) | Blueberry Pineapple,24,15,8.65,207.6
+,,,,,
+842426165273,CGR 4 Kings 4 For $1.19 15CT (C24) | Diamond,24,15,8.65,207.6
+,,,,,
+842426165303,CGR 4 Kings 4 For $1.19 15CT (C24) | French Vanilla,24,15,8.65,207.6
+,,,,,
+842426165365,CGR 4 Kings 4 For $1.19 15CT (C24) | Kiwi Berry,24,15,8.65,207.6
+,,,,,
+842426165396,CGR 4 Kings 4 For $1.19 15CT (C24) | Mango,24,15,8.65,207.6
+,,,,,
+842426165457,CGR 4 Kings 4 For $1.19 15CT (C24) | Napa Grape,24,15,8.65,207.6
+,,,,,
+842426165488,CGR 4 Kings 4 For $1.19 15CT (C24) | Sweet Delicious,24,15,8.65,207.6
+,,,,,
+842426165518,CGR 4 Kings 4 For $1.19 15CT (C24) | Watermelon,24,15,8.65,207.6
+,,,,,
+842426165570,CGR 4 Kings 4 For $1.19 15CT (C24) | White Grape,24,15,8.65,207.6
+,,,,,
+031700237960,CGR Game 2 For $1.29 30CT (C12) | Black Cherry,12,30,22.0,264.0
+,,,,,
+031700238035,CGR Game 2 For $1.29 30CT (C12) | Black Sweets,24,30,22.0,528.0
+,,,,,
+031700237953,CGR Game 2 For $1.29 30CT (C12) | Blue,48,30,22.0,1056.0
+,,,,,
+031700237991,CGR Game 2 For $1.29 30CT (C12) | Diamond,36,30,22.0,792.0
+,,,,,
+031700237939,CGR Game 2 For $1.29 30CT (C12) | Grape,12,30,22.0,264.0
+,,,,,
+031700237946,CGR Game 2 For $1.29 30CT (C12) | Green,24,30,22.0,528.0
+,,,,,
+031700238011,CGR Game 2 For $1.29 30CT (C12) | Natural Silver,60,30,22.0,1320.0
+,,,,,
+031700239391,CGR Game 2 For $1.29 30CT (C12) | Summer Blend,24,,22.0,528.0
+,,,,,
+031700237922,CGR Game 2 For $1.29 30CT (C12) | White Grape,24,30,22.0,528.0
+,,,,,
+031700236864,CGR Game Mini 3CT/$1.29 15CT (C24) | Black Sweets,24,15,12.0,288.0
+,,,,,
+031700236628,CGR Game Mini 3CT/$1.29 15CT (C24) | Blue,24,15,12.0,288.0
+,,,,,
+031700236840,CGR Game Mini 3CT/$1.29 15CT (C24) | Diamond,24,15,12.0,288.0
+,,,,,
+031700236611,CGR Game Mini 3CT/$1.29 15CT (C24) | Red Sweets,24,15,12.0,288.0
+,,,,,
+842426166867,CGR Good Times #Hd 3CT/$1.29 15CT (C24) | Berry Fusion,24,15,10.0,240.0
+,,,,,
+842426166898,CGR Good Times #Hd 3CT/$1.29 15CT (C24) | Blue,24,15,10.0,240.0
+,,,,,
+842426166959,CGR Good Times #Hd 3CT/$1.29 15CT (C24) | Green Sweet,24,15,10.0,240.0
+,,,,,
+842426166980,CGR Good Times #Hd 3CT/$1.29 15CT (C24) | Honey,24,15,10.0,240.0
+,,,,,
+842426166836,CGR Good Times #Hd 3CT/$1.29 15CT (C24) | Honey Fusion,24,15,10.0,240.0
+,,,,,
+842426167017,CGR Good Times #Hd 3CT/$1.29 15CT (C24) | Kash,24,15,10.0,240.0
+,,,,,
+842426167079,CGR Good Times #Hd 3CT/$1.29 15CT (C24) | Pure Silver,24,15,10.0,240.0
+,,,,,
+842426167130,CGR Good Times #Hd 3CT/$1.29 15CT (C24) | Russian Cream,24,15,10.0,240.0
+,,,,,
+842426164078,CGR Good Times #Hd Palma $1.29 10CT (C24) | Blue,24,10,7.5,180.0
+,,,,,
+025900329839,CGR Swisher Sweets 2CT/$1.19 30CT/2PK (C24) | Diamond,24,30,22.0,528.0
+,,,,,
+025900336905,CGR Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Berry,24,30,25.0,600.0
+,,,,,
+025900336882,CGR Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Cherry,24,30,25.0,600.0
+,,,,,
+025900336875,CGR Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Smooth,48,15,25.0,1200.0
+,,,,,
+025900336912,CGR Swisher Sweets Blk 2CT/$1.49 30CT/2PK (C24) | Wine,24,15,25.0,600.0
+,,,,,
+070195596602,Tob L/L Big Duke 3OZ Pouches $1.99 (C12) | Regular,60,12,15.99,959.4
+,,,,,
+070195596169,Tob L/L Big Duke 6CT-16OZ Pre-Priced $9.99 (C4) | Original,44,6,40.0,1760.0
+,,,,,
+033300635849,Tob L/L Chewing Tobacco Starr $2.19 Per Pouch 12CT (C12) | Regular,60,12,18.0,1080.0
+,,,,,
+070195594196,Tob L/L Redman America'S Best Chew 6CT (C12) | Golden Blend,24,6,46.0,1104.0
+,,,,,
+070195594202,Tob L/L Redman America'S Best Chew 6CT (C12) | Original Blend,48,6,46.0,2208.0
+,,,,,
+070195594400,Tob L/L Redman America'S Best Chew 6CT (C12) | Silver Blend,60,6,46.0,2760.0
+,,,,,
+762446404025,Tob Longhorn Tub 14.4OZ $2.50 Off (C8) | Longcut Wintergreen,72,5,11.99,863.28
+,,,,,
+762446444007,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Mint,24,1,14.5,348.0
+,,,,,
+762446424009,Tob Longhorn Tub 14.4OZ 1CT (C8) | Long Cut Straight,24,1,14.5,348.0
+,,,,,
+033300518104,Tob Snuff Honey Bee Sweet Tc 1CT (C12),48,1,37.0,1776.0
+,,,,,
+033300518142,Tob Snuff Navy Sweet Tc (C12),96,1,37.0,3552.0
+,,,,,
+033300518203,Tob Snuff Square Sweet Tc 1CT  (C12),108,1,37.0,3996.0
+,,,,,
+799953209300,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Fine Cut Natural,24,1,14.0,336.0
+,,,,,
+799953221203,Tob Snuff Stoker Tub 12OZ 1CT (C12) | Longcut Mint,24,1,14.0,336.0
+,,,,,
+033300518241,Tob Snuff Superior Scotch Tc 1CT    (C12),72,1,37.0,2664.0
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,

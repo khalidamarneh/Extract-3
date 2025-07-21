@@ -89,7 +89,7 @@ app.post("/upload-onepdf", upload.single("onepdf"), (req, res) => {
   });
 });
 
-// Extract Tables
+// Extract Tables from PDF and write to extracted.csv
 app.post("/extract-tables", (req, res) => {
   const pdfPath = currentPdfPath || combinedPdfPath;
 
@@ -107,14 +107,96 @@ app.post("/extract-tables", (req, res) => {
   });
 });
 
+// --- CSV Upload & Processing (Single) ---
+const expectedHeader = [
+  "Part Number",
+  "Description",
+  "Shipped",
+  "Pack",
+  "Piece Price",
+  "Total"
+];
+
+app.post("/upload-csv-single", upload.single("csv"), (req, res) => {
+  const file = req.file;
+  if (!file) {
+    return res.json({ success: false, message: "Please upload a CSV file." });
+  }
+  const csvPath = `public/uploads/${file.filename}`;
+  const outputPath = path.join(__dirname, "public/uploads/extracted.csv");
+
+  const results = [];
+  fs.createReadStream(csvPath)
+    .pipe(csv())
+    .on("data", (row) => {
+      // Map columns to match search table:
+      // 4: UPC -> Part Number
+      // 6: Product Name -> Description
+      // 10: Quantity -> Shipped
+      // 11: Box Quantity -> Pack
+      // 8: Sold Price -> Piece Price
+      // 12: Total -> Total
+      const newRow = [
+        row["UPC"] || "",
+        row["Product Name"] || "",
+        row["Quantity"] || "",
+        row["Box Quantity"] || "",
+        row["Sold Price"] || "",
+        row["Total"] || ""
+      ];
+      results.push(newRow);
+    })
+    .on("end", () => {
+      const csvData = [expectedHeader.join(",")].concat(
+        results.map((row) => row.join(","))
+      ).join("\n");
+      fs.writeFileSync(outputPath, csvData);
+      res.json({ success: true, csvPath: outputPath });
+    });
+});
+
+// --- CSV Upload & Processing (Multiple merge) ---
+app.post("/upload-csv-multiple", upload.array("csvs", 20), (req, res) => {
+  const files = req.files;
+  if (!files || files.length < 1) {
+    return res.json({ success: false, message: "Please upload at least one CSV file." });
+  }
+
+  let allRows = [];
+  let filesProcessed = 0;
+
+  files.forEach((file) => {
+    const csvPath = `public/uploads/${file.filename}`;
+    fs.createReadStream(csvPath)
+      .pipe(csv())
+      .on("data", (row) => {
+        const newRow = [
+          row["UPC"] || "",
+          row["Product Name"] || "",
+          row["Quantity"] || "",
+          row["Box Quantity"] || "",
+          row["Sold Price"] || "",
+          row["Total"] || ""
+        ];
+        allRows.push(newRow);
+      })
+      .on("end", () => {
+        filesProcessed++;
+        if (filesProcessed === files.length) {
+          const csvData = [expectedHeader.join(",")].concat(
+            allRows.map((row) => row.join(","))
+          ).join("\n");
+          fs.writeFileSync(path.join(__dirname, "public/uploads/extracted.csv"), csvData);
+          res.json({ success: true, csvPath: "/public/uploads/extracted.csv" });
+        }
+      });
+  });
+});
+
 // Download Combined PDF
-
-
-// Serve the combined PDF for download
 app.get("/download-merged", (req, res) => {
-  const combinedFilePath = path.join(__dirname, "public", "Combinedpdf", "combined.pdf"); // Correct file name: combined.pdf
+  const combinedFilePath = path.join(__dirname, "public", "Combinedpdf", "combined.pdf");
 
-  // Check if the combined file exists
   if (fs.existsSync(combinedFilePath)) {
     res.download(combinedFilePath, "combined.pdf", (err) => {
       if (err) {
@@ -127,11 +209,10 @@ app.get("/download-merged", (req, res) => {
   }
 });
 
-// Serve the CSV for download
+// Download extracted.csv
 app.get("/download/csv", (req, res) => {
   const csvFilePath = path.join(__dirname, "public", "uploads", "extracted.csv");
 
-  // Check if the CSV file exists
   if (fs.existsSync(csvFilePath)) {
     res.download(csvFilePath, "extracted.csv", (err) => {
       if (err) {
@@ -165,7 +246,15 @@ app.get("/getTotal", (req, res) => {
   fs.createReadStream(csvPath)
     .pipe(csv())
     .on("data", (row) => {
-      const value = parseFloat(row["Total"].replace(/[^0-9.-]+/g, ""));
+      // Skip "Grand Total" or summary/footer rows
+      if (
+        (row["Description"] && row["Description"].toLowerCase().includes("grand total")) ||
+        (row["Part Number"] && row["Part Number"].toLowerCase().includes("grand total"))
+      ) {
+        return;
+      }
+      // Clean and parse the number
+      const value = parseFloat((row["Total"] || "").replace(/,/g, "").replace(/[^0-9.-]+/g, ""));
       if (!isNaN(value)) {
         sum += value;
       }
@@ -192,7 +281,6 @@ function processPdf(pdfPath, callback) {
         .filter((table) => table.length >= 8 && table.length <= 10);
 
       const adjustedTables = filteredTables.map((table) => {
-        // Adjustments for table structure
         return table.map((cell) => cell.trim());
       });
 
